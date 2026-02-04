@@ -23,7 +23,7 @@ public class Cattle extends Product {
     private Double weight;
 
     @Column(nullable = false)
-    private int cattleAgeInYears;
+    private Double cattleAgeInYears;
 
     @Column(nullable = false)
     private CattleGenderEnum gender;

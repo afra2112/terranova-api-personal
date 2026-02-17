@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public sealed interface CreateProductResponse permits CreateCattleResponse, CreateFarmResponse, CreateLandResponse {
-        ProductType type();
+        ProductType productType();
         String name();
         BigDecimal price();
         String description();

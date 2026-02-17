@@ -1,5 +1,6 @@
 package com.terranova.api.v1.product.entity;
 
+import com.terranova.api.v1.product.enums.ProductType;
 import com.terranova.api.v1.product.enums.StatusEnum;
 import com.terranova.api.v1.user.entity.User;
 import jakarta.persistence.*;
@@ -48,4 +49,6 @@ public abstract class Product {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false)
     private User seller;
+
+    private ProductType productType;
 }

@@ -8,15 +8,18 @@ import com.terranova.api.v1.product.entity.Cattle;
 import com.terranova.api.v1.product.entity.Farm;
 import com.terranova.api.v1.product.entity.Land;
 import com.terranova.api.v1.product.entity.Product;
+import com.terranova.api.v1.product.enums.ProductType;
+import com.terranova.api.v1.product.enums.StatusEnum;
 import com.terranova.api.v1.user.entity.User;
 import org.springframework.stereotype.Component;
+import java.time.LocalDate;
 
 @Component
 public class ProductFactoryImpl implements ProductFactory {
 
     @Override
     public Product create(CreateProductRequest request, User seller) {
-        return switch (request.type()){
+        return switch (request.productType()){
             case FARM -> buildFarm((CreateFarmRequest) request, seller);
             case LAND -> buildLand((CreateLandRequest) request, seller);
             case CATTLE -> buildCattle((CreateCattleRequest) request, seller);
@@ -33,6 +36,7 @@ public class ProductFactoryImpl implements ProductFactory {
                 .gender(request.gender())
                 .type(request.cattleType())
                 .quantity(request.quantity())
+                .productType(ProductType.CATTLE)
                 .build();
     }
 
@@ -45,6 +49,7 @@ public class ProductFactoryImpl implements ProductFactory {
                 .stratum(request.stratum())
                 .roomsQuantity(request.roomsQuantity())
                 .bathroomsQuantity(request.bathroomsQuantity())
+                .productType(ProductType.FARM)
                 .build();
     }
 
@@ -57,6 +62,7 @@ public class ProductFactoryImpl implements ProductFactory {
                 .topography(request.topography())
                 .access(request.access())
                 .currentServices(request.currentServices())
+                .productType(ProductType.LAND)
                 .build();
     }
 
@@ -65,8 +71,8 @@ public class ProductFactoryImpl implements ProductFactory {
                 .name(request.name())
                 .price(request.price())
                 .description(request.description())
-                .status(request.status())
-                .publishDate(request.publishDate())
+                .status(StatusEnum.IMAGE_PENDING)
+                .publishDate(LocalDate.now())
                 .city(request.city())
                 .latitude(request.latitude())
                 .longitude(request.longitude())

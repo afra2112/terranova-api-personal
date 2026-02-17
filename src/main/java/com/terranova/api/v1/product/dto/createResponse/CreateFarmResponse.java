@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public record CreateFarmResponse(
-        ProductType type,
+        ProductType productType,
         String name,
         BigDecimal price,
         String description,

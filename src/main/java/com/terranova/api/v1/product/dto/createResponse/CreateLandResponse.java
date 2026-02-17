@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public record CreateLandResponse(
-        ProductType type,
+        ProductType productType,
         String name,
         BigDecimal price,
         String description,

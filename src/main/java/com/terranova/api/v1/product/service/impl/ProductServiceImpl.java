@@ -3,10 +3,10 @@ package com.terranova.api.v1.product.service.impl;
 import com.terranova.api.v1.common.exception.EntityNotFoundException;
 import com.terranova.api.v1.product.dto.*;
 import com.terranova.api.v1.product.dto.createRequest.CreateProductRequest;
+import com.terranova.api.v1.product.dto.createResponse.CreateProductResponse;
 import com.terranova.api.v1.product.entity.Product;
 import com.terranova.api.v1.product.enums.ProductType;
 import com.terranova.api.v1.product.factory.ProductFactory;
-import com.terranova.api.v1.product.mapper.ProductMapper;
 import com.terranova.api.v1.product.repository.ProductRepository;
 import com.terranova.api.v1.product.service.ProductService;
 import com.terranova.api.v1.user.entity.User;
@@ -24,7 +24,6 @@ public class ProductServiceImpl implements ProductService {
     private final UserRepository userRepository;
     private final Validator validator;
     private final ProductFactory productFactory;
-    private final ProductMapper productMapper;
 
     @Override
     @Transactional

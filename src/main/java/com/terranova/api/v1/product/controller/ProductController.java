@@ -1,6 +1,7 @@
 package com.terranova.api.v1.product.controller;
 
 import com.terranova.api.v1.product.dto.createRequest.CreateProductRequest;
+import com.terranova.api.v1.product.dto.createResponse.CreateProductResponse;
 import com.terranova.api.v1.product.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

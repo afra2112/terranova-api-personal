@@ -5,6 +5,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageConversionException;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -144,6 +146,28 @@ public class GlobalExceptionHandler {
                         ErrorCodeEnum.UNAUTHORIZED,
                         ErrorCodeEnum.UNAUTHORIZED.getMessage(),
                         HttpStatus.FORBIDDEN.value(),
+                        request,
+                        null
+                ));
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiError> handleJSONInvalidFormat(
+            HttpMessageNotReadableException ex,
+            HttpServletRequest request
+    ) {
+
+        log.error(
+                "Invalid JSON format | message={}",
+                ex.getMessage()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(buildApiError(
+                        ErrorCodeEnum.JSON_FORMAT_ERROR,
+                        ex.getMessage(),
+                        HttpStatus.BAD_REQUEST.value(),
                         request,
                         null
                 ));

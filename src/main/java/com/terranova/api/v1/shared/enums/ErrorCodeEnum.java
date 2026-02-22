@@ -25,7 +25,8 @@ public enum ErrorCodeEnum {
 
     //GENERIC
     VALIDATION_ERROR("GEN-001", HttpStatus.BAD_REQUEST, "Validation error"),
-    INTERNAL_ERROR("GEN-002", HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error");
+    INTERNAL_ERROR("GEN-002", HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error"),
+    JSON_FORMAT_ERROR("GEN-003", HttpStatus.BAD_REQUEST, "JSON request format error, verify syntaxis."),;
 
     private final String code;
     private final HttpStatus status;

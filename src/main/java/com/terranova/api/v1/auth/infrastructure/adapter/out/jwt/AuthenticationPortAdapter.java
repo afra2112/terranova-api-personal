@@ -10,6 +10,7 @@ import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity.U
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -40,8 +41,8 @@ public class AuthenticationPortAdapter implements AuthenticationPort {
 
             return new AuthenticatedUser(user.getIdentification(), roles);
 
-        }catch (BusinessException ex){
-            throw new BusinessException(ErrorCodeEnum.INTERNAL_ERROR);
+        }catch (BadCredentialsException ex){
+            throw new BusinessException(ErrorCodeEnum.INVALID_CREDENTIALS);
         }
 
     }

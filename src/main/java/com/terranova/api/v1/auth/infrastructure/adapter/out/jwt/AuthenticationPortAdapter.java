@@ -3,11 +3,14 @@ package com.terranova.api.v1.auth.infrastructure.adapter.out.jwt;
 import com.terranova.api.v1.auth.domain.model.AuthenticatedUser;
 import com.terranova.api.v1.auth.domain.model.UserCredential;
 import com.terranova.api.v1.auth.domain.ports.out.AuthenticationPort;
+import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
+import com.terranova.api.v1.shared.exception.BusinessException;
 import com.terranova.api.v1.shared.security.model.CustomUserDetails;
 import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -31,7 +34,6 @@ public class AuthenticationPortAdapter implements AuthenticationPort {
             Object principal = authentication.getPrincipal();
             if (!(principal instanceof CustomUserDetails userDetails)) {
                 throw new AuthenticationServiceException("Expected CustomUserDetails but got: " + principal.getClass());
-
             }
 
             UserEntity user = userDetails.getUser();
@@ -39,8 +41,8 @@ public class AuthenticationPortAdapter implements AuthenticationPort {
 
             return new AuthenticatedUser(user.getIdentification(), roles);
 
-        }catch (Exception ex){
-            throw new Exception("asdsad"); //TODO: Implement correctly business personalized exception
+        }catch (BadCredentialsException ex){
+            throw new BusinessException(ErrorCodeEnum.INVALID_CREDENTIALS);
         }
 
     }

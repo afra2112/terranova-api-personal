@@ -1,12 +1,10 @@
 package com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity;
 
-import com.terranova.api.v1.auth.infrastructure.adapter.out.mysql.entity.RefreshTokenEntity;
 import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity.enums.RoleEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;

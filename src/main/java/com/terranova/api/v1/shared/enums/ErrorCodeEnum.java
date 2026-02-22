@@ -22,6 +22,7 @@ public enum ErrorCodeEnum {
 
     //PRODUCT
     ENTITY_NOT_FOUND("PRD-001", HttpStatus.NOT_FOUND, "Entity not found"),
+    PRODUCT_TYPE_NOT_SUPPORTED("PRD-002", HttpStatus.BAD_REQUEST, "Product type not supported"),
 
     //GENERIC
     VALIDATION_ERROR("GEN-001", HttpStatus.BAD_REQUEST, "Validation error"),

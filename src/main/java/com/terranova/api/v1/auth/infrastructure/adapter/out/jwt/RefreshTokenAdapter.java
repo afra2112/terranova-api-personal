@@ -5,6 +5,8 @@ import com.terranova.api.v1.auth.domain.ports.out.RefreshTokenPort;
 import com.terranova.api.v1.auth.infrastructure.adapter.mapper.AuthMapper;
 import com.terranova.api.v1.auth.infrastructure.adapter.out.mysql.entity.RefreshTokenEntity;
 import com.terranova.api.v1.auth.infrastructure.adapter.out.mysql.jparepository.JpaRefreshTokenRepository;
+import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
+import com.terranova.api.v1.shared.exception.BusinessException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -40,10 +42,10 @@ public class RefreshTokenAdapter implements RefreshTokenPort {
     @Override
     public RefreshToken validateToken(String token) {
         RefreshTokenEntity refreshTokenEntity = jpaRefreshTokenRepository.findByToken(token)
-                .orElseThrow(() -> new RuntimeException("Invalid refresh token")); //TODO: implement correct business exception
+                .orElseThrow(() -> new BusinessException(ErrorCodeEnum.INVALID_TOKEN));
 
         if (refreshTokenEntity.isExpired() || refreshTokenEntity.getExpiresAt().isBefore(LocalDateTime.now())) {
-            throw new RuntimeException("Refresh token expired"); //TODO: Implement correct business exception
+            throw new BusinessException(ErrorCodeEnum.TOKEN_EXPIRED);
         }
 
         return authMapper.fromRefreshTokenEntityToRefreshToken(refreshTokenEntity);

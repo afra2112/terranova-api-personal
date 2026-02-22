@@ -1,5 +1,7 @@
 package com.terranova.api.v1.user.infrastructure.adapter.out.persistence.jpa;
 
+import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
+import com.terranova.api.v1.shared.exception.BusinessException;
 import com.terranova.api.v1.user.domain.model.User;
 import com.terranova.api.v1.user.domain.ports.out.UserRepositoryPort;
 import com.terranova.api.v1.user.infrastructure.adapter.mapper.UserMapper;
@@ -21,7 +23,7 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     @Override
     public User findByIdentification(String identification) {
         return userMapper.toDomain(jpaUserRepository.findByIdentification(identification).orElseThrow(
-//                new -> BusinessException()
+                ()-> new BusinessException(ErrorCodeEnum.ENTITY_NOT_FOUND, "User not found with identification: " + identification)
         ));
     }
 

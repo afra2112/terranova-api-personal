@@ -1,5 +1,7 @@
 package com.terranova.api.v1.shared.security.utils;
 
+import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
+import com.terranova.api.v1.shared.exception.BusinessException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
@@ -56,10 +58,10 @@ public class JwtUtil {
         try{
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
         }catch (ExpiredJwtException e){
-            throw new RuntimeException("Token expired"); //TODO: implement business exception
+            throw new BusinessException(ErrorCodeEnum.TOKEN_EXPIRED);
 
         }catch (JwtException e){
-            throw new RuntimeException("Invalid Token"); //TODO: implement business exception
+            throw new BusinessException(ErrorCodeEnum.INVALID_TOKEN);
         }
     }
 }

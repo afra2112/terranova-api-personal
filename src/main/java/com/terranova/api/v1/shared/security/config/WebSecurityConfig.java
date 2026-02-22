@@ -1,6 +1,6 @@
-package com.terranova.api.v1.security;
+package com.terranova.api.v1.shared.security.config;
 
-import com.terranova.api.v1.auth.infrastructure.config.security.AuthTokenFilter;
+import com.terranova.api.v1.shared.security.filter.AuthTokenFilter;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -61,16 +61,6 @@ public class WebSecurityConfig {
                 );
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
     }
 
 }

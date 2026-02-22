@@ -1,8 +1,8 @@
 package com.terranova.api.v1.shared.config;
 
-import com.terranova.api.v1.role.entity.Role;
-import com.terranova.api.v1.role.enums.RoleEnum;
-import com.terranova.api.v1.role.repository.RoleRepository;
+import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity.RoleEntity;
+import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity.enums.RoleEnum;
+import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.jpa.JpaRoleRepository;
 import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity.UserEntity;
 import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.jpa.JpaUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,27 +20,27 @@ import java.time.LocalDateTime;
 public class DevDataSeeder implements CommandLineRunner {
 
     private final JpaUserRepository jpaUserRepository;
-    private final RoleRepository roleRepository;
+    private final JpaRoleRepository jpaRoleRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) throws Exception {
-        if (roleRepository.findByRoleName(RoleEnum.ROLE_BUYER).isEmpty() && roleRepository.findByRoleName(RoleEnum.ROLE_SELLER).isEmpty()){
-            Role seller = new Role();
+        if (jpaRoleRepository.findByRoleName(RoleEnum.ROLE_BUYER).isEmpty() && jpaRoleRepository.findByRoleName(RoleEnum.ROLE_SELLER).isEmpty()){
+            RoleEntity seller = new RoleEntity();
             seller.setRoleName(RoleEnum.ROLE_SELLER);
 
-            Role buyer = new Role();
+            RoleEntity buyer = new RoleEntity();
             buyer.setRoleName(RoleEnum.ROLE_BUYER);
 
-            roleRepository.save(buyer);
-            roleRepository.save(seller);
+            jpaRoleRepository.save(buyer);
+            jpaRoleRepository.save(seller);
         }
 
         if(!jpaUserRepository.existsByEmailOrIdentification("admin@gmail.com", "1094247745")){
             UserEntity admin = new UserEntity();
             admin.setEmail("admin@gmail.com");
             admin.setPassword(passwordEncoder.encode("admin1234"));
-            admin.setRoles(roleRepository.findAll());
+            admin.setRoleEntities(jpaRoleRepository.findAll());
             admin.setNames("Andres Felipe");
             admin.setLastName("Ramirez");
             admin.setIdentification("1094247745");

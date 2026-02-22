@@ -26,24 +26,25 @@ public class RefreshTokenService implements RefreshTokenPort {
 
         return token.getToken();
     }
-    public RefreshTokenEntity validate(String token) {
-        RefreshTokenEntity refreshTokenEntity = jpaRefreshTokenRepository.findByToken(token)
-                .orElseThrow(() -> new InvalidRefreshTokenException("Invalid refresh token"));
 
-        if (refreshTokenEntity.isExpired() || refreshTokenEntity.getExpiresAt().isAfter(LocalDateTime.now())) {
-            throw new InvalidRefreshTokenException("Refresh token expired");
-        }
+//    public RefreshTokenEntity validate(String token) {
+//        RefreshTokenEntity refreshTokenEntity = jpaRefreshTokenRepository.findByToken(token)
+//                .orElseThrow(() -> new InvalidRefreshTokenException("Invalid refresh token"));
+//
+//        if (refreshTokenEntity.isExpired() || refreshTokenEntity.getExpiresAt().isAfter(LocalDateTime.now())) {
+//            throw new InvalidRefreshTokenException("Refresh token expired");
+//        }
+//
+//        return refreshTokenEntity;
+//    }
 
-        return refreshTokenEntity;
-    }
-
-    public String rotate(RefreshTokenEntity token) {
-        jpaRefreshTokenRepository.delete(token);
-        return create(token.getUser());
-    }
-
-    public void invalidate(String token) {
-        jpaRefreshTokenRepository.deleteByToken(token);
-    }
+//    public String rotate(RefreshTokenEntity token) {
+//        jpaRefreshTokenRepository.delete(token);
+//        return create(token.getUser());
+//    }
+//
+//    public void invalidate(String token) {
+//        jpaRefreshTokenRepository.deleteByToken(token);
+//    }
 
 }

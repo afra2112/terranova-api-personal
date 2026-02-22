@@ -5,5 +5,5 @@ import com.terranova.api.v1.auth.domain.model.UserCredential;
 
 public interface AuthenticationPort {
 
-    AuthenticatedUser authenticate(UserCredential credentials);
+    AuthenticatedUser authenticate(UserCredential credentials) throws Exception;
 }

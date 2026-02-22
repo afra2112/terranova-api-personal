@@ -1,7 +1,7 @@
-package com.terranova.api.v1.auth.infrastructure.config.security;
+package com.terranova.api.v1.shared.security.filter;
 
 
-import com.terranova.api.v1.auth.infrastructure.adapter.out.jwt.JwtUtilAdapter;
+import com.terranova.api.v1.shared.security.utils.JwtUtilAdapter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +21,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        Optional<String> tokenOptional = extractBearerToken(request);
+        Optional<String> tokenOptional = extractBearerToken(request, response, filterChain);
 
         if (tokenOptional.isEmpty()){
             filterChain.doFilter(request, response);
@@ -65,15 +65,12 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 //        }
     }
 
-    private Optional<String> extractBearerToken(HttpServletRequest request) {
+    private Optional<String> extractBearerToken(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (authHeader == null || authHeader.isBlank()) {
-            return Optional.empty();
-        }
-
-        if (!authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || authHeader.isBlank() || !authHeader.startsWith("Bearer ")) {
+            filterChain.doFilter(request, response);
             return Optional.empty();
         }
 

@@ -1,4 +1,4 @@
-package com.terranova.api.v1.security;
+package com.terranova.api.v1.shared.security.model;
 
 import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity.UserEntity;
 import lombok.Getter;
@@ -18,7 +18,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getRoles().stream()
+        return user.getRoleEntities().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getRoleName().name())).toList();
     }
 

@@ -1,12 +1,10 @@
 package com.terranova.api.v1.user.infrastructure.adapter.mapper;
 
 import com.terranova.api.v1.auth.infrastructure.adapter.out.mysql.entity.RefreshTokenEntity;
-import com.terranova.api.v1.role.entity.Role;
+import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity.RoleEntity;
 import com.terranova.api.v1.user.domain.model.User;
 import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity.UserEntity;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class UserMapper {
@@ -23,9 +21,23 @@ public class UserMapper {
                 .birthday(user.birthday())
                 .registerDate(user.registerDate())
                 .profilePicture(user.profilePicture())
-                .roles(user.rolesIds())
+                .roleEntities(
+                        user.rolesIds().stream()
+                                .map(roleId -> {
+                                    RoleEntity roleEntity = new RoleEntity();
+                                    roleEntity.setRoleId(roleId);
+                                    return roleEntity;
+                                }).toList()
+                )
                 .userScore(user.userScore())
-                .refreshTokenEntities(user.refreshTokenIds())
+//                .refreshTokenEntities(
+//                        user.refreshTokenIds().stream()
+//                                .map(refreshTokenId -> {
+//                                    RefreshTokenEntity refreshTokenEntity = new RefreshTokenEntity();
+//                                    refreshTokenEntity.setRefreshTokenId(refreshTokenId);
+//                                    return refreshTokenEntity;
+//                                }).toList()
+//                )
                 .build();
     }
 
@@ -41,9 +53,9 @@ public class UserMapper {
                 entity.getBirthday(),
                 entity.getRegisterDate(),
                 entity.getProfilePicture(),
-                entity.getRoles().stream().map(Role::getRoleId).toList(),
-                entity.getUserScore(),
-                entity.getRefreshTokenEntities().stream().map(RefreshTokenEntity::getRefreshTokenId).toList()
+                entity.getRoleEntities().stream().map(RoleEntity::getRoleId).toList(),
+                entity.getUserScore()
+                //entity.getRefreshTokenEntities().stream().map(RefreshTokenEntity::getRefreshTokenId).toList()
         );
     }
 }

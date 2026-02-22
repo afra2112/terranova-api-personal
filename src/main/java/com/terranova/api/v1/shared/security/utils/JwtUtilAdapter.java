@@ -1,11 +1,10 @@
-package com.terranova.api.v1.auth.infrastructure.adapter.out.jwt;
+package com.terranova.api.v1.shared.security.utils;
 
 import com.terranova.api.v1.auth.domain.ports.out.TokenGeneratorPort;
-import com.terranova.api.v1.role.enums.RoleEnum;
+import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity.enums.RoleEnum;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
@@ -13,16 +12,17 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 
-
 @Component
-@AllArgsConstructor
 public class JwtUtilAdapter implements TokenGeneratorPort {
 
-    @Value("${jwt.secret}")
-    private String jwtSecret;
-    @Value("${jwt.expiration}")
-    private long jwtExpiration;
+    private final String jwtSecret;
+    private final long jwtExpiration;
     private SecretKey key;
+
+    public JwtUtilAdapter(@Value("${jwt.secret}") String jwtSecret, @Value("${jwt.expiration}") long jwtExpiration) {
+        this.jwtSecret = jwtSecret;
+        this.jwtExpiration = jwtExpiration;
+    }
 
     @PostConstruct
     public void init(){

@@ -19,7 +19,7 @@ public class LoginUseCase {
         this.refreshTokenPort = refreshTokenPort;
     }
 
-    public AuthenticatedCredentials login(UserCredential userCredential) {
+    public AuthenticatedCredentials login(UserCredential userCredential) throws Exception {
 
         AuthenticatedUser authenticatedUser = authenticationPort.authenticate(userCredential);
 

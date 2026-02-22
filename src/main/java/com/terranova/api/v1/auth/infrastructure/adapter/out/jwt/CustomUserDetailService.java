@@ -1,6 +1,7 @@
-package com.terranova.api.v1.security;
+package com.terranova.api.v1.auth.infrastructure.adapter.out.jwt;
 
 import com.terranova.api.v1.shared.exception.EntityNotFoundException;
+import com.terranova.api.v1.shared.security.model.CustomUserDetails;
 import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity.UserEntity;
 import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.jpa.JpaUserRepository;
 import lombok.RequiredArgsConstructor;

@@ -3,7 +3,7 @@ package com.terranova.api.v1.auth.infrastructure.adapter.out.jwt;
 import com.terranova.api.v1.auth.domain.model.AuthenticatedUser;
 import com.terranova.api.v1.auth.domain.model.UserCredential;
 import com.terranova.api.v1.auth.domain.ports.out.AuthenticationPort;
-import com.terranova.api.v1.security.CustomUserDetails;
+import com.terranova.api.v1.shared.security.model.CustomUserDetails;
 import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,7 +21,7 @@ public class AuthenticationPortAdapter implements AuthenticationPort {
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public AuthenticatedUser authenticate(UserCredential credentials) {
+    public AuthenticatedUser authenticate(UserCredential credentials) throws Exception {
 
         try {
             Authentication authentication = authenticationManager.authenticate(
@@ -35,12 +35,12 @@ public class AuthenticationPortAdapter implements AuthenticationPort {
             }
 
             UserEntity user = userDetails.getUser();
-            List<String> roles = user.getRoles().stream().map(role -> role.getRoleName().name()).toList();
+            List<String> roles = user.getRoleEntities().stream().map(role -> role.getRoleName().name()).toList();
 
             return new AuthenticatedUser(user.getIdentification(), roles);
 
-        }catch (BusinessException ex){
-            throw new BusinessException(ErrorCodeEnum.INVALID_CREDENTIALS);
+        }catch (Exception ex){
+            throw new Exception("asdsad"); //TODO: Implement correctly business personalized exception
         }
 
     }

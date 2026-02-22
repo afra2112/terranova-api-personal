@@ -5,4 +5,8 @@ import com.terranova.api.v1.user.domain.model.User;
 public interface UserRepositoryPort {
 
     User save(User user);
+
+    User findByIdentification(String identification);
+
+    boolean existsByEmailOrIdentification(String email, String identification);
 }

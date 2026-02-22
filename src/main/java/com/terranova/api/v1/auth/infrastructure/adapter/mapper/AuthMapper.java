@@ -10,6 +10,7 @@ import com.terranova.api.v1.user.domain.model.User;
 import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class AuthMapper {
@@ -40,7 +41,7 @@ public class AuthMapper {
                 request.birthday(),
                 LocalDateTime.now(),
                 null,
-                new ArrayList<>(),
+                List.of("ROLE_BUYER"),
                 0,
                 new ArrayList<>()
         );

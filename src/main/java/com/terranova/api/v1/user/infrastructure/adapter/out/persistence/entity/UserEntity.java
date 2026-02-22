@@ -5,6 +5,8 @@ import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity.e
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -64,6 +66,8 @@ public class UserEntity {
 //
 //    private boolean recibirCorreos = true;
 
+    @Enumerated(EnumType.STRING)
+    @NotEmpty
     private List<RoleEnum> roles;
 //
 //    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)

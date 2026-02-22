@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @AllArgsConstructor
 @Component
-public class RefreshTokenService implements RefreshTokenPort {
+public class RefreshTokenAdapter implements RefreshTokenPort {
 
     private final JpaRefreshTokenRepository jpaRefreshTokenRepository;
 

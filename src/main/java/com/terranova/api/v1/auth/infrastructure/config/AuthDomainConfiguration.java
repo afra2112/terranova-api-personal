@@ -30,7 +30,7 @@ public class AuthDomainConfiguration {
     }
 
     @Bean
-    public LoginUseCase loginUseCase(TokenGeneratorPort tokenGeneratorPort, AuthenticationPort authenticationPort, RefreshTokenPort refreshTokenPort){
+    public LoginUseCase loginUseCase(AuthenticationPort authenticationPort, TokenGeneratorPort tokenGeneratorPort, RefreshTokenPort refreshTokenPort){
         return new LoginUseCase(
                 authenticationPort,
                 tokenGeneratorPort,

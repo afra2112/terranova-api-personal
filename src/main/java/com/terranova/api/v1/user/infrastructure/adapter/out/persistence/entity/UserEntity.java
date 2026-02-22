@@ -1,6 +1,7 @@
 package com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity;
 
 import com.terranova.api.v1.auth.infrastructure.adapter.out.mysql.entity.RefreshTokenEntity;
+import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity.enums.RoleEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -63,13 +64,7 @@ public class UserEntity {
 //
 //    private boolean recibirCorreos = true;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private List<RoleEntity> roleEntities;
+    private List<RoleEnum> roles;
 //
 //    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<Favorito> favoritos;
@@ -82,6 +77,4 @@ public class UserEntity {
 
     private int userScore;
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<RefreshTokenEntity> refreshTokenEntities;
 }

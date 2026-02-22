@@ -35,7 +35,7 @@ public class AuthenticationPortAdapter implements AuthenticationPort {
             }
 
             UserEntity user = userDetails.getUser();
-            List<String> roles = user.getRoleEntities().stream().map(role -> role.getRoleName().name()).toList();
+            List<String> roles = user.getRoles().stream().map(Enum::name).toList();
 
             return new AuthenticatedUser(user.getIdentification(), roles);
 

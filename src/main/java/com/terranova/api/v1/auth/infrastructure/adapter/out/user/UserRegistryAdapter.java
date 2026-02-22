@@ -34,7 +34,7 @@ public class UserRegistryAdapter implements UserRegisterPort {
     public AuthenticatedCredentials createUser(NewUserDomain newUserDomain) {
         User userDomain = createUserUseCase.createUser(authMapper.fromUserAuthDomainToUserDomain(newUserDomain));
 
-        String accessToken = tokenGeneratorPort.generateToken(userDomain.identification(), List.of("BUYER"));
+        String accessToken = tokenGeneratorPort.generateToken(userDomain.identification(), List.of("ROLE_BUYER"));
         String refreshToken = refreshTokenPort.createRefreshToken(userDomain.identification());
 
         return new AuthenticatedCredentials(accessToken, refreshToken);

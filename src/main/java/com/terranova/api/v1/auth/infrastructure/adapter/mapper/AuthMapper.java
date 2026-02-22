@@ -58,9 +58,8 @@ public class AuthMapper {
                 newUserDomain.birthday(),
                 newUserDomain.registerDate(),
                 newUserDomain.profilePicture(),
-                newUserDomain.rolesIds(),
+                newUserDomain.roles(),
                 newUserDomain.userScore()
-                //newUserDomain.refreshTokenIds()
         );
     }
 }

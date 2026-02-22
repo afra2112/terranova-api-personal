@@ -1,18 +1,17 @@
 package com.terranova.api.v1.auth.infrastructure.adapter.in.web.controller;
 
 import com.terranova.api.v1.auth.application.usecase.LoginUseCase;
+import com.terranova.api.v1.auth.application.usecase.LogoutUseCase;
 import com.terranova.api.v1.auth.application.usecase.RegisterUserUseCase;
 import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.AuthRequest;
 import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.RegisterRequest;
 import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.response.AuthResponse;
 import com.terranova.api.v1.auth.infrastructure.adapter.mapper.AuthMapper;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final LoginUseCase loginUseCase;
+    private final LogoutUseCase logoutUseCase;
     private final RegisterUserUseCase registerUserUseCase;
     private final AuthMapper authMapper;
 
@@ -40,12 +40,12 @@ public class AuthController {
                 authMapper.toAuthResponse(registerUserUseCase.createUser(authMapper.fromRequestToNewUserDomain(request)))
         );
     }
-//
-//    @PostMapping("/logout")
-//    public ResponseEntity<Void> logout(@RequestBody RefreshTokenRequest request){
-//        authService.logout(request.refreshToken());
-//        return ResponseEntity.noContent().build();
-//    }
+
+    @PostMapping("/logout/{token}")
+    public ResponseEntity<Void> logout(@Valid @NotBlank @PathVariable String token){
+        logoutUseCase.logout(token);
+        return ResponseEntity.noContent().build();
+    }
 //
 //    @PostMapping("/refresh")
 //    public ResponseEntity<RefreshTokenResponse> refreshToken(@Valid @RequestBody RefreshTokenRequest request){

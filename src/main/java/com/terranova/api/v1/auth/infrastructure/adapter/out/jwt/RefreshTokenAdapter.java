@@ -3,6 +3,7 @@ package com.terranova.api.v1.auth.infrastructure.adapter.out.jwt;
 import com.terranova.api.v1.auth.domain.ports.out.RefreshTokenPort;
 import com.terranova.api.v1.auth.infrastructure.adapter.out.mysql.entity.RefreshTokenEntity;
 import com.terranova.api.v1.auth.infrastructure.adapter.out.mysql.jparepository.JpaRefreshTokenRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +28,12 @@ public class RefreshTokenAdapter implements RefreshTokenPort {
         return token.getToken();
     }
 
+    @Override
+    @Transactional
+    public void invalidateRefreshToken(String token) {
+        jpaRefreshTokenRepository.deleteByToken(token);
+    }
+
 //    public RefreshTokenEntity validate(String token) {
 //        RefreshTokenEntity refreshTokenEntity = jpaRefreshTokenRepository.findByToken(token)
 //                .orElseThrow(() -> new InvalidRefreshTokenException("Invalid refresh token"));
@@ -42,9 +49,4 @@ public class RefreshTokenAdapter implements RefreshTokenPort {
 //        jpaRefreshTokenRepository.delete(token);
 //        return create(token.getUser());
 //    }
-//
-//    public void invalidate(String token) {
-//        jpaRefreshTokenRepository.deleteByToken(token);
-//    }
-
 }

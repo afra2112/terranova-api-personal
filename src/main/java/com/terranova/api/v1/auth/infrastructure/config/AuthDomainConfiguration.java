@@ -1,6 +1,7 @@
 package com.terranova.api.v1.auth.infrastructure.config;
 
 import com.terranova.api.v1.auth.application.usecase.LoginUseCase;
+import com.terranova.api.v1.auth.application.usecase.LogoutUseCase;
 import com.terranova.api.v1.auth.application.usecase.RegisterUserUseCase;
 import com.terranova.api.v1.auth.domain.ports.out.AuthenticationPort;
 import com.terranova.api.v1.auth.domain.ports.out.RefreshTokenPort;
@@ -36,6 +37,11 @@ public class AuthDomainConfiguration {
                 tokenGeneratorPort,
                 refreshTokenPort
         );
+    }
+
+    @Bean
+    public LogoutUseCase logoutUseCase(RefreshTokenPort refreshTokenPort){
+        return new LogoutUseCase(refreshTokenPort);
     }
 
     @Bean

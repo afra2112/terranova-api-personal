@@ -2,6 +2,7 @@ package com.terranova.api.v1.auth.infrastructure.adapter.in.web.controller;
 
 import com.terranova.api.v1.auth.application.usecase.LoginUseCase;
 import com.terranova.api.v1.auth.application.usecase.LogoutUseCase;
+import com.terranova.api.v1.auth.application.usecase.RefreshTokenUseCase;
 import com.terranova.api.v1.auth.application.usecase.RegisterUserUseCase;
 import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.AuthRequest;
 import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.RegisterRequest;
@@ -20,6 +21,7 @@ public class AuthController {
 
     private final LoginUseCase loginUseCase;
     private final LogoutUseCase logoutUseCase;
+    private final RefreshTokenUseCase refreshTokenUseCase;
     private final RegisterUserUseCase registerUserUseCase;
     private final AuthMapper authMapper;
 
@@ -46,9 +48,9 @@ public class AuthController {
         logoutUseCase.logout(token);
         return ResponseEntity.noContent().build();
     }
-//
-//    @PostMapping("/refresh")
-//    public ResponseEntity<RefreshTokenResponse> refreshToken(@Valid @RequestBody RefreshTokenRequest request){
-//        return ResponseEntity.ok(authService.refreshToken(request));
-//    }
+
+    @PostMapping("/refresh/{token}")
+    public ResponseEntity<AuthResponse> refreshToken(@Valid @NotBlank @PathVariable String token){
+        return ResponseEntity.ok(authMapper.toAuthResponse(refreshTokenUseCase.refreshToken(token)));
+    }
 }

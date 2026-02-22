@@ -1,6 +1,8 @@
 package com.terranova.api.v1.auth.infrastructure.adapter.out.jwt;
 
+import com.terranova.api.v1.auth.domain.model.RefreshToken;
 import com.terranova.api.v1.auth.domain.ports.out.RefreshTokenPort;
+import com.terranova.api.v1.auth.infrastructure.adapter.mapper.AuthMapper;
 import com.terranova.api.v1.auth.infrastructure.adapter.out.mysql.entity.RefreshTokenEntity;
 import com.terranova.api.v1.auth.infrastructure.adapter.out.mysql.jparepository.JpaRefreshTokenRepository;
 import jakarta.transaction.Transactional;
@@ -15,6 +17,7 @@ import java.util.UUID;
 public class RefreshTokenAdapter implements RefreshTokenPort {
 
     private final JpaRefreshTokenRepository jpaRefreshTokenRepository;
+    private final AuthMapper authMapper;
 
     @Override
     public String createRefreshToken(String userIdentification){
@@ -34,19 +37,21 @@ public class RefreshTokenAdapter implements RefreshTokenPort {
         jpaRefreshTokenRepository.deleteByToken(token);
     }
 
-//    public RefreshTokenEntity validate(String token) {
-//        RefreshTokenEntity refreshTokenEntity = jpaRefreshTokenRepository.findByToken(token)
-//                .orElseThrow(() -> new InvalidRefreshTokenException("Invalid refresh token"));
-//
-//        if (refreshTokenEntity.isExpired() || refreshTokenEntity.getExpiresAt().isAfter(LocalDateTime.now())) {
-//            throw new InvalidRefreshTokenException("Refresh token expired");
-//        }
-//
-//        return refreshTokenEntity;
-//    }
+    @Override
+    public RefreshToken validateToken(String token) {
+        RefreshTokenEntity refreshTokenEntity = jpaRefreshTokenRepository.findByToken(token)
+                .orElseThrow(() -> new RuntimeException("Invalid refresh token")); //TODO: implement correct business exception
 
-//    public String rotate(RefreshTokenEntity token) {
-//        jpaRefreshTokenRepository.delete(token);
-//        return create(token.getUser());
-//    }
+        if (refreshTokenEntity.isExpired() || refreshTokenEntity.getExpiresAt().isBefore(LocalDateTime.now())) {
+            throw new RuntimeException("Refresh token expired"); //TODO: Implement correct business exception
+        }
+
+        return authMapper.fromRefreshTokenEntityToRefreshToken(refreshTokenEntity);
+    }
+
+    @Override
+    public String rotate(RefreshToken refreshToken) {
+        jpaRefreshTokenRepository.delete(authMapper.fromRefreshTokenToRefreshTokenEntity(refreshToken));
+        return createRefreshToken(refreshToken.userIdentification());
+    }
 }

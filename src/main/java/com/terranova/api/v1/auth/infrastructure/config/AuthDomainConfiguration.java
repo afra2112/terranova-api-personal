@@ -2,11 +2,12 @@ package com.terranova.api.v1.auth.infrastructure.config;
 
 import com.terranova.api.v1.auth.application.usecase.LoginUseCase;
 import com.terranova.api.v1.auth.application.usecase.LogoutUseCase;
+import com.terranova.api.v1.auth.application.usecase.RefreshTokenUseCase;
 import com.terranova.api.v1.auth.application.usecase.RegisterUserUseCase;
 import com.terranova.api.v1.auth.domain.ports.out.AuthenticationPort;
 import com.terranova.api.v1.auth.domain.ports.out.RefreshTokenPort;
 import com.terranova.api.v1.auth.domain.ports.out.TokenGeneratorPort;
-import com.terranova.api.v1.auth.domain.ports.out.UserRegisterPort;
+import com.terranova.api.v1.auth.domain.ports.out.UserPort;
 import com.terranova.api.v1.user.application.usecase.CreateUserUseCase;
 import com.terranova.api.v1.user.application.usecase.FindUserCaseUse;
 import com.terranova.api.v1.user.domain.ports.out.UserRepositoryPort;
@@ -31,6 +32,15 @@ public class AuthDomainConfiguration {
     }
 
     @Bean
+    public RefreshTokenUseCase refreshTokenUseCase(UserPort userPort, RefreshTokenPort refreshTokenPort, TokenGeneratorPort tokenGeneratorPort){
+        return new RefreshTokenUseCase(
+                userPort,
+                refreshTokenPort,
+                tokenGeneratorPort
+        );
+    }
+
+    @Bean
     public LoginUseCase loginUseCase(AuthenticationPort authenticationPort, TokenGeneratorPort tokenGeneratorPort, RefreshTokenPort refreshTokenPort){
         return new LoginUseCase(
                 authenticationPort,
@@ -45,8 +55,8 @@ public class AuthDomainConfiguration {
     }
 
     @Bean
-    public RegisterUserUseCase registerUserUseCase(UserRegisterPort userRegisterPort){
-        return new RegisterUserUseCase(userRegisterPort);
+    public RegisterUserUseCase registerUserUseCase(UserPort userPort){
+        return new RegisterUserUseCase(userPort);
     }
 
     @Bean

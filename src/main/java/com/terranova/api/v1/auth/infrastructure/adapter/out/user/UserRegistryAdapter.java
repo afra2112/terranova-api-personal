@@ -4,7 +4,7 @@ import com.terranova.api.v1.auth.domain.model.AuthenticatedCredentials;
 import com.terranova.api.v1.auth.domain.model.NewUserDomain;
 import com.terranova.api.v1.auth.domain.ports.out.RefreshTokenPort;
 import com.terranova.api.v1.auth.domain.ports.out.TokenGeneratorPort;
-import com.terranova.api.v1.auth.domain.ports.out.UserRegisterPort;
+import com.terranova.api.v1.auth.domain.ports.out.UserPort;
 import com.terranova.api.v1.auth.infrastructure.adapter.mapper.AuthMapper;
 import com.terranova.api.v1.user.application.usecase.CreateUserUseCase;
 import com.terranova.api.v1.user.application.usecase.FindUserCaseUse;
@@ -16,7 +16,7 @@ import java.util.List;
 
 @Component
 @AllArgsConstructor
-public class UserRegistryAdapter implements UserRegisterPort {
+public class UserRegistryAdapter implements UserPort {
 
     private final CreateUserUseCase createUserUseCase;
     private final FindUserCaseUse findUserCaseUse;
@@ -38,5 +38,10 @@ public class UserRegistryAdapter implements UserRegisterPort {
         String refreshToken = refreshTokenPort.createRefreshToken(userDomain.identification());
 
         return new AuthenticatedCredentials(accessToken, refreshToken);
+    }
+
+    @Override
+    public List<String> getRolesByIdentification(String identification) {
+        return findUserCaseUse.findUserByIdentification(identification).roles();
     }
 }

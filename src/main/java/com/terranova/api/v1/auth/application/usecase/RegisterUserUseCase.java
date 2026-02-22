@@ -2,27 +2,27 @@ package com.terranova.api.v1.auth.application.usecase;
 
 import com.terranova.api.v1.auth.domain.model.AuthenticatedCredentials;
 import com.terranova.api.v1.auth.domain.model.NewUserDomain;
-import com.terranova.api.v1.auth.domain.ports.out.UserRegisterPort;
+import com.terranova.api.v1.auth.domain.ports.out.UserPort;
 
 import java.time.LocalDate;
 import java.time.Period;
 
 public class RegisterUserUseCase {
 
-    private final UserRegisterPort userRegisterPort;
+    private final UserPort userPort;
 
-    public RegisterUserUseCase(UserRegisterPort userRegisterPort) {
-        this.userRegisterPort = userRegisterPort;
+    public RegisterUserUseCase(UserPort userPort) {
+        this.userPort = userPort;
     }
 
     public AuthenticatedCredentials createUser(NewUserDomain newUserDomain){
-        if (userRegisterPort.existByEmailOrIdentification(newUserDomain.email(), newUserDomain.identification())){
+        if (userPort.existByEmailOrIdentification(newUserDomain.email(), newUserDomain.identification())){
 //            throw new BusinessException();
         }
 
         validateBirthDate(newUserDomain.birthday());
 
-        return userRegisterPort.createUser(newUserDomain);
+        return userPort.createUser(newUserDomain);
     }
 
     private void validateBirthDate(LocalDate date){

@@ -2,10 +2,12 @@ package com.terranova.api.v1.auth.infrastructure.adapter.mapper;
 
 import com.terranova.api.v1.auth.domain.model.AuthenticatedCredentials;
 import com.terranova.api.v1.auth.domain.model.NewUserDomain;
+import com.terranova.api.v1.auth.domain.model.RefreshToken;
 import com.terranova.api.v1.auth.domain.model.UserCredential;
 import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.AuthRequest;
 import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.RegisterRequest;
 import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.response.AuthResponse;
+import com.terranova.api.v1.auth.infrastructure.adapter.out.mysql.entity.RefreshTokenEntity;
 import com.terranova.api.v1.user.domain.model.User;
 import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
@@ -26,6 +28,26 @@ public class AuthMapper {
         return new AuthResponse(
                 authenticatedCredentials.accessToken(),
                 authenticatedCredentials.refreshToken()
+        );
+    }
+
+    public RefreshToken fromRefreshTokenEntityToRefreshToken(RefreshTokenEntity refreshTokenEntity){
+        return new RefreshToken(
+                refreshTokenEntity.getRefreshTokenId(),
+                refreshTokenEntity.getToken(),
+                refreshTokenEntity.getExpiresAt(),
+                refreshTokenEntity.isExpired(),
+                refreshTokenEntity.getUserIdentification()
+        );
+    }
+
+    public RefreshTokenEntity fromRefreshTokenToRefreshTokenEntity(RefreshToken refreshToken){
+        return new RefreshTokenEntity(
+                refreshToken.refreshTokenId(),
+                refreshToken.token(),
+                refreshToken.expiresAt(),
+                refreshToken.isExpired(),
+                refreshToken.userIdentification()
         );
     }
 

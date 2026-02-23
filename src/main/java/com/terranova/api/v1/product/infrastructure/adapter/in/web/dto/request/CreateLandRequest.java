@@ -4,27 +4,31 @@ import com.terranova.api.v1.product.domain.model.group.LandGroup;
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.enums.LandAccessEnum;
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.enums.LandTopographyEnum;
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.enums.ProductTypeEnum;
-import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.enums.StatusEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Builder;
-
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Builder
 public record CreateLandRequest(
+        @NotNull
         ProductTypeEnum productType,
+        @NotBlank
         String name,
+        @NotNull
+        @Positive
         BigDecimal price,
+        @NotBlank
         String description,
-        StatusEnum status,
-        LocalDate publishDate,
+        @NotBlank
         String city,
+        @NotNull
         Double latitude,
+        @NotNull
         Double longitude,
+        @NotNull
         UUID idSeller,
 
         @NotNull(groups = LandGroup.class)

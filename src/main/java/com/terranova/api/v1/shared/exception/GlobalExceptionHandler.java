@@ -2,6 +2,7 @@ package com.terranova.api.v1.shared.exception;
 
 import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -170,6 +171,31 @@ public class GlobalExceptionHandler {
                         HttpStatus.BAD_REQUEST.value(),
                         request,
                         null
+                ));
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ApiError> handleConstraintViolationGroupsValidation(ConstraintViolationException ex, HttpServletRequest request){
+        List<FieldApiError> errors = ex.getConstraintViolations()
+                .stream()
+                .map(error -> new FieldApiError(error.getPropertyPath().toString(), error.getMessage()))
+                .toList();
+
+        log.warn(
+                "Validation violation groups error | method={} | path={} | errors={}",
+                request.getMethod(),
+                request.getRequestURI(),
+                errors
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(buildApiError(
+                        ErrorCodeEnum.VALIDATION_ERROR,
+                        ex.getMessage(),
+                        HttpStatus.BAD_REQUEST.value(),
+                        request,
+                        errors
                 ));
     }
 }

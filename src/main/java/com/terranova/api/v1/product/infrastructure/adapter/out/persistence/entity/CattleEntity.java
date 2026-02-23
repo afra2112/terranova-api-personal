@@ -22,16 +22,18 @@ public class CattleEntity extends ProductEntity {
     private String race;
 
     @Column(nullable = false)
-    private Double weight;
+    private Double weightInKg;
 
     @Column(nullable = false)
     private Double cattleAgeInYears;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private CattleGenderEnum gender;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private CattleTypeEnum type;
+    private CattleTypeEnum cattleType;
 
     @Column(nullable = false)
     private int quantity;

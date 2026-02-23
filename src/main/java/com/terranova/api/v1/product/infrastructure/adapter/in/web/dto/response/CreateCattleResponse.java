@@ -4,10 +4,13 @@ import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entit
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.enums.CattleTypeEnum;
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.enums.ProductTypeEnum;
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.enums.StatusEnum;
+import lombok.Builder;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
+@Builder
 public record CreateCattleResponse(
         ProductTypeEnum productType,
         String name,

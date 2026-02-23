@@ -1,9 +1,12 @@
 package com.terranova.api.v1.product.domain.model.command;
 
+import lombok.Builder;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
+@Builder
 public record CreateLandCommand(
         String productType,
         String name,

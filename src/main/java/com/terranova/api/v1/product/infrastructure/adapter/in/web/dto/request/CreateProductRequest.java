@@ -2,9 +2,6 @@ package com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.CreateCattleResponse;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.CreateFarmResponse;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.CreateLandResponse;
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.enums.ProductTypeEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

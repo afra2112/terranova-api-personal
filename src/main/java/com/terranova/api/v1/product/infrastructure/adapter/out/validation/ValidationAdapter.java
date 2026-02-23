@@ -16,17 +16,4 @@ public class ValidationAdapter implements ValidatorPort {
     public void validate(CreateProductCommand createProductCommand, Class<?> group) {
         validator.validate(createProductCommand, group);
     }
-
-//    @Transactional
-//    public CreateProductResponse createProduct(CreateProductRequest request) {
-//
-//        Product product = productFactory.create(
-//                request,
-//                userRepository.findByUserId(request.idSeller()).orElseThrow(
-//                        () -> new BusinessException(ErrorCodeEnum.ENTITY_NOT_FOUND, "User SELLER not found with id: " + request.idSeller())
-//                )
-//        );
-//
-//        return productMapper.toDTO(productRepository.save(product));
-//    }
 }

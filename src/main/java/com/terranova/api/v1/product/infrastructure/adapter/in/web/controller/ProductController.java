@@ -24,6 +24,6 @@ public class ProductController {
     @PostMapping
     @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<CreateProductResponse> createProduct(@Valid @RequestBody CreateProductRequest request){
-        return ResponseEntity.ok().body(productMapper.toDTO(createProductUseCase.createProduct(productMapper.fromRequestToCommand(request))));
+        return ResponseEntity.ok().body(productMapper.domainToResponse(createProductUseCase.createProduct(productMapper.requestToCommand(request))));
     }
 }

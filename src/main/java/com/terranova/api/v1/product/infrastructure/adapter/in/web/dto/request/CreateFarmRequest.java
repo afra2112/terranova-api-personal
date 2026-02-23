@@ -5,10 +5,13 @@ import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entit
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.enums.StatusEnum;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import lombok.Builder;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
+@Builder
 public record CreateFarmRequest(
         ProductTypeEnum productType,
         String name,

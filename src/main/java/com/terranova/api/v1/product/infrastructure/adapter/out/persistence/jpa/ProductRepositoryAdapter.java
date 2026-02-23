@@ -15,6 +15,6 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
 
     @Override
     public Product save(Product product) {
-        return productMapper.fromEntityToDomain(jpaProductRepository.save(productMapper.fromDomainToEntity(product)));
+        return productMapper.entityToDomain(jpaProductRepository.save(productMapper.domainToEntity(product)));
     }
 }

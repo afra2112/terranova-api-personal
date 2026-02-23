@@ -31,10 +31,10 @@ public class ProductFactory {
         buildBase(builder, request, sellerId, "CATTLE");
         return builder
                 .race(request.race())
-                .weight(request.weightInKg())
+                .weightInKg(request.weightInKg())
                 .cattleAgeInYears(request.cattleAgeInYears())
                 .gender(request.gender())
-                .type(request.cattleType())
+                .cattleType(request.cattleType())
                 .quantity(request.quantity())
                 .build();
     }

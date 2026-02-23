@@ -11,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table(name = "products")
@@ -47,7 +48,7 @@ public abstract class ProductEntity {
     private Double longitude;
 
     @Column(nullable = false)
-    private Long sellerId;
+    private UUID sellerId;
 
     @Enumerated(EnumType.STRING)
     private ProductTypeEnum productType;

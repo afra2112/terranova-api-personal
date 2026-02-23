@@ -20,29 +20,63 @@ import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entit
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.FarmEntity;
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.LandEntity;
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.ProductEntity;
+import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
+import com.terranova.api.v1.shared.exception.BusinessException;
+import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
-import org.mapstruct.SubclassMapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", builder = @Builder(disableBuilder = true))
 public interface ProductMapper {
 
-        @SubclassMapping(source = CreateFarmRequest.class, target = CreateFarmCommand.class)
-        @SubclassMapping(source = CreateCattleRequest.class, target = CreateCattleCommand.class)
-        @SubclassMapping(source = CreateLandRequest.class, target = CreateLandCommand.class)
-        CreateProductCommand fromRequestToCommand(CreateProductRequest product);
+        default CreateProductCommand requestToCommand(CreateProductRequest request) {
+                if (request == null) return null;
+                return switch (request) {
+                        case CreateFarmRequest f -> farmRequestToFarmCommand(f);
+                        case CreateLandRequest l -> landRequestToLandCommand(l);
+                        case CreateCattleRequest c -> cattleRequestToCattleCommand(c);
+                        default -> throw new BusinessException(ErrorCodeEnum.PRODUCT_TYPE_NOT_SUPPORTED, "Product type: " + request);
+                };
+        }
+        CreateFarmCommand farmRequestToFarmCommand(CreateFarmRequest createFarmRequest);
+        CreateLandCommand landRequestToLandCommand(CreateLandRequest createLandRequest);
+        CreateCattleCommand cattleRequestToCattleCommand(CreateCattleRequest createCattleRequest);
 
-        @SubclassMapping(source = FarmEntity.class, target = Farm.class)
-        @SubclassMapping(source = CattleEntity.class, target = Cattle.class)
-        @SubclassMapping(source = LandEntity.class, target = Land.class)
-        Product fromEntityToDomain(ProductEntity entity);
+        default Product entityToDomain(ProductEntity entity) {
+                if (entity == null) return null;
+                return switch (entity) {
+                        case FarmEntity f -> farmEntityToDomain(f);
+                        case LandEntity l -> landEntityToDomain(l);
+                        case CattleEntity c -> cattleEntityToDomain(c);
+                        default -> throw new BusinessException(ErrorCodeEnum.PRODUCT_TYPE_NOT_SUPPORTED, "Product type: " + entity);
+                };
+        }
+        Farm farmEntityToDomain(FarmEntity farmEntity);
+        Land landEntityToDomain(LandEntity landEntity);
+        Cattle cattleEntityToDomain(CattleEntity cattleEntity);
 
-        @SubclassMapping(source = Farm.class, target = FarmEntity.class)
-        @SubclassMapping(source = Cattle.class, target = CattleEntity.class)
-        @SubclassMapping(source = Land.class, target = LandEntity.class)
-        ProductEntity fromDomainToEntity(Product product);
+        default ProductEntity domainToEntity(Product product) {
+                if (product == null) return null;
+                return switch (product) {
+                        case Farm f -> farmDomainToEntity(f);
+                        case Land l -> landDomainToEntity(l);
+                        case Cattle c -> cattleDomainToEntity(c);
+                        default -> throw new BusinessException(ErrorCodeEnum.PRODUCT_TYPE_NOT_SUPPORTED, "Product type: " + product);
+                };
+        }
+        FarmEntity farmDomainToEntity(Farm farm);
+        LandEntity landDomainToEntity(Land land);
+        CattleEntity cattleDomainToEntity(Cattle cattle);
 
-        @SubclassMapping(source = Farm.class, target = CreateFarmResponse.class)
-        @SubclassMapping(source = Cattle.class, target = CreateCattleResponse.class)
-        @SubclassMapping(source = Land.class, target = CreateLandResponse.class)
-        CreateProductResponse toDTO(Product product);
+        default CreateProductResponse domainToResponse(Product product) {
+                if (product == null) return null;
+                return switch (product) {
+                        case Farm f -> farmDomainToResponse(f);
+                        case Land l -> landDomainToResponse(l);
+                        case Cattle c -> cattleDomainToResponse(c);
+                        default -> throw new BusinessException(ErrorCodeEnum.PRODUCT_TYPE_NOT_SUPPORTED, "Product type: " + product);
+                };
+        }
+        CreateFarmResponse farmDomainToResponse(Farm farm);
+        CreateLandResponse landDomainToResponse(Land land);
+        CreateCattleResponse cattleDomainToResponse(Cattle cattle);
 }

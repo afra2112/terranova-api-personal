@@ -1,5 +1,8 @@
 package com.terranova.api.v1.product.domain.model.command;
 
+import com.terranova.api.v1.product.domain.model.enums.CattleGenderEnum;
+import com.terranova.api.v1.product.domain.model.enums.CattleTypeEnum;
+import com.terranova.api.v1.product.domain.model.enums.ProductTypeEnum;
 import lombok.Builder;
 
 import java.math.BigDecimal;
@@ -8,7 +11,7 @@ import java.util.UUID;
 
 @Builder
 public record CreateCattleCommand(
-        String productType,
+        ProductTypeEnum productType,
         String name,
         BigDecimal price,
         String description,
@@ -22,7 +25,7 @@ public record CreateCattleCommand(
         String race,
         Double weightInKg,
         Double cattleAgeInYears,
-        String gender,
-        String cattleType,
+        CattleGenderEnum gender,
+        CattleTypeEnum cattleType,
         int quantity
 ) implements CreateProductCommand {}

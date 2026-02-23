@@ -1,7 +1,7 @@
 package com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity;
 
-import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.enums.ProductTypeEnum;
-import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.enums.StatusEnum;
+import com.terranova.api.v1.product.domain.model.enums.ProductTypeEnum;
+import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

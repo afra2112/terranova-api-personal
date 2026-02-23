@@ -1,5 +1,6 @@
 package com.terranova.api.v1.shared.security.filter;
 
+import com.terranova.api.v1.shared.exception.BusinessException;
 import com.terranova.api.v1.shared.security.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -26,7 +27,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        Optional<String> tokenOptional = extractBearerToken(request, response, filterChain);
+        Optional<String> tokenOptional = extractBearerToken(request);
 
         if (tokenOptional.isEmpty()){
             filterChain.doFilter(request, response);
@@ -58,7 +59,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             filterChain.doFilter(request, response);
-        } catch (RuntimeException ex) { //TODO: implement correct business exception
+        } catch (BusinessException ex) {
             SecurityContextHolder.clearContext();
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json");
@@ -70,7 +71,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         }
     }
 
-    private Optional<String> extractBearerToken(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    private Optional<String> extractBearerToken(HttpServletRequest request){
 
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 

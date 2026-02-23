@@ -2,8 +2,8 @@ package com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.enums.ProductTypeEnum;
-import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.enums.StatusEnum;
+import com.terranova.api.v1.product.domain.model.enums.ProductTypeEnum;
+import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -30,5 +30,5 @@ public sealed interface CreateProductResponse permits CreateCattleResponse, Crea
     String city();
     Double latitude();
     Double longitude();
-    UUID idSeller();
+    UUID sellerId();
 }

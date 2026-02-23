@@ -1,9 +1,9 @@
 package com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response;
 
-import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.enums.LandAccessEnum;
-import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.enums.LandTopographyEnum;
-import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.enums.ProductTypeEnum;
-import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.enums.StatusEnum;
+import com.terranova.api.v1.product.domain.model.enums.LandAccessEnum;
+import com.terranova.api.v1.product.domain.model.enums.LandTopographyEnum;
+import com.terranova.api.v1.product.domain.model.enums.ProductTypeEnum;
+import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
 import lombok.Builder;
 
 import java.math.BigDecimal;
@@ -21,7 +21,7 @@ public record CreateLandResponse(
         String city,
         Double latitude,
         Double longitude,
-        UUID idSeller,
+        UUID sellerId,
 
         Double landSizeInM2,
         String currentUse,

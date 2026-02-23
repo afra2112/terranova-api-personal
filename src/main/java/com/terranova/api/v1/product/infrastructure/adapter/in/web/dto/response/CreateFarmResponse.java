@@ -1,7 +1,7 @@
 package com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response;
 
-import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.enums.ProductTypeEnum;
-import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.enums.StatusEnum;
+import com.terranova.api.v1.product.domain.model.enums.ProductTypeEnum;
+import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
 import lombok.Builder;
 
 import java.math.BigDecimal;
@@ -19,7 +19,7 @@ public record CreateFarmResponse(
         String city,
         Double latitude,
         Double longitude,
-        UUID idSeller,
+        UUID sellerId,
 
         Double totalSpaceInM2,
         Double builtSpaceInM2,

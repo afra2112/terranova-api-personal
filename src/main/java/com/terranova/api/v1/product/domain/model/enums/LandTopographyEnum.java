@@ -1,4 +1,4 @@
-package com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.enums;
+package com.terranova.api.v1.product.domain.model.enums;
 
 public enum LandTopographyEnum {
     PLAINS,             // Llanuras

@@ -22,10 +22,9 @@ import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entit
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.ProductEntity;
 import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
 import com.terranova.api.v1.shared.exception.BusinessException;
-import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring", builder = @Builder(disableBuilder = true))
+@Mapper(componentModel = "spring")
 public interface ProductMapper {
 
         default CreateProductCommand requestToCommand(CreateProductRequest request) {

@@ -1,7 +1,7 @@
 package com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity;
 
-import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.enums.CattleGenderEnum;
-import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.enums.CattleTypeEnum;
+import com.terranova.api.v1.product.domain.model.enums.CattleGenderEnum;
+import com.terranova.api.v1.product.domain.model.enums.CattleTypeEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

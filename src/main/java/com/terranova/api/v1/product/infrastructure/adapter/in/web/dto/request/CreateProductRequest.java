@@ -2,7 +2,7 @@ package com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.enums.ProductTypeEnum;
+import com.terranova.api.v1.product.domain.model.enums.ProductTypeEnum;
 
 import java.math.BigDecimal;
 import java.util.UUID;

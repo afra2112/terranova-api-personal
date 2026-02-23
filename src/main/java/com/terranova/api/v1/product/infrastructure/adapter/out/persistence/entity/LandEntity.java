@@ -1,7 +1,7 @@
 package com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity;
 
-import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.enums.LandAccessEnum;
-import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.enums.LandTopographyEnum;
+import com.terranova.api.v1.product.domain.model.enums.LandAccessEnum;
+import com.terranova.api.v1.product.domain.model.enums.LandTopographyEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

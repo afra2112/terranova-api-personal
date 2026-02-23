@@ -1,5 +1,6 @@
 package com.terranova.api.v1.product.domain.model;
 
+import com.terranova.api.v1.product.domain.model.enums.ProductTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,5 +25,5 @@ public abstract class Product {
     private Double latitude;
     private Double longitude;
     private UUID sellerId;
-    private String productType;
+    private ProductTypeEnum productType;
 }

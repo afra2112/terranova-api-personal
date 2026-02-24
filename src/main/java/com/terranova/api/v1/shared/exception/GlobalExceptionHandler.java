@@ -68,7 +68,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(buildApiError(
                         ErrorCodeEnum.INTERNAL_ERROR,
-                        ErrorCodeEnum.INTERNAL_ERROR.getMessage(),
+                        ex.getMessage(),
                         HttpStatus.INTERNAL_SERVER_ERROR.value(),
                         request,
                         null

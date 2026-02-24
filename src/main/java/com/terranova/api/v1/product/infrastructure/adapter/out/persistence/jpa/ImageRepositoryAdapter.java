@@ -22,11 +22,11 @@ public class ImageRepositoryAdapter implements ImageRepositoryPort {
     private final ImageMapper imageMapper;
 
     @Override
-    public List<Image> save(List<Image> images) {
+    public List<Image> save(List<Image> images, Long productId) {
         List<ImageEntity> entities = images.stream().map(imageMapper::domainToEntity).toList();
 
         entities.forEach(entity -> {
-            ProductEntity product = entityManager.getReference(ProductEntity.class, entity.getProduct().getProductId());
+            ProductEntity product = entityManager.getReference(ProductEntity.class, productId);
             entity.setProduct(product);
             entity.setExternallySaved(true);
             entity.getProduct().setStatus(StatusEnum.IMAGES_UPLOADED);

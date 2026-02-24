@@ -45,7 +45,7 @@ public class CreateImageUseCase {
                 })
                 .toList();
 
-            return imageRepositoryPort.save(imagesDomain);
+            return imageRepositoryPort.save(imagesDomain, productId);
 
         } catch (Exception e) {
             publicSavedImagesIds.forEach(imageStoragePort::deleteImages);

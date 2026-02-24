@@ -24,10 +24,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @RestController
 @AllArgsConstructor
@@ -49,16 +51,20 @@ public class ProductController {
 
     @PostMapping(value = "/{productId}/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('SELLER')")
-    public ResponseEntity<List<ImageResponse>> saveImagesForProduct(@Valid @NotNull @Positive @PathVariable Long productId, @Valid @RequestBody List<ImageRequest> images){
-        List<CreateImageCommand> commands = images.stream()
-                .map(req -> {
+    public ResponseEntity<List<ImageResponse>> saveImagesForProduct(
+            @Valid @NotNull @Positive @PathVariable Long productId,
+            @RequestPart("files") List<MultipartFile> files
+    ){
+        List<CreateImageCommand> commands = IntStream.range(0, files.size())
+                .mapToObj(i -> {
+                    MultipartFile file = files.get(i);
                     try {
                         return new CreateImageCommand(
-                                req.file().getOriginalFilename(),
-                                req.file().getContentType(),
-                                req.file().getSize(),
-                                req.displayOrder(),
-                                req.file().getBytes()
+                                file.getOriginalFilename(),
+                                file.getContentType(),
+                                file.getSize(),
+                                i+1,
+                                file.getBytes()
                         );
                     } catch (IOException e) {
                         throw new BusinessException(ErrorCodeEnum.IMAGE_READ_ERROR, e.getMessage());

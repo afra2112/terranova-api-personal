@@ -37,4 +37,9 @@ public class ImageRepositoryAdapter implements ImageRepositoryPort {
                 .map(imageMapper::entityToDomain)
                 .toList();
     }
+
+    @Override
+    public List<Image> getByProductId(Long productId) {
+        return jpaImageRepository.findByProduct_ProductId(productId).stream().map(imageMapper::entityToDomain).toList();
+    }
 }

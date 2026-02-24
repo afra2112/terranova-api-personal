@@ -7,6 +7,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @Mapper(componentModel = "spring")
 public interface ImageMapper {
@@ -17,4 +19,6 @@ public interface ImageMapper {
     ImageEntity domainToEntity(Image image);
 
     ImageResponse domainToResponse(Image image);
+
+    List<ImageResponse> domainListToResponse(List<Image> images);
 }

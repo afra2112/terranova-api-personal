@@ -6,6 +6,7 @@ import lombok.Builder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Builder
@@ -20,6 +21,7 @@ public record CreateFarmResponse(
         Double latitude,
         Double longitude,
         UUID sellerId,
+        List<ImageResponse> images,
 
         Double totalSpaceInM2,
         Double builtSpaceInM2,

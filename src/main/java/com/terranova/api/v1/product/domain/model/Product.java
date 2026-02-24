@@ -8,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -26,4 +27,7 @@ public abstract class Product {
     private Double longitude;
     private UUID sellerId;
     private ProductTypeEnum productType;
+    private List<Image> images;
+
+    public abstract Product withImages(List<Image> images);
 }

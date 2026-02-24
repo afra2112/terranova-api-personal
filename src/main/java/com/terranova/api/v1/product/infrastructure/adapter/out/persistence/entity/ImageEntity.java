@@ -16,7 +16,7 @@ public class ImageEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idImagen;
+    private Long idImage;
 
     @Column(nullable = false)
     private String fileName;

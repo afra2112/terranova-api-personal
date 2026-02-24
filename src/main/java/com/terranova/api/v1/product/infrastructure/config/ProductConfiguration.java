@@ -2,6 +2,7 @@ package com.terranova.api.v1.product.infrastructure.config;
 
 import com.terranova.api.v1.product.application.usecase.CreateImageUseCase;
 import com.terranova.api.v1.product.application.usecase.CreateProductUseCase;
+import com.terranova.api.v1.product.application.usecase.GetProductUseCase;
 import com.terranova.api.v1.product.domain.factory.ProductFactory;
 import com.terranova.api.v1.product.domain.port.out.ImageRepositoryPort;
 import com.terranova.api.v1.product.domain.port.out.ImageStoragePort;
@@ -28,5 +29,10 @@ public class ProductConfiguration {
     @Bean
     public CreateImageUseCase createImageUseCase(ImageRepositoryPort imageRepositoryPort, ProductRepositoryPort productRepositoryPort, ImageStoragePort imageStoragePort){
         return new CreateImageUseCase(imageStoragePort, imageRepositoryPort, productRepositoryPort);
+    }
+
+    @Bean
+    public GetProductUseCase getProductUseCase(ProductRepositoryPort productRepositoryPort, ImageRepositoryPort imageRepositoryPort){
+        return new GetProductUseCase(productRepositoryPort, imageRepositoryPort);
     }
 }

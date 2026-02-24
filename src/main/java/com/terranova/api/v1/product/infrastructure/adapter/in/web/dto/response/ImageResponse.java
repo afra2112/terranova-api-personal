@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public record ImageResponse(
         Long productId,
-        Long idImagen,
+        Long idImage,
         String fileName,
         String url,
         String contentType,

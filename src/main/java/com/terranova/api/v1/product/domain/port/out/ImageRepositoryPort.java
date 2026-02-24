@@ -8,5 +8,5 @@ public interface ImageRepositoryPort {
 
     List<Image> save(List<Image> images, Long productId);
 
-
+    List<Image> getByProductId(Long productId);
 }

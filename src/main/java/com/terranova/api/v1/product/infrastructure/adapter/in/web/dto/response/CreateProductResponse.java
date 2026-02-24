@@ -7,6 +7,7 @@ import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @JsonTypeInfo(
@@ -31,4 +32,5 @@ public sealed interface CreateProductResponse permits CreateCattleResponse, Crea
     Double latitude();
     Double longitude();
     UUID sellerId();
+    List<ImageResponse> images();
 }

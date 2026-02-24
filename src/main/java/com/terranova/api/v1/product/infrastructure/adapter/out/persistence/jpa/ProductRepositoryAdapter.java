@@ -6,6 +6,8 @@ import com.terranova.api.v1.product.infrastructure.adapter.mapper.ProductMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 @AllArgsConstructor
 public class ProductRepositoryAdapter implements ProductRepositoryPort {
@@ -16,6 +18,11 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
     @Override
     public Product save(Product product) {
         return productMapper.entityToDomain(jpaProductRepository.save(productMapper.domainToEntity(product)));
+    }
+
+    @Override
+    public Optional<Product> getById(Long productId) {
+        return jpaProductRepository.findById(productId).map(productMapper::entityToDomain);
     }
 
     @Override

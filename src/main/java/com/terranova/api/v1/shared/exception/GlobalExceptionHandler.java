@@ -6,7 +6,6 @@ import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -76,7 +75,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiError> handleMehodArgument(MethodArgumentNotValidException ex, HttpServletRequest request){
+    public ResponseEntity<ApiError> handleMethodArgument(MethodArgumentNotValidException ex, HttpServletRequest request){
         List<FieldApiError> errors = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()

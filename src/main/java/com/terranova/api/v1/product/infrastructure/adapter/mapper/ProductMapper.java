@@ -24,7 +24,7 @@ import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
 import com.terranova.api.v1.shared.exception.BusinessException;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = ImageMapper.class)
 public interface ProductMapper {
 
         default CreateProductCommand requestToCommand(CreateProductRequest request) {

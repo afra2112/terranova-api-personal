@@ -7,6 +7,7 @@ import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
 import lombok.Builder;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Builder
@@ -21,6 +22,7 @@ public record CreateCattleResponse(
         Double latitude,
         Double longitude,
         UUID sellerId,
+        List<ImageResponse> images,
 
         String race,
         Double weightInKg,

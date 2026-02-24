@@ -17,4 +17,9 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
     public Product save(Product product) {
         return productMapper.entityToDomain(jpaProductRepository.save(productMapper.domainToEntity(product)));
     }
+
+    @Override
+    public boolean existsById(Long id) {
+        return jpaProductRepository.existsById(id);
+    }
 }

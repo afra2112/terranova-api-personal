@@ -5,7 +5,6 @@ import com.terranova.api.v1.product.domain.model.enums.CattleTypeEnum;
 import com.terranova.api.v1.product.domain.model.enums.ProductTypeEnum;
 import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
 import lombok.Builder;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;

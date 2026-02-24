@@ -20,6 +20,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +47,7 @@ public class ProductController {
         return ResponseEntity.ok().body(productMapper.domainToResponse(createProductUseCase.createProduct(productMapper.requestToCommand(request))));
     }
 
-    @PostMapping("/{productId}/images")
+    @PostMapping(value = "/{productId}/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<List<ImageResponse>> saveImagesForProduct(@Valid @NotNull @Positive @PathVariable Long productId, @Valid @RequestBody List<ImageRequest> images){
         List<CreateImageCommand> commands = images.stream()
@@ -60,24 +61,13 @@ public class ProductController {
                                 req.file().getBytes()
                         );
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        throw new BusinessException(ErrorCodeEnum.IMAGE_READ_ERROR, e.getMessage());
                     }
                 })
                 .toList();
 
         return ResponseEntity.ok(createImageUseCase.createImages(commands, productId).stream()
-                .map(
-                image -> new ImageResponse(
-                    image.productId(),
-                    image.idImagen(),
-                    image.fileName(),
-                    image.url(),
-                    image.contentType(),
-                    image.size(),
-                    image.displayOrder(),
-                    image.createdAt()
-                )
-        ).toList());
+                .map(imageMapper::domainToResponse).toList());
     }
 
     private Class<?> getGroupFromRequestProductType(String productType){

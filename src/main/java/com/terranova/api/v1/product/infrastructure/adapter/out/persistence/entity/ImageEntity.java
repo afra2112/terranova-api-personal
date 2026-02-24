@@ -36,6 +36,8 @@ public class ImageEntity {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
+    private boolean isExternallySaved = false;
+
     @ManyToOne
     @JoinColumn(name = "productId")
     private ProductEntity product;

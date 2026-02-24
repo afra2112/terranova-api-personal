@@ -23,6 +23,8 @@ public enum ErrorCodeEnum {
     //PRODUCT
     ENTITY_NOT_FOUND("PRD-001", HttpStatus.NOT_FOUND, "Entity not found"),
     PRODUCT_TYPE_NOT_SUPPORTED("PRD-002", HttpStatus.BAD_REQUEST, "Product type not supported"),
+    CLOUDINARY_ERROR("PRD-003", HttpStatus.INTERNAL_SERVER_ERROR, "Cloudinary error."),
+    IMAGE_READ_ERROR("PRD-004", HttpStatus.INTERNAL_SERVER_ERROR, "Error with IO reading the file from the request."),
 
     //GENERIC
     VALIDATION_ERROR("GEN-001", HttpStatus.BAD_REQUEST, "Validation error"),

@@ -1,4 +1,4 @@
-package com.terranova.api.v1.product.infrastructure.adapter.out.persistence.cloudinary;
+package com.terranova.api.v1.product.infrastructure.adapter.out.cloudinary;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;

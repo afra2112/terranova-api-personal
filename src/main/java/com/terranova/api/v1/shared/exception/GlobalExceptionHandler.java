@@ -2,10 +2,10 @@ package com.terranova.api.v1.shared.exception;
 
 import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -67,7 +67,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(buildApiError(
                         ErrorCodeEnum.INTERNAL_ERROR,
-                        ErrorCodeEnum.INTERNAL_ERROR.getMessage(),
+                        ex.getMessage(),
                         HttpStatus.INTERNAL_SERVER_ERROR.value(),
                         request,
                         null
@@ -75,7 +75,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiError> handleMehodArgument(MethodArgumentNotValidException ex, HttpServletRequest request){
+    public ResponseEntity<ApiError> handleMethodArgument(MethodArgumentNotValidException ex, HttpServletRequest request){
         List<FieldApiError> errors = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
@@ -170,6 +170,31 @@ public class GlobalExceptionHandler {
                         HttpStatus.BAD_REQUEST.value(),
                         request,
                         null
+                ));
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ApiError> handleConstraintViolationGroupsValidation(ConstraintViolationException ex, HttpServletRequest request){
+        List<FieldApiError> errors = ex.getConstraintViolations()
+                .stream()
+                .map(error -> new FieldApiError(error.getPropertyPath().toString(), error.getMessage()))
+                .toList();
+
+        log.warn(
+                "Validation violation groups error | method={} | path={} | errors={}",
+                request.getMethod(),
+                request.getRequestURI(),
+                errors
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(buildApiError(
+                        ErrorCodeEnum.VALIDATION_ERROR,
+                        ex.getMessage(),
+                        HttpStatus.BAD_REQUEST.value(),
+                        request,
+                        errors
                 ));
     }
 }

@@ -1,4 +1,4 @@
-package com.terranova.api.v1.auth.infrastructure.adapter.out.mysql.entity;
+package com.terranova.api.v1.auth.infrastructure.adapter.out.persistence.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

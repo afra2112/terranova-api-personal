@@ -1,6 +1,6 @@
-package com.terranova.api.v1.auth.infrastructure.adapter.out.mysql.jparepository;
+package com.terranova.api.v1.auth.infrastructure.adapter.out.persistence.jpa;
 
-import com.terranova.api.v1.auth.infrastructure.adapter.out.mysql.entity.RefreshTokenEntity;
+import com.terranova.api.v1.auth.infrastructure.adapter.out.persistence.entity.RefreshTokenEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;

@@ -7,7 +7,7 @@ import com.terranova.api.v1.auth.domain.model.UserCredential;
 import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.AuthRequest;
 import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.RegisterRequest;
 import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.response.AuthResponse;
-import com.terranova.api.v1.auth.infrastructure.adapter.out.mysql.entity.RefreshTokenEntity;
+import com.terranova.api.v1.auth.infrastructure.adapter.out.persistence.entity.RefreshTokenEntity;
 import com.terranova.api.v1.user.domain.model.User;
 import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;

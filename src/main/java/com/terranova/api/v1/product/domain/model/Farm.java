@@ -37,6 +37,7 @@ public class Farm extends Product {
                 .stratum(this.stratum)
                 .roomsQuantity(this.roomsQuantity)
                 .bathroomsQuantity(this.bathroomsQuantity)
+                .images(List.copyOf(images))
                 .build();
     }
 }

@@ -39,6 +39,7 @@ public class Land extends Product{
                 .topography(this.topography)
                 .access(this.access)
                 .currentServices(this.currentServices)
+                .images(List.copyOf(images))
                 .build();
     }
 }

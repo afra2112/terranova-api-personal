@@ -1,24 +1,22 @@
-package com.terranova.api.v1.appointment.infrastructure.adapter.in.web.dto;
+package com.terranova.api.v1.appointment.infrastructure.adapter.in.web.dto.response;
 
-import com.terranova.api.v1.appointment.domain.model.Attendance;
 import com.terranova.api.v1.appointment.domain.model.enums.AppointmentStatusEnum;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
+import java.util.List;
 
 public record CreateAppointmentResponse(
         Long appointmentId,
         AppointmentStatusEnum status,
         Integer maximumQuorum,
-        ArrayList<Attendance> attendances,
-        boolean deleted,
+        List<AttendanceResponse> attendances,
         Integer takenSlots,
         Integer availableSlots,
         LocalDate date,
         LocalTime startTime,
         LocalTime endTime,
         String description,
-        Long productId,
-        Integer reprogrammingAttempts
+        Integer reprogrammingAttempts,
+        Long productId
 ) {
 }

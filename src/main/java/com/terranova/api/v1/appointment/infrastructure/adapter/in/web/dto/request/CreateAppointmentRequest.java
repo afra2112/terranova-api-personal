@@ -1,4 +1,4 @@
-package com.terranova.api.v1.appointment.infrastructure.adapter.in.web.dto;
+package com.terranova.api.v1.appointment.infrastructure.adapter.in.web.dto.request;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Future;

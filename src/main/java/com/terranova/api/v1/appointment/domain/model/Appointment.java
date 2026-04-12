@@ -5,13 +5,13 @@ import com.terranova.api.v1.appointment.domain.model.enums.AppointmentStatusEnum
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
+import java.util.List;
 
 public record Appointment(
         Long appointmentId,
         AppointmentStatusEnum status,
         Integer maximumQuorum,
-        ArrayList<Attendance> attendances,
+        List<Attendance> attendances,
         boolean deleted,
         Integer takenSlots,
         Integer availableSlots,

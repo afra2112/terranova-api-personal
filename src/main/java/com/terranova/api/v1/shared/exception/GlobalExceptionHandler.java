@@ -1,6 +1,7 @@
 package com.terranova.api.v1.shared.exception;
 
 import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
+import feign.FeignException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -195,6 +196,29 @@ public class GlobalExceptionHandler {
                         HttpStatus.BAD_REQUEST.value(),
                         request,
                         errors
+                ));
+    }
+
+    @ExceptionHandler(FeignException.class)
+    public ResponseEntity<ApiError> handleFeignException(FeignException ex, HttpServletRequest request){
+        log.error(
+                "Feign exception: status={} | messsage={} | Response Body={} | Response Headers={} | method={} | path={}",
+                ex.status(),
+                ex.getMessage(),
+                ex.responseBody(),
+                ex.responseHeaders(),
+                request.getMethod(),
+                ex.request().url()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.valueOf(ex.status()))
+                .body(buildApiError(
+                        ErrorCodeEnum.OPEN_FEIGN_ERROR,
+                        ex.getMessage(),
+                        ex.status(),
+                        request,
+                        null
                 ));
     }
 }

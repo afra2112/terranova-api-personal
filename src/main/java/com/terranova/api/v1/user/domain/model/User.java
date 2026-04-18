@@ -17,7 +17,7 @@ public record User(
         LocalDateTime registerDate,
         String profilePicture,
         List<String> roles,
-        int userScore
-        //List<UUID> refreshTokenIds
+        int userScore,
+        List<UUID> refreshTokenIds
 ) {
 }

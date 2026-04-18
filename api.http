@@ -16,16 +16,16 @@ POST http://localhost:8080/api/v1/auth/login
 Content-Type: application/json
 
 {
-  "email": "andres@gmail.com",
-  "password": "andres1234"
+  "email": "admin@gmail.com",
+  "password": "admin1234"
 }
 
 ###
 GET http://localhost:8080/api/v1/seller/
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6WyJST0xFX0JVWUVSIl0sInN1YiI6IjEyMzQ1Njc4OTAiLCJpYXQiOjE3Njk5NzY4ODYsImV4cCI6MTc2OTk3NjkxNn0.ZXHPcDVSZEX0tH_H-gxAv3Q4qleNUzfBVPS9_gW7u834QREQxiFgCVvooQNgMxX-65c2otQRf1ft5eutNRmj7w
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6W10sInN1YiI6IjEwOTQyNDc3NDUiLCJpYXQiOjE3NzYzMDMyOTIsImV4cCI6MTc3NjMwMzMyMn0.tlLj1QZN_eEZysOLK7sEHq3yL2E2LvJTHApbHKFhSCesbQl1FN7ksw3GeO0HJ07E
 Content-Type: application/json
 
 ###
 GET http://localhost:8080/api/v1/buyer/
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6WyJST0xFX0JVWUVSIl0sInN1YiI6IjEyMzQ1Njc4OTAiLCJpYXQiOjE3Njk5NzY4ODYsImV4cCI6MTc2OTk3NjkxNn0.ZXHPcDVSZEX0tH_H-gxAv3Q4qleNUzfBVPS9_gW7u834QREQxiFgCVvooQNgMxX-65c2otQRf1ft5eutNRmj7w
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6W10sInN1YiI6IjEwOTQyNDc3NDUiLCJpYXQiOjE3NzYzMDMzMTcsImV4cCI6MTc3NjMwMzM0N30.99lvhbsRzoCW8G4iB8Z61fRhd64TY-5u-gbcVC_wKqq38DjfbvPoFKOPZTwG73rk
 Content-Type: application/json

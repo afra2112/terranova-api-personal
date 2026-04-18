@@ -5,6 +5,8 @@ import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity.U
 import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity.enums.RoleEnum;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class UserMapper {
 
@@ -21,9 +23,12 @@ public class UserMapper {
                 .registerDate(user.registerDate())
                 .profilePicture(user.profilePicture())
                 .roles(
-                        user.roles().stream().map(RoleEnum::valueOf).toList()
+                        user.roles() == null || user.roles().isEmpty() ?
+                                List.of(RoleEnum.ROLE_BUYER)
+                                : user.roles().stream().map(RoleEnum::valueOf).toList()
                 )
                 .userScore(user.userScore())
+                .refreshTokenIds(user.refreshTokenIds())
                 .build();
     }
 
@@ -40,7 +45,8 @@ public class UserMapper {
                 entity.getRegisterDate(),
                 entity.getProfilePicture(),
                 entity.getRoles().stream().map(Enum::name).toList(),
-                entity.getUserScore()
+                entity.getUserScore(),
+                entity.getRefreshTokenIds()
         );
     }
 }

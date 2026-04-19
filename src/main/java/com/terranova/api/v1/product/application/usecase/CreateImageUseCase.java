@@ -1,7 +1,7 @@
 package com.terranova.api.v1.product.application.usecase;
 
 import com.terranova.api.v1.product.domain.model.Image;
-import com.terranova.api.v1.product.domain.model.command.CreateImageCommand;
+import com.terranova.api.v1.product.domain.model.command.create.CreateImageCommand;
 import com.terranova.api.v1.product.domain.port.out.ImageRepositoryPort;
 import com.terranova.api.v1.product.domain.port.out.ImageStoragePort;
 import com.terranova.api.v1.product.domain.port.out.ProductRepositoryPort;

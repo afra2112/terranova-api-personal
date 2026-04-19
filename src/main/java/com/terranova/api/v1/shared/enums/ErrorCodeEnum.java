@@ -19,6 +19,7 @@ public enum ErrorCodeEnum {
     TOKEN_EXPIRED("AUTH-003", HttpStatus.FORBIDDEN, "Token expired"),
     NULL_REFRESH_TOKEN("AUTH-004", HttpStatus.BAD_REQUEST, "Refresh token is required"),
     UNAUTHORIZED("AUTH-005", HttpStatus.UNAUTHORIZED, "Password or Email invalid."),
+    FORBIDDEN("AUTH-006", HttpStatus.FORBIDDEN, "You don't have permissions to access this resource"),
 
     //PRODUCT
     ENTITY_NOT_FOUND("PRD-001", HttpStatus.NOT_FOUND, "Entity not found"),
@@ -29,7 +30,8 @@ public enum ErrorCodeEnum {
     //GENERIC
     VALIDATION_ERROR("GEN-001", HttpStatus.BAD_REQUEST, "Validation error"),
     INTERNAL_ERROR("GEN-002", HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error"),
-    JSON_FORMAT_ERROR("GEN-003", HttpStatus.BAD_REQUEST, "JSON request format error, verify syntaxis."),;
+    JSON_FORMAT_ERROR("GEN-003", HttpStatus.BAD_REQUEST, "JSON request format error, verify syntaxis."),
+    OPEN_FEIGN_ERROR("GEN-004", HttpStatus.INTERNAL_SERVER_ERROR, "Open Feign internal communication error");
 
     private final String code;
     private final HttpStatus status;

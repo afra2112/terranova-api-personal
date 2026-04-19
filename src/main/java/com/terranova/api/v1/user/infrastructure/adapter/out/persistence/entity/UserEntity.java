@@ -64,9 +64,12 @@ public class UserEntity {
 //
 //    private boolean recibirCorreos = true;
 
+    @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     @NotEmpty
     private List<RoleEnum> roles;
+
+    private List<UUID> refreshTokenIds;
 //
 //    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<Favorito> favoritos;

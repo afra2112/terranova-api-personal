@@ -6,7 +6,10 @@ import com.terranova.api.v1.auth.domain.model.UserCredential;
 import com.terranova.api.v1.auth.domain.ports.out.AuthenticationPort;
 import com.terranova.api.v1.auth.domain.ports.out.RefreshTokenPort;
 import com.terranova.api.v1.auth.domain.ports.out.TokenGeneratorPort;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 
+@Slf4j
 public class LoginUseCase {
 
     private final AuthenticationPort authenticationPort;

@@ -144,8 +144,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
                 .body(buildApiError(
-                        ErrorCodeEnum.UNAUTHORIZED,
-                        ErrorCodeEnum.UNAUTHORIZED.getMessage(),
+                        ErrorCodeEnum.FORBIDDEN,
+                        ErrorCodeEnum.FORBIDDEN.getMessage(),
                         HttpStatus.FORBIDDEN.value(),
                         request,
                         null

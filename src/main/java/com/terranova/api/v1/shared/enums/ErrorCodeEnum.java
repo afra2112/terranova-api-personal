@@ -19,6 +19,7 @@ public enum ErrorCodeEnum {
     TOKEN_EXPIRED("AUTH-003", HttpStatus.FORBIDDEN, "Token expired"),
     NULL_REFRESH_TOKEN("AUTH-004", HttpStatus.BAD_REQUEST, "Refresh token is required"),
     UNAUTHORIZED("AUTH-005", HttpStatus.UNAUTHORIZED, "Password or Email invalid."),
+    FORBIDDEN("AUTH-006", HttpStatus.FORBIDDEN, "You don't have permissions to access this resource"),
 
     //PRODUCT
     ENTITY_NOT_FOUND("PRD-001", HttpStatus.NOT_FOUND, "Entity not found"),

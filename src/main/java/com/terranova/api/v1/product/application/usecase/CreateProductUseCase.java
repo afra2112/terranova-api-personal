@@ -2,7 +2,7 @@ package com.terranova.api.v1.product.application.usecase;
 
 import com.terranova.api.v1.product.domain.factory.ProductFactory;
 import com.terranova.api.v1.product.domain.model.Product;
-import com.terranova.api.v1.product.domain.model.command.CreateProductCommand;
+import com.terranova.api.v1.product.domain.model.command.create.CreateProductCommand;
 import com.terranova.api.v1.product.domain.port.out.ProductRepositoryPort;
 
 public class CreateProductUseCase {

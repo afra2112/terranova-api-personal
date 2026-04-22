@@ -4,18 +4,20 @@ import com.terranova.api.v1.product.domain.model.Cattle;
 import com.terranova.api.v1.product.domain.model.Farm;
 import com.terranova.api.v1.product.domain.model.Land;
 import com.terranova.api.v1.product.domain.model.Product;
-import com.terranova.api.v1.product.domain.model.command.CreateCattleCommand;
-import com.terranova.api.v1.product.domain.model.command.CreateFarmCommand;
-import com.terranova.api.v1.product.domain.model.command.CreateLandCommand;
-import com.terranova.api.v1.product.domain.model.command.CreateProductCommand;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.CreateCattleRequest;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.CreateFarmRequest;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.CreateLandRequest;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.CreateProductRequest;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.CreateCattleResponse;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.CreateFarmResponse;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.CreateLandResponse;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.CreateProductResponse;
+import com.terranova.api.v1.product.domain.model.command.create.CreateCattleCommand;
+import com.terranova.api.v1.product.domain.model.command.create.CreateFarmCommand;
+import com.terranova.api.v1.product.domain.model.command.create.CreateLandCommand;
+import com.terranova.api.v1.product.domain.model.command.create.CreateProductCommand;
+import com.terranova.api.v1.product.domain.model.command.search.SearchProductCommand;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.create.CreateCattleRequest;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.create.CreateFarmRequest;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.create.CreateLandRequest;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.create.CreateProductRequest;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.search.SearchProductRequest;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.create.CreateCattleResponse;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.create.CreateFarmResponse;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.create.CreateLandResponse;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.create.CreateProductResponse;
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.CattleEntity;
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.FarmEntity;
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.LandEntity;
@@ -26,6 +28,8 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring", uses = ImageMapper.class)
 public interface ProductMapper {
+
+        SearchProductCommand searchRequestToCommand(SearchProductRequest request);
 
         default CreateProductCommand requestToCommand(CreateProductRequest request) {
                 if (request == null) return null;

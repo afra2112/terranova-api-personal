@@ -1,5 +1,7 @@
-package com.terranova.api.v1.product.domain.model.command;
+package com.terranova.api.v1.product.domain.model.command.create;
 
+import com.terranova.api.v1.product.domain.model.enums.CattleGenderEnum;
+import com.terranova.api.v1.product.domain.model.enums.CattleTypeEnum;
 import com.terranova.api.v1.product.domain.model.enums.ProductTypeEnum;
 import lombok.Builder;
 
@@ -8,7 +10,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Builder
-public record CreateFarmCommand(
+public record CreateCattleCommand(
         ProductTypeEnum productType,
         String name,
         BigDecimal price,
@@ -20,9 +22,10 @@ public record CreateFarmCommand(
         Double longitude,
         UUID idSeller,
 
-        Double totalSpaceInM2,
-        Double builtSpaceInM2,
-        int stratum,
-        int roomsQuantity,
-        int bathroomsQuantity
+        String race,
+        Double weightInKg,
+        Double cattleAgeInYears,
+        CattleGenderEnum gender,
+        CattleTypeEnum cattleType,
+        int quantity
 ) implements CreateProductCommand {}

@@ -3,13 +3,15 @@ package com.terranova.api.v1.product.infrastructure.adapter.in.web.controller;
 import com.terranova.api.v1.product.application.usecase.CreateImageUseCase;
 import com.terranova.api.v1.product.application.usecase.CreateProductUseCase;
 import com.terranova.api.v1.product.application.usecase.GetProductUseCase;
-import com.terranova.api.v1.product.domain.model.command.CreateImageCommand;
+import com.terranova.api.v1.product.application.usecase.SearchProductsUseCase;
+import com.terranova.api.v1.product.domain.model.command.create.CreateImageCommand;
 import com.terranova.api.v1.product.domain.model.group.CattleGroup;
 import com.terranova.api.v1.product.domain.model.group.FarmGroup;
 import com.terranova.api.v1.product.domain.model.group.LandGroup;
 import com.terranova.api.v1.product.domain.port.out.ValidatorPort;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.CreateProductRequest;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.CreateProductResponse;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.create.CreateProductRequest;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.search.SearchProductRequest;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.create.CreateProductResponse;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.ImageResponse;
 import com.terranova.api.v1.product.infrastructure.adapter.mapper.ImageMapper;
 import com.terranova.api.v1.product.infrastructure.adapter.mapper.ProductMapper;
@@ -36,6 +38,7 @@ public class ProductController {
     private final CreateImageUseCase createImageUseCase;
     private final CreateProductUseCase createProductUseCase;
     private final GetProductUseCase getProductUseCase;
+    private final SearchProductsUseCase searchProductsUseCase;
     private final ProductMapper productMapper;
     private final ImageMapper imageMapper;
     private final ValidatorPort validatorPort;
@@ -47,8 +50,17 @@ public class ProductController {
         return ResponseEntity.ok().body(productMapper.domainToResponse(createProductUseCase.createProduct(productMapper.requestToCommand(request))));
     }
 
+    @GetMapping
+    public ResponseEntity<List<CreateProductResponse>> searchProducts(@RequestBody SearchProductRequest request){
+        return ResponseEntity.ok().body(
+                searchProductsUseCase.searchProducts(productMapper.searchRequestToCommand(request))
+                        .stream()
+                        .map(productMapper::domainToResponse)
+                        .toList()
+        );
+    }
+
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<CreateProductResponse> getProductById(@Valid @NotNull @Positive @PathVariable Long id){
         return ResponseEntity.ok(productMapper.domainToResponse(getProductUseCase.getProduct(id)));
     }

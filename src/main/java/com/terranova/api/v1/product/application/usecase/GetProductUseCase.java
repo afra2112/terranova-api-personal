@@ -1,6 +1,5 @@
 package com.terranova.api.v1.product.application.usecase;
 
-import com.terranova.api.v1.product.domain.model.Image;
 import com.terranova.api.v1.product.domain.model.Product;
 import com.terranova.api.v1.product.domain.port.out.ImageRepositoryPort;
 import com.terranova.api.v1.product.domain.port.out.ProductRepositoryPort;
@@ -24,8 +23,9 @@ public class GetProductUseCase {
                 () -> new BusinessException(ErrorCodeEnum.ENTITY_NOT_FOUND, "Product not found by id: " + productId)
         );
 
-        List<Image> images = imageRepositoryPort.getByProductId(productId);
-
-        return product.withImages(images);
+        return product.withImages(
+                imageRepositoryPort.getByProductId(List.of(productId))
+                        .getOrDefault(productId, List.of())
+        );
     }
 }

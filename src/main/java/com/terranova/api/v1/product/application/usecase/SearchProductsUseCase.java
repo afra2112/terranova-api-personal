@@ -22,10 +22,8 @@ public class SearchProductsUseCase {
 
     public List<Product> searchProducts(SearchProductCommand command, String expand){
 
-        List<Product> products = productRepositoryPort.searchProducts(command)
-                .stream()
-                .map(product -> product.withImages(imageRepositoryPort.getByProductId(product.getProductId())))
-                .toList();
+        List<Product> products = productRepositoryPort.searchProducts(command);
+        List<Long> ids = products.stream().map(Product::getProductId).toList();
 
         if ("appointments".equals(expand)){
             products = products.stream()
@@ -34,6 +32,12 @@ public class SearchProductsUseCase {
                     ).toList();
         }
 
-        return products;
+        return products.stream()
+                .map(product ->
+                        product.withImages(
+                                imageRepositoryPort.getByProductId(ids).getOrDefault(product.getProductId(), List.of())
+                        )
+                )
+                .toList();
     }
 }

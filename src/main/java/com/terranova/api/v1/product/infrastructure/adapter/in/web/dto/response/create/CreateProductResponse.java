@@ -6,11 +6,11 @@ import com.terranova.api.v1.product.domain.model.enums.ProductTypeEnum;
 import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.AppointmentResponse;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.ImageResponse;
+import com.terranova.api.v1.product.domain.model.SellerSummary;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -34,7 +34,7 @@ public sealed interface CreateProductResponse permits CreateCattleResponse, Crea
     String city();
     Double latitude();
     Double longitude();
-    UUID sellerId();
     List<ImageResponse> images();
     List<AppointmentResponse> appointments();
+    SellerSummary sellerSummary();
 }

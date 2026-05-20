@@ -7,16 +7,19 @@ import com.terranova.api.v1.product.domain.model.command.search.SearchProductCom
 import com.terranova.api.v1.product.domain.port.out.AppointmentPort;
 import com.terranova.api.v1.product.domain.port.out.ImageRepositoryPort;
 import com.terranova.api.v1.product.domain.port.out.ProductRepositoryPort;
+import com.terranova.api.v1.product.domain.model.SellerSummary;
 import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
 import com.terranova.api.v1.shared.exception.BusinessException;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class GetProductUseCase {
 
     private final ProductRepositoryPort productRepositoryPort;
     private final ImageRepositoryPort imageRepositoryPort;
     private final AppointmentPort appointmentPort;
+    private final
 
     public GetProductUseCase(ProductRepositoryPort productRepositoryPort, ImageRepositoryPort imageRepositoryPort, AppointmentPort appointmentPort) {
         this.productRepositoryPort = productRepositoryPort;
@@ -41,6 +44,7 @@ public class GetProductUseCase {
         List<Product> products = productRepositoryPort.searchProducts(command);
         List<Long> ids = products.stream().map(Product::getProductId).toList();
         Map<Long, List<Image>> images = imageRepositoryPort.getByProductId(ids);
+        Map<UUID, SellerSummary> sellers =
 
         Map<Long, List<Appointment>> appointments = "appointments".equals(expand) ? appointmentPort.getByProductsIds(ids) : Map.of();
 

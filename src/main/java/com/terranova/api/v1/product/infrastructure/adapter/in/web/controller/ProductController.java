@@ -44,7 +44,7 @@ public class ProductController {
     private final ImageMapper imageMapper;
     private final ValidatorPort validatorPort;
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     public ResponseEntity<List<CreateProductResponse>> searchProducts(@RequestBody SearchProductRequest request, @RequestParam(required = false) String expand){
         return ResponseEntity.ok().body(
                 getProductUseCase.searchProducts(productMapper.searchRequestToCommand(request), expand)

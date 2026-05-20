@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -30,6 +29,7 @@ public abstract class Product {
     private ProductTypeEnum productType;
     private List<Image> images;
     private List<Appointment> appointments;
+    private SellerSummary sellerSummary;
 
     public abstract Product withImages(List<Image> images);
     public abstract Product withAppointments(List<Appointment> appointments);

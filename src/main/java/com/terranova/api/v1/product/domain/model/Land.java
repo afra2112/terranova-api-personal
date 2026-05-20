@@ -41,6 +41,7 @@ public class Land extends Product{
                 .access(this.access)
                 .currentServices(this.currentServices)
                 .images(List.copyOf(images))
+                .sellerSummary(this.getSellerSummary())
                 .build();
     }
 
@@ -65,6 +66,7 @@ public class Land extends Product{
                 .currentServices(this.currentServices)
                 .appointments(List.copyOf(appointments))
                 .images(this.getImages())
+                .sellerSummary(this.getSellerSummary())
                 .build();
     }
 }

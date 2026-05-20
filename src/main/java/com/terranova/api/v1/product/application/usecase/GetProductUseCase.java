@@ -8,6 +8,7 @@ import com.terranova.api.v1.product.domain.port.out.AppointmentPort;
 import com.terranova.api.v1.product.domain.port.out.ImageRepositoryPort;
 import com.terranova.api.v1.product.domain.port.out.ProductRepositoryPort;
 import com.terranova.api.v1.product.domain.model.SellerSummary;
+import com.terranova.api.v1.product.domain.port.out.UserPort;
 import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
 import com.terranova.api.v1.shared.exception.BusinessException;
 import java.util.List;
@@ -19,12 +20,13 @@ public class GetProductUseCase {
     private final ProductRepositoryPort productRepositoryPort;
     private final ImageRepositoryPort imageRepositoryPort;
     private final AppointmentPort appointmentPort;
-    private final
+    private final UserPort userPort;
 
-    public GetProductUseCase(ProductRepositoryPort productRepositoryPort, ImageRepositoryPort imageRepositoryPort, AppointmentPort appointmentPort) {
+    public GetProductUseCase(ProductRepositoryPort productRepositoryPort, ImageRepositoryPort imageRepositoryPort, AppointmentPort appointmentPort, UserPort userPort) {
         this.productRepositoryPort = productRepositoryPort;
         this.imageRepositoryPort = imageRepositoryPort;
         this.appointmentPort = appointmentPort;
+        this.userPort = userPort;
     }
 
     public Product getProduct(Long productId, String expand){
@@ -42,9 +44,12 @@ public class GetProductUseCase {
 
     public List<Product> searchProducts(SearchProductCommand command, String expand){
         List<Product> products = productRepositoryPort.searchProducts(command);
+
+        Map<UUID, SellerSummary> sellers = userPort.getSellerSummaryBatch(products.stream().map(Product::getSellerId).toList());
+
         List<Long> ids = products.stream().map(Product::getProductId).toList();
         Map<Long, List<Image>> images = imageRepositoryPort.getByProductId(ids);
-        Map<UUID, SellerSummary> sellers =
+
 
         Map<Long, List<Appointment>> appointments = "appointments".equals(expand) ? appointmentPort.getByProductsIds(ids) : Map.of();
 

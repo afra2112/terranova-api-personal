@@ -5,10 +5,7 @@ import com.terranova.api.v1.product.application.usecase.CreateProductUseCase;
 import com.terranova.api.v1.product.application.usecase.DeleteImageUseCase;
 import com.terranova.api.v1.product.application.usecase.GetProductUseCase;
 import com.terranova.api.v1.product.domain.factory.ProductFactory;
-import com.terranova.api.v1.product.domain.port.out.AppointmentPort;
-import com.terranova.api.v1.product.domain.port.out.ImageRepositoryPort;
-import com.terranova.api.v1.product.domain.port.out.ImageStoragePort;
-import com.terranova.api.v1.product.domain.port.out.ProductRepositoryPort;
+import com.terranova.api.v1.product.domain.port.out.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
@@ -34,8 +31,8 @@ public class ProductConfiguration {
     }
 
     @Bean
-    public GetProductUseCase getProductUseCase(ProductRepositoryPort productRepositoryPort, ImageRepositoryPort imageRepositoryPort, AppointmentPort appointmentPort){
-        return new GetProductUseCase(productRepositoryPort, imageRepositoryPort, appointmentPort);
+    public GetProductUseCase getProductUseCase(ProductRepositoryPort productRepositoryPort, ImageRepositoryPort imageRepositoryPort, AppointmentPort appointmentPort, UserPort userPort){
+        return new GetProductUseCase(productRepositoryPort, imageRepositoryPort, appointmentPort, userPort);
     }
 
     @Bean

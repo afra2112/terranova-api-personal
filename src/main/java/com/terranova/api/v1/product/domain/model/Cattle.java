@@ -40,6 +40,7 @@ public class Cattle extends Product{
                 .gender(this.gender)
                 .cattleType(this.cattleType)
                 .images(List.copyOf(images))
+                .sellerSummary(this.getSellerSummary())
                 .build();
     }
 
@@ -63,6 +64,7 @@ public class Cattle extends Product{
                 .cattleType(this.cattleType)
                 .appointments(List.copyOf(appointments))
                 .images(this.getImages())
+                .sellerSummary(this.getSellerSummary())
                 .build();
     }
 }

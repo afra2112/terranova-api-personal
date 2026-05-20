@@ -1,6 +1,8 @@
 package com.terranova.api.v1.user.infrastructure.adapter.mapper;
 
+import com.terranova.api.v1.user.domain.model.SellerSummary;
 import com.terranova.api.v1.user.domain.model.User;
+import com.terranova.api.v1.user.infrastructure.adapter.in.web.dto.SellerSummaryResponse;
 import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity.UserEntity;
 import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity.enums.RoleEnum;
 import org.springframework.stereotype.Component;
@@ -47,6 +49,17 @@ public class UserMapper {
                 entity.getRoles().stream().map(Enum::name).toList(),
                 entity.getUserScore(),
                 entity.getRefreshTokenIds()
+        );
+    }
+
+    public SellerSummaryResponse domainSellerSummaryToSellerSummaryResponse(SellerSummary sellerSummary){
+        return new SellerSummaryResponse(
+                sellerSummary.sellerId(),
+                sellerSummary.sellerName(),
+                sellerSummary.sellerEmail(),
+                sellerSummary.sellerPhone(),
+                sellerSummary.profilePicture(),
+                sellerSummary.sellerScore()
         );
     }
 }

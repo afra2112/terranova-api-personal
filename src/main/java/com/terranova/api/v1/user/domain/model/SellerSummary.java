@@ -1,4 +1,4 @@
-package com.terranova.api.v1.product.domain.model;
+package com.terranova.api.v1.user.domain.model;
 
 import java.util.UUID;
 

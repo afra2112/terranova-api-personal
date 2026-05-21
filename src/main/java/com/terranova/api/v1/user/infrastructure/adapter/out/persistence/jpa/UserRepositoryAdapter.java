@@ -34,20 +34,8 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     }
 
     @Override
-    public Map<UUID, SellerSummary> findBatchUsers(List<UUID> ids) {
-        return jpaUserRepository.findSellerSummaryByIds(ids)
-                .stream()
-                .collect(Collectors.toMap(
-                        SellerSummary::sellerId,
-                        s -> new SellerSummary(
-                                s.sellerId(),
-                                s.sellerName(),
-                                s.sellerEmail(),
-                                s.sellerPhone(),
-                                s.profilePicture(),
-                                s.sellerScore()
-                        )
-                ));
+    public List<SellerSummary> findBatchUsers(List<UUID> ids) {
+        return jpaUserRepository.findSellerSummaryByIds(ids);
     }
 
     @Override

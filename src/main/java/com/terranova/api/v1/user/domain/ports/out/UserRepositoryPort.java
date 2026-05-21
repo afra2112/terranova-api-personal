@@ -13,7 +13,7 @@ public interface UserRepositoryPort {
 
     User findByIdentification(String identification);
 
-    Map<UUID, SellerSummary> findBatchUsers(List<UUID> ids);
+    List<SellerSummary> findBatchUsers(List<UUID> ids);
 
     boolean existsByEmailOrIdentification(String email, String identification);
 }

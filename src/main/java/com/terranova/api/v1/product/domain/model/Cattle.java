@@ -10,7 +10,7 @@ import lombok.experimental.SuperBuilder;
 import java.util.List;
 
 @Getter
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Cattle extends Product{
@@ -23,48 +23,22 @@ public class Cattle extends Product{
 
     @Override
     public Product withImages(List<Image> images) {
-        return Cattle.builder()
-                .productId(this.getProductId())
-                .name(this.getName())
-                .price(this.getPrice())
-                .description(this.getDescription())
-                .status(this.getStatus())
-                .publishDate(this.getPublishDate())
-                .city(this.getCity())
-                .latitude(this.getLatitude())
-                .longitude(this.getLongitude())
-                .sellerId(this.getSellerId())
-                .productType(this.getProductType())
-                .race(this.race)
-                .weightInKg(this.weightInKg)
-                .gender(this.gender)
-                .cattleType(this.cattleType)
+        return this.toBuilder()
                 .images(List.copyOf(images))
-                .sellerSummary(this.getSellerSummary())
                 .build();
     }
 
     @Override
     public Product withAppointments(List<Appointment> appointments) {
-        return Cattle.builder()
-                .productId(this.getProductId())
-                .name(this.getName())
-                .price(this.getPrice())
-                .description(this.getDescription())
-                .status(this.getStatus())
-                .publishDate(this.getPublishDate())
-                .city(this.getCity())
-                .latitude(this.getLatitude())
-                .longitude(this.getLongitude())
-                .sellerId(this.getSellerId())
-                .productType(this.getProductType())
-                .race(this.race)
-                .weightInKg(this.weightInKg)
-                .gender(this.gender)
-                .cattleType(this.cattleType)
+        return this.toBuilder()
                 .appointments(List.copyOf(appointments))
-                .images(this.getImages())
-                .sellerSummary(this.getSellerSummary())
+                .build();
+    }
+
+    @Override
+    public Product withSellerSummary(SellerSummary sellerSummary) {
+        return this.toBuilder()
+                .sellerSummary(sellerSummary)
                 .build();
     }
 }

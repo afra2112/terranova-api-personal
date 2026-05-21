@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,15 +22,12 @@ public class UserController {
     private final UserMapper userMapper;
 
     @PostMapping("/internal/batch")
-    public ResponseEntity<Map<UUID, SellerSummaryResponse>> batchSellerSummary(@Valid @RequestBody List<UUID> ids){
+    public ResponseEntity<List<SellerSummaryResponse>> batchSellerSummary(@Valid @RequestBody List<UUID> ids){
         return ResponseEntity.ok(
                 findUserCaseUse.findSellerSummary(ids)
-                        .entrySet()
                         .stream()
-                        .collect(Collectors.toMap(
-                                Map.Entry::getKey,
-                                entry -> userMapper.domainSellerSummaryToSellerSummaryResponse(entry.getValue())
-                        ))
+                        .map(userMapper::domainSellerSummaryToSellerSummaryResponse)
+                        .toList()
         );
     }
 }

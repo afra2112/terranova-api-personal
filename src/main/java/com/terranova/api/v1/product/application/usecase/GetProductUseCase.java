@@ -14,6 +14,8 @@ import com.terranova.api.v1.shared.exception.BusinessException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class GetProductUseCase {
 
@@ -45,7 +47,24 @@ public class GetProductUseCase {
     public List<Product> searchProducts(SearchProductCommand command, String expand){
         List<Product> products = productRepositoryPort.searchProducts(command);
 
-        Map<UUID, SellerSummary> sellers = userPort.getSellerSummaryBatch(products.stream().map(Product::getSellerId).toList());
+        System.out.println(products.toString());
+
+        List<SellerSummary> feignResponse = userPort.getSellerSummaryBatch(
+                products.stream()
+                        .map(Product::getSellerId)
+                        .distinct()
+                        .toList()
+        );
+
+        System.out.println(feignResponse);
+
+        Map<UUID, SellerSummary> sellers = feignResponse.stream()
+                        .collect(Collectors.toMap(
+                                SellerSummary::sellerId,
+                                Function.identity()
+                        ));
+
+        System.out.println(sellers);
 
         List<Long> ids = products.stream().map(Product::getProductId).toList();
         Map<Long, List<Image>> images = imageRepositoryPort.getByProductId(ids);
@@ -55,10 +74,13 @@ public class GetProductUseCase {
 
         return products.stream()
                 .map(product -> {
-                    Product withImages = product.withImages(images.getOrDefault(product.getProductId(), List.of()));
+                    Product withImagesAndSellerSummary = product
+                            .withImages(images.getOrDefault(product.getProductId(), List.of()))
+                            .withSellerSummary(sellers.getOrDefault(product.getSellerId(), null));
+
                     return "appointments".equals(expand) ?
-                            withImages.withAppointments(appointments.getOrDefault(product.getProductId(), List.of())) :
-                            withImages;
+                            withImagesAndSellerSummary.withAppointments(appointments.getOrDefault(product.getProductId(), List.of())) :
+                            withImagesAndSellerSummary;
                 })
                 .toList();
     }

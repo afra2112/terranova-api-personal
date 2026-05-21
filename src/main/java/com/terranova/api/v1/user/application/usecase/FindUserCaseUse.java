@@ -19,7 +19,7 @@ public class FindUserCaseUse {
         return userRepositoryPort.findByIdentification(identification);
     }
 
-    public Map<UUID, SellerSummary> findSellerSummary(List<UUID> ids){
+    public List<SellerSummary> findSellerSummary(List<UUID> ids){
         return userRepositoryPort.findBatchUsers(ids);
     }
 

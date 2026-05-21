@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 import java.util.List;
 
 @Getter
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Land extends Product{
@@ -23,50 +23,22 @@ public class Land extends Product{
 
     @Override
     public Product withImages(List<Image> images) {
-        return Land.builder()
-                .productId(this.getProductId())
-                .name(this.getName())
-                .price(this.getPrice())
-                .description(this.getDescription())
-                .status(this.getStatus())
-                .publishDate(this.getPublishDate())
-                .city(this.getCity())
-                .latitude(this.getLatitude())
-                .longitude(this.getLongitude())
-                .sellerId(this.getSellerId())
-                .productType(this.getProductType())
-                .landSizeInM2(this.landSizeInM2)
-                .currentServices(this.currentUse)
-                .topography(this.topography)
-                .access(this.access)
-                .currentServices(this.currentServices)
+        return this.toBuilder()
                 .images(List.copyOf(images))
-                .sellerSummary(this.getSellerSummary())
                 .build();
     }
 
     @Override
     public Product withAppointments(List<Appointment> appointments) {
-        return Land.builder()
-                .productId(this.getProductId())
-                .name(this.getName())
-                .price(this.getPrice())
-                .description(this.getDescription())
-                .status(this.getStatus())
-                .publishDate(this.getPublishDate())
-                .city(this.getCity())
-                .latitude(this.getLatitude())
-                .longitude(this.getLongitude())
-                .sellerId(this.getSellerId())
-                .productType(this.getProductType())
-                .landSizeInM2(this.landSizeInM2)
-                .currentServices(this.currentUse)
-                .topography(this.topography)
-                .access(this.access)
-                .currentServices(this.currentServices)
+        return this.toBuilder()
                 .appointments(List.copyOf(appointments))
-                .images(this.getImages())
-                .sellerSummary(this.getSellerSummary())
+                .build();
+    }
+
+    @Override
+    public Product withSellerSummary(SellerSummary sellerSummary) {
+        return this.toBuilder()
+                .sellerSummary(sellerSummary)
                 .build();
     }
 }

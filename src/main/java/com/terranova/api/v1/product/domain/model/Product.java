@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @Getter
 public abstract class Product {
     private Long productId;
@@ -33,4 +33,5 @@ public abstract class Product {
 
     public abstract Product withImages(List<Image> images);
     public abstract Product withAppointments(List<Appointment> appointments);
+    public abstract Product withSellerSummary(SellerSummary sellerSummary);
 }

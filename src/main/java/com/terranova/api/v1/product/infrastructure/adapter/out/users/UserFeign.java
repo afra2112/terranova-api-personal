@@ -12,5 +12,5 @@ import java.util.UUID;
 public interface UserFeign {
 
     @PostMapping("/internal/batch")
-    Map<UUID, SellerSummary> getSellerSummaryBatch(@RequestBody List<UUID> ids);
+    List<SellerSummary> getSellerSummaryBatch(@RequestBody List<UUID> ids);
 }

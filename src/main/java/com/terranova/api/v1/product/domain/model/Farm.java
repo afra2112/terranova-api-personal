@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 import java.util.List;
 
 @Getter
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Farm extends Product {
@@ -21,50 +21,22 @@ public class Farm extends Product {
 
     @Override
     public Product withImages(List<Image> images) {
-        return Farm.builder()
-                .productId(this.getProductId())
-                .name(this.getName())
-                .price(this.getPrice())
-                .description(this.getDescription())
-                .status(this.getStatus())
-                .publishDate(this.getPublishDate())
-                .city(this.getCity())
-                .latitude(this.getLatitude())
-                .longitude(this.getLongitude())
-                .sellerId(this.getSellerId())
-                .productType(this.getProductType())
-                .totalSpaceInM2(this.totalSpaceInM2)
-                .builtSpaceInM2(this.builtSpaceInM2)
-                .stratum(this.stratum)
-                .roomsQuantity(this.roomsQuantity)
-                .bathroomsQuantity(this.bathroomsQuantity)
+        return this.toBuilder()
                 .images(List.copyOf(images))
-                .sellerSummary(this.getSellerSummary())
                 .build();
     }
 
     @Override
     public Product withAppointments(List<Appointment> appointments) {
-        return Farm.builder()
-                .productId(this.getProductId())
-                .name(this.getName())
-                .price(this.getPrice())
-                .description(this.getDescription())
-                .status(this.getStatus())
-                .publishDate(this.getPublishDate())
-                .city(this.getCity())
-                .latitude(this.getLatitude())
-                .longitude(this.getLongitude())
-                .sellerId(this.getSellerId())
-                .productType(this.getProductType())
-                .totalSpaceInM2(this.totalSpaceInM2)
-                .builtSpaceInM2(this.builtSpaceInM2)
-                .stratum(this.stratum)
-                .roomsQuantity(this.roomsQuantity)
-                .bathroomsQuantity(this.bathroomsQuantity)
+        return this.toBuilder()
                 .appointments(List.copyOf(appointments))
-                .images(this.getImages())
-                .sellerSummary(this.getSellerSummary())
+                .build();
+    }
+
+    @Override
+    public Product withSellerSummary(SellerSummary sellerSummary) {
+        return this.toBuilder()
+                .sellerSummary(sellerSummary)
                 .build();
     }
 }

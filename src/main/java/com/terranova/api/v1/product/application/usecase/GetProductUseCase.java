@@ -37,7 +37,9 @@ public class GetProductUseCase {
         );
         List<Long> ids = List.of(productId);
 
-        Product withImages = product.withImages(imageRepositoryPort.getByProductId(ids).getOrDefault(productId, List.of()));
+        Product withImages = product
+                .withImages(imageRepositoryPort.getByProductId(ids).getOrDefault(productId, List.of()))
+                .withSellerSummary(userPort.getSellerSummaryBatch(List.of(product.getSellerId())).getFirst());
 
         return "appointments".equals(expand) ?
                 withImages.withAppointments(appointmentPort.getByProductsIds(ids).getOrDefault(productId, List.of())) :

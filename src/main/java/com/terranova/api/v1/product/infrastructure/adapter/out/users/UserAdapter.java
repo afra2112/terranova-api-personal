@@ -15,6 +15,7 @@ public class UserAdapter implements UserPort {
 
     @Override
     public List<SellerSummary> getSellerSummaryBatch(List<UUID> ids) {
+        System.out.println("IDS A ENVIAR A FEIGN" + ids);
         return userFeign.getSellerSummaryBatch(ids);
     }
 }

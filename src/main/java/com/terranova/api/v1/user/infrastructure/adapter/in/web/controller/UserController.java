@@ -23,6 +23,7 @@ public class UserController {
 
     @PostMapping("/internal/batch")
     public ResponseEntity<List<SellerSummaryResponse>> batchSellerSummary(@Valid @RequestBody List<UUID> ids){
+        System.out.println("BATCH ENDPOINT HIT");
         return ResponseEntity.ok(
                 findUserCaseUse.findSellerSummary(ids)
                         .stream()

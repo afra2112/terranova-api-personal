@@ -3,11 +3,11 @@ package com.terranova.api.v1.product.domain.model;
 import java.util.UUID;
 
 public record SellerSummary(
-        UUID sellerId,
-        String sellerName,
-        String sellerEmail,
-        String sellerPhone,
+        UUID userId,
+        String name,
+        String email,
+        String phoneNumber,
         String profilePicture,
-        int sellerScore
+        int userScore
 ) {
 }

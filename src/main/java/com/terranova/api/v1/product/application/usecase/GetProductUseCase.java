@@ -47,24 +47,13 @@ public class GetProductUseCase {
     public List<Product> searchProducts(SearchProductCommand command, String expand){
         List<Product> products = productRepositoryPort.searchProducts(command);
 
-        System.out.println(products.toString());
-
-        List<SellerSummary> feignResponse = userPort.getSellerSummaryBatch(
-                products.stream()
-                        .map(Product::getSellerId)
-                        .distinct()
-                        .toList()
-        );
-
-        System.out.println(feignResponse);
+        List<SellerSummary> feignResponse = userPort.getSellerSummaryBatch(products.stream().map(Product::getSellerId).toList());
 
         Map<UUID, SellerSummary> sellers = feignResponse.stream()
                         .collect(Collectors.toMap(
-                                SellerSummary::sellerId,
+                                SellerSummary::userId,
                                 Function.identity()
                         ));
-
-        System.out.println(sellers);
 
         List<Long> ids = products.stream().map(Product::getProductId).toList();
         Map<Long, List<Image>> images = imageRepositoryPort.getByProductId(ids);

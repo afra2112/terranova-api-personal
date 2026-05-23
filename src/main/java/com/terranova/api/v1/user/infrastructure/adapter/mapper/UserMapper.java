@@ -54,7 +54,7 @@ public class UserMapper {
 
     public SellerSummaryResponse domainSellerSummaryToSellerSummaryResponse(SellerSummary sellerSummary){
         return new SellerSummaryResponse(
-                sellerSummary.sellerId(),
+                sellerSummary.userId(),
                 sellerSummary.sellerName(),
                 sellerSummary.sellerEmail(),
                 sellerSummary.sellerPhone(),

@@ -18,4 +18,6 @@ public class CreateProductUseCase {
     public Product createProduct(CreateProductCommand createProductCommand){
         return productRepositoryPort.save(productFactory.create(createProductCommand));
     }
+
+    public
 }

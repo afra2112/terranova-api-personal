@@ -9,9 +9,11 @@ import com.terranova.api.v1.product.domain.model.group.CattleGroup;
 import com.terranova.api.v1.product.domain.model.group.FarmGroup;
 import com.terranova.api.v1.product.domain.model.group.LandGroup;
 import com.terranova.api.v1.product.domain.port.out.ValidatorPort;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.create.CreateDraftRequest;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.create.CreateProductRequest;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.delete.DeleteImageRequest;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.search.SearchProductRequest;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.create.CreateDraftResponse;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.create.CreateProductResponse;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.ImageResponse;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.delete.DeleteImageResponse;
@@ -57,6 +59,12 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<CreateProductResponse> getProductById(@Valid @PathVariable Long id, @RequestParam(required = false) String expand){
         return ResponseEntity.ok(productMapper.domainToResponse(getProductUseCase.getProduct(id, expand)));
+    }
+
+    @PostMapping("/drafts")
+    @PreAuthorize("hasRole('SELLER')")
+    public ResponseEntity<CreateDraftResponse> createDraft(@RequestBody CreateDraftRequest request){
+        return ResponseEntity.ok(createProductUseCase.createProduct());
     }
 
     @PostMapping

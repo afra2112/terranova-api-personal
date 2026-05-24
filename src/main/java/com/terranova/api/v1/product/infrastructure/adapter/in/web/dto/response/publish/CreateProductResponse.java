@@ -1,4 +1,4 @@
-package com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.create;
+package com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.publish;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;

@@ -1,6 +1,8 @@
 package com.terranova.api.v1.product.domain.model;
 
 import com.terranova.api.v1.product.domain.model.appointment.Appointment;
+import com.terranova.api.v1.product.domain.model.command.draft.patch.PatchCattleCommand;
+import com.terranova.api.v1.product.domain.model.command.draft.patch.PatchProductCommand;
 import com.terranova.api.v1.product.domain.model.enums.CattleGenderEnum;
 import com.terranova.api.v1.product.domain.model.enums.CattleTypeEnum;
 import lombok.AllArgsConstructor;
@@ -19,7 +21,54 @@ public class Cattle extends Product{
     private Double cattleAgeInYears;
     private CattleGenderEnum gender;
     private CattleTypeEnum cattleType;
-    private int quantity;
+    private Integer quantity;
+
+    @Override
+    public Product patch(PatchProductCommand command) {
+        PatchCattleCommand cmd = (PatchCattleCommand) command;
+        return Cattle.builder()
+                .status(this.getStatus())
+                .productType(this.getProductType())
+                .sellerId(this.getSellerId())
+                .productId(this.getProductId())
+                .name(cmd.name() != null ? cmd.name() : this.getName())
+                .price(cmd.price() != null ? cmd.price() : this.getPrice())
+                .description(
+                        cmd.description() != null
+                                ? cmd.description()
+                                : this.getDescription()
+                )
+                .city(cmd.city() != null ? cmd.city() : this.getCity())
+                .latitude(cmd.latitude() != null ? cmd.latitude() : this.getLatitude())
+                .longitude(cmd.longitude() != null ? cmd.longitude() : this.getLongitude())
+                .race(cmd.race() != null ? cmd.race() : this.getRace())
+                .weightInKg(
+                        cmd.weightInKg() != null
+                                ? cmd.weightInKg()
+                                : this.getWeightInKg()
+                )
+                .cattleAgeInYears(
+                        cmd.cattleAgeInYears() != null
+                                ? cmd.cattleAgeInYears()
+                                : this.cattleAgeInYears
+                )
+                .gender(
+                        cmd.gender() != null
+                                ? cmd.gender()
+                                : this.gender
+                )
+                .cattleType(
+                        cmd.cattleType() != null
+                                ? cmd.cattleType()
+                                : this.cattleType
+                )
+                .quantity(
+                        cmd.quantity() != null
+                                ? cmd.quantity()
+                                : this.quantity
+                )
+                .build();
+    }
 
     @Override
     public Product withImages(List<Image> images) {

@@ -1,4 +1,4 @@
-package com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.create;
+package com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.publish;
 
 import org.springframework.web.multipart.MultipartFile;
 

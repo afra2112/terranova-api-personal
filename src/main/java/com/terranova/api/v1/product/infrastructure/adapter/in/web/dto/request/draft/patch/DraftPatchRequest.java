@@ -1,12 +1,9 @@
-package com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.create;
+package com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.draft.patch;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.terranova.api.v1.product.domain.model.enums.ProductTypeEnum;
-
 import java.math.BigDecimal;
-import java.util.UUID;
-
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -15,11 +12,11 @@ import java.util.UUID;
         visible = true
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = CreateCattleRequest.class, name = "CATTLE"),
-        @JsonSubTypes.Type(value = CreateFarmRequest.class, name = "FARM"),
-        @JsonSubTypes.Type(value = CreateLandRequest.class, name = "LAND")
+        @JsonSubTypes.Type(value = PatchCattleRequest.class, name = "CATTLE"),
+        @JsonSubTypes.Type(value = PatchFarmRequest.class, name = "FARM"),
+        @JsonSubTypes.Type(value = PatchLandRequest.class, name = "LAND")
 })
-public sealed interface CreateProductRequest permits CreateCattleRequest, CreateFarmRequest, CreateLandRequest {
+public sealed interface DraftPatchRequest permits PatchCattleRequest, PatchFarmRequest, PatchLandRequest {
     ProductTypeEnum productType();
     String name();
     BigDecimal price();
@@ -27,5 +24,4 @@ public sealed interface CreateProductRequest permits CreateCattleRequest, Create
     String city();
     Double latitude();
     Double longitude();
-    UUID idSeller();
 }

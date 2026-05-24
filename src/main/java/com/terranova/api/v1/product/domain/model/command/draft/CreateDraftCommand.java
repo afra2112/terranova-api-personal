@@ -1,4 +1,4 @@
-package com.terranova.api.v1.product.domain.model.command.create;
+package com.terranova.api.v1.product.domain.model.command.draft;
 
 import com.terranova.api.v1.product.domain.model.enums.ProductTypeEnum;
 import com.terranova.api.v1.product.domain.model.enums.StatusEnum;

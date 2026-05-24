@@ -1,26 +1,32 @@
-package com.terranova.api.v1.product.domain.model.command.create;
+package com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.publish;
 
 import com.terranova.api.v1.product.domain.model.enums.CattleGenderEnum;
 import com.terranova.api.v1.product.domain.model.enums.CattleTypeEnum;
 import com.terranova.api.v1.product.domain.model.enums.ProductTypeEnum;
+import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.AppointmentResponse;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.ImageResponse;
+import com.terranova.api.v1.product.domain.model.SellerSummary;
 import lombok.Builder;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
+import java.util.List;
 
 @Builder
-public record CreateCattleCommand(
+public record CreateCattleResponse(
+        Long productId,
         ProductTypeEnum productType,
         String name,
         BigDecimal price,
         String description,
-        String status,
+        StatusEnum status,
         LocalDate publishDate,
         String city,
         Double latitude,
         Double longitude,
-        UUID idSeller,
+        List<ImageResponse> images,
+        List<AppointmentResponse> appointments,
+        SellerSummary sellerSummary,
 
         String race,
         Double weightInKg,
@@ -28,4 +34,4 @@ public record CreateCattleCommand(
         CattleGenderEnum gender,
         CattleTypeEnum cattleType,
         int quantity
-) implements CreateProductCommand {}
+) implements CreateProductResponse {}

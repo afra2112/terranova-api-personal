@@ -1,14 +1,14 @@
-package com.terranova.api.v1.product.domain.model.command.create;
+package com.terranova.api.v1.product.domain.model.command.draft.patch;
 
 import com.terranova.api.v1.product.domain.model.enums.ProductTypeEnum;
 import lombok.Builder;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Builder
-public record CreateFarmCommand(
+public record PatchFarmCommand(
+        Long productId,
         ProductTypeEnum productType,
         String name,
         BigDecimal price,
@@ -22,7 +22,8 @@ public record CreateFarmCommand(
 
         Double totalSpaceInM2,
         Double builtSpaceInM2,
-        int stratum,
-        int roomsQuantity,
-        int bathroomsQuantity
-) implements CreateProductCommand {}
+        Integer stratum,
+        Integer roomsQuantity,
+        Integer bathroomsQuantity
+) implements PatchProductCommand {
+}

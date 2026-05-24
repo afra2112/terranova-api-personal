@@ -1,4 +1,4 @@
-package com.terranova.api.v1.product.domain.model.command.create;
+package com.terranova.api.v1.product.domain.model.command.draft.patch;
 
 import com.terranova.api.v1.product.domain.model.enums.LandAccessEnum;
 import com.terranova.api.v1.product.domain.model.enums.LandTopographyEnum;
@@ -10,7 +10,8 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Builder
-public record CreateLandCommand(
+public record PatchLandCommand(
+        Long productId,
         ProductTypeEnum productType,
         String name,
         BigDecimal price,
@@ -27,4 +28,5 @@ public record CreateLandCommand(
         LandTopographyEnum topography,
         LandAccessEnum access,
         String currentServices
-) implements CreateProductCommand { }
+) implements PatchProductCommand {
+}

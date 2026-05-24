@@ -1,17 +1,18 @@
 package com.terranova.api.v1.product.infrastructure.adapter.in.web.controller;
 
 import com.terranova.api.v1.product.application.usecase.*;
-import com.terranova.api.v1.product.domain.model.command.create.CreateImageCommand;
+import com.terranova.api.v1.product.domain.model.command.publish.CreateImageCommand;
 import com.terranova.api.v1.product.domain.model.group.CattleGroup;
 import com.terranova.api.v1.product.domain.model.group.FarmGroup;
 import com.terranova.api.v1.product.domain.model.group.LandGroup;
 import com.terranova.api.v1.product.domain.port.out.ValidatorPort;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.create.CreateDraftRequest;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.create.CreateProductRequest;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.draft.CreateDraftRequest;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.draft.patch.DraftPatchRequest;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.publish.CreateProductRequest;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.delete.DeleteImageRequest;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.search.SearchProductRequest;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.create.CreateDraftResponse;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.create.CreateProductResponse;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.draft.CreateDraftResponse;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.publish.CreateProductResponse;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.ImageResponse;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.delete.DeleteImageResponse;
 import com.terranova.api.v1.product.infrastructure.adapter.mapper.ImageMapper;
@@ -20,7 +21,6 @@ import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
 import com.terranova.api.v1.shared.exception.BusinessException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,6 +39,7 @@ public class ProductController {
     private final CreateImageUseCase createImageUseCase;
     private final CreateProductUseCase createProductUseCase;
     private final CreateDraftUseCase createDraftUseCase;
+    private final PatchProductUseCase patchProductUseCase;
     private final GetProductUseCase getProductUseCase;
     private final ProductMapper productMapper;
     private final ImageMapper imageMapper;
@@ -67,7 +68,10 @@ public class ProductController {
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('SELLER')")
-    public ResponseEntity
+    public ResponseEntity<CreateProductResponse> patchProductDraft(@RequestBody DraftPatchRequest request, @PathVariable Long id){
+        validatorPort.validate(request, getGroupFromRequestProductType(request.productType().name()));
+        return ResponseEntity.ok(productMapper.domainToResponse(patchProductUseCase.patch(productMapper.patchRequestToPatchCommand(request), id)));
+    }
 
     @PostMapping
     @PreAuthorize("hasRole('SELLER')")

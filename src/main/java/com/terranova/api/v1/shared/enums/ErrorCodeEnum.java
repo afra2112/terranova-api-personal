@@ -28,6 +28,7 @@ public enum ErrorCodeEnum {
     IMAGE_READ_ERROR("PRD-004", HttpStatus.INTERNAL_SERVER_ERROR, "Error with IO reading the file from the request."),
     IMAGE_NOT_BELONGS_TO_PRODUCT("PRD-005", HttpStatus.BAD_REQUEST, "This image don't belongs to this product"),
     PRODUCT_NOT_BELONGS_TO_USER("PRD-006", HttpStatus.BAD_REQUEST, "This product doesn't belong to you."),
+    PRODUCT_TYPE_CANNOT_BE_CHANGED("PRD-007", HttpStatus.BAD_REQUEST, "The current product type cannot be changed, please delete it and create another one."),
 
     //APPOINTMENT
     INVALID_TIME("APMT-001", HttpStatus.BAD_REQUEST, "End time cannot be before start time in your appointment"),

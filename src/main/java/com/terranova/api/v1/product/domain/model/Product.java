@@ -1,6 +1,7 @@
 package com.terranova.api.v1.product.domain.model;
 
 import com.terranova.api.v1.product.domain.model.appointment.Appointment;
+import com.terranova.api.v1.product.domain.model.command.draft.patch.PatchProductCommand;
 import com.terranova.api.v1.product.domain.model.enums.ProductTypeEnum;
 import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,7 @@ public abstract class Product {
     private List<Appointment> appointments;
     private SellerSummary sellerSummary;
 
+    public abstract Product patch(PatchProductCommand command);
     public abstract Product withImages(List<Image> images);
     public abstract Product withAppointments(List<Appointment> appointments);
     public abstract Product withSellerSummary(SellerSummary sellerSummary);

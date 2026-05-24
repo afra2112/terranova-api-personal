@@ -1,4 +1,4 @@
-package com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.create;
+package com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.publish;
 
 import com.terranova.api.v1.product.domain.model.group.CattleGroup;
 import com.terranova.api.v1.product.domain.model.enums.CattleGenderEnum;

@@ -65,6 +65,10 @@ public class ProductController {
         return ResponseEntity.ok(productMapper.draftCommandToDraftResponse(createDraftUseCase.createDraft(productMapper.requestToCreateDraftCommand(request))));
     }
 
+    @PatchMapping("/{id}")
+    @PreAuthorize("hasRole('SELLER')")
+    public ResponseEntity
+
     @PostMapping
     @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<CreateProductResponse> createProduct(@RequestBody CreateProductRequest request){

@@ -1,5 +1,7 @@
 package com.terranova.api.v1.shared.security.utils;
 
+import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
+import com.terranova.api.v1.shared.exception.BusinessException;
 import com.terranova.api.v1.shared.security.model.CustomUserDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,6 +14,11 @@ public class SpringSecurityAuthFacade implements AuthFacade{
     @Override
     public UUID getAuthenticatedId() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth == null || auth.getPrincipal() == null){
+            throw new BusinessException(ErrorCodeEnum.UNAUTHORIZED, "User not authenticated");
+        }
+
         return (UUID) auth.getPrincipal();
     }
 

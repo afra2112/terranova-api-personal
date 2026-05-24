@@ -1,6 +1,7 @@
 package com.terranova.api.v1.shared.security.filter;
 
 import com.terranova.api.v1.shared.exception.BusinessException;
+import com.terranova.api.v1.shared.security.model.CustomUserDetails;
 import com.terranova.api.v1.shared.security.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -18,6 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -40,14 +42,14 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             jwtUtil.validateJwtToken(token);
 
             Claims claims = jwtUtil.extractAllClaims(token);
-            String identification = jwtUtil.getIdentificationFromToken(token);
+            UUID userId = UUID.fromString(jwtUtil.getUserIdFromToken(token));
             List<String> roles = claims.get("roles", List.class);
             List<SimpleGrantedAuthority> authorities = roles.stream()
                     .map(SimpleGrantedAuthority::new)
                     .toList();
 
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                    identification,
+                    userId,
                     token,
                     authorities
             );

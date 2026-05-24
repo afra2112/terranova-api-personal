@@ -7,6 +7,6 @@ import jakarta.validation.constraints.NotNull;
 public record CreateDraftRequest(
         @NotBlank
         @NotNull
-        ProductTypeEnum productTypeEnum
+        ProductTypeEnum productType
 ) {
 }

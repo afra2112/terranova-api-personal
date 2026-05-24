@@ -27,9 +27,9 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     }
 
     @Override
-    public User findByIdentification(String identification) {
-        return userMapper.toDomain(jpaUserRepository.findByIdentification(identification).orElseThrow(
-                ()-> new BusinessException(ErrorCodeEnum.ENTITY_NOT_FOUND, "User not found with identification: " + identification)
+    public User findByIdentification(UUID userId) {
+        return userMapper.toDomain(jpaUserRepository.findByUserId(userId).orElseThrow(
+                ()-> new BusinessException(ErrorCodeEnum.ENTITY_NOT_FOUND, "User not found with identification: " + userId)
         ));
     }
 

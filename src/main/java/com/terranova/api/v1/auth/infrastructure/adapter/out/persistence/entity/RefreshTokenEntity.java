@@ -30,5 +30,5 @@ public class RefreshTokenEntity {
     private boolean isExpired = false;
 
     @Column(nullable = false)
-    private String userIdentification;
+    private UUID userId;
 }

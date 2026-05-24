@@ -27,20 +27,19 @@ public abstract class ProductEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
 
-    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, precision = 12, scale = 2)
+    @Column(precision = 12, scale = 2)
     private BigDecimal price;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StatusEnum status;
 
-    @Column(nullable = false, updatable = false)
+    @Column(updatable = false)
     private LocalDate publishDate;
 
     private String city;
@@ -51,5 +50,6 @@ public abstract class ProductEntity {
     private UUID sellerId;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private ProductTypeEnum productType;
 }

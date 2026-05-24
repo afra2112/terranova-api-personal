@@ -1,9 +1,6 @@
 package com.terranova.api.v1.product.infrastructure.adapter.in.web.controller;
 
-import com.terranova.api.v1.product.application.usecase.CreateImageUseCase;
-import com.terranova.api.v1.product.application.usecase.CreateProductUseCase;
-import com.terranova.api.v1.product.application.usecase.DeleteImageUseCase;
-import com.terranova.api.v1.product.application.usecase.GetProductUseCase;
+import com.terranova.api.v1.product.application.usecase.*;
 import com.terranova.api.v1.product.domain.model.command.create.CreateImageCommand;
 import com.terranova.api.v1.product.domain.model.group.CattleGroup;
 import com.terranova.api.v1.product.domain.model.group.FarmGroup;
@@ -41,6 +38,7 @@ public class ProductController {
     private final DeleteImageUseCase deleteImageUseCase;
     private final CreateImageUseCase createImageUseCase;
     private final CreateProductUseCase createProductUseCase;
+    private final CreateDraftUseCase createDraftUseCase;
     private final GetProductUseCase getProductUseCase;
     private final ProductMapper productMapper;
     private final ImageMapper imageMapper;
@@ -64,7 +62,7 @@ public class ProductController {
     @PostMapping("/drafts")
     @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<CreateDraftResponse> createDraft(@RequestBody CreateDraftRequest request){
-        return ResponseEntity.ok(createProductUseCase.createProduct());
+        return ResponseEntity.ok(productMapper.draftCommandToDraftResponse(createDraftUseCase.createDraft(productMapper.requestToCreateDraftCommand(request))));
     }
 
     @PostMapping

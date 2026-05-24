@@ -9,12 +9,40 @@ import com.terranova.api.v1.product.domain.model.command.create.CreateFarmComman
 import com.terranova.api.v1.product.domain.model.command.create.CreateLandCommand;
 import com.terranova.api.v1.product.domain.model.command.create.CreateProductCommand;
 import com.terranova.api.v1.product.domain.model.enums.ProductTypeEnum;
+import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
 import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
 import com.terranova.api.v1.shared.exception.BusinessException;
 import java.time.LocalDate;
 import java.util.UUID;
 
 public class ProductFactory {
+
+    public Product createDraft(
+            ProductTypeEnum type,
+            UUID sellerId
+    ) {
+
+        return switch (type) {
+
+            case CATTLE -> Cattle.builder()
+                    .productType(ProductTypeEnum.CATTLE)
+                    .sellerId(sellerId)
+                    .status(StatusEnum.DRAFT)
+                    .build();
+
+            case FARM -> Farm.builder()
+                    .productType(ProductTypeEnum.FARM)
+                    .sellerId(sellerId)
+                    .status(StatusEnum.DRAFT)
+                    .build();
+
+            case LAND -> Land.builder()
+                    .productType(ProductTypeEnum.LAND)
+                    .sellerId(sellerId)
+                    .status(StatusEnum.DRAFT)
+                    .build();
+        };
+    }
 
     public Product create(CreateProductCommand request) {
         UUID sellerId = request.idSeller();
@@ -70,7 +98,7 @@ public class ProductFactory {
                 .name(request.name())
                 .price(request.price())
                 .description(request.description())
-                .status("IMAGE_PENDING")
+                .status(StatusEnum.PUBLISHED)
                 .publishDate(LocalDate.now())
                 .city(request.city())
                 .latitude(request.latitude())

@@ -32,7 +32,6 @@ public class ImageRepositoryAdapter implements ImageRepositoryPort {
             ProductEntity product = entityManager.getReference(ProductEntity.class, productId);
             entity.setProduct(product);
             entity.setExternallySaved(true);
-            entity.getProduct().setStatus(StatusEnum.IMAGES_UPLOADED);
         });
 
         return jpaImageRepository.saveAll(entities)

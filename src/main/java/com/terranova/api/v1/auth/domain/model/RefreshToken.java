@@ -8,6 +8,6 @@ public record RefreshToken(
         String token,
         LocalDateTime expiresAt,
         boolean isExpired,
-        String userIdentification
+        UUID userId
 ) {
 }

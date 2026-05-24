@@ -12,8 +12,7 @@ public class SpringSecurityAuthFacade implements AuthFacade{
     @Override
     public UUID getAuthenticatedId() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetails user = (CustomUserDetails) auth.getPrincipal();
-        return user.getUser().getUserId();
+        return (UUID) auth.getPrincipal();
     }
 
     @Override

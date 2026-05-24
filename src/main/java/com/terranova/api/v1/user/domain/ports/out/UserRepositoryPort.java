@@ -10,7 +10,7 @@ public interface UserRepositoryPort {
 
     User save(User user);
 
-    User findByIdentification(String identification);
+    User findByIdentification(UUID userId);
 
     List<SellerSummary> findBatchUsers(List<UUID> ids);
 

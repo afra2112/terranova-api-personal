@@ -2,8 +2,10 @@ package com.terranova.api.v1.product.application.usecase;
 
 import com.terranova.api.v1.product.domain.factory.ProductFactory;
 import com.terranova.api.v1.product.domain.model.Product;
+import com.terranova.api.v1.product.domain.model.command.create.CreateDraftCommand;
 import com.terranova.api.v1.product.domain.model.command.create.CreateProductCommand;
 import com.terranova.api.v1.product.domain.port.out.ProductRepositoryPort;
+import com.terranova.api.v1.shared.domain.port.ProductOwnershipValidatorPort;
 
 public class CreateProductUseCase {
 
@@ -18,6 +20,4 @@ public class CreateProductUseCase {
     public Product createProduct(CreateProductCommand createProductCommand){
         return productRepositoryPort.save(productFactory.create(createProductCommand));
     }
-
-    public
 }

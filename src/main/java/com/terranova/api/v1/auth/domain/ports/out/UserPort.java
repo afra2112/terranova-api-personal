@@ -4,6 +4,7 @@ import com.terranova.api.v1.auth.domain.model.AuthenticatedCredentials;
 import com.terranova.api.v1.auth.domain.model.NewUserDomain;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface UserPort {
 
@@ -11,5 +12,5 @@ public interface UserPort {
 
     AuthenticatedCredentials createUser(NewUserDomain newUserDomain);
 
-    List<String> getRolesByIdentification(String identification);
+    List<String> getRolesByIdentification(UUID userId);
 }

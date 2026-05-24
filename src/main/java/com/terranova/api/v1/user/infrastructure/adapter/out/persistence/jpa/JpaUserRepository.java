@@ -18,8 +18,6 @@ public interface JpaUserRepository extends JpaRepository<UserEntity, UUID> {
 
     Optional<UserEntity> findByEmail(String email);
 
-    Optional<UserEntity> findByIdentification(String identification);
-
     boolean existsByEmailOrIdentification(String email, String identification);
 
     @Query("""

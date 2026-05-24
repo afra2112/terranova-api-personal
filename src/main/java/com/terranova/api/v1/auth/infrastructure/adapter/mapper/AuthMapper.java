@@ -42,7 +42,7 @@ public class AuthMapper {
                 refreshTokenEntity.getToken(),
                 refreshTokenEntity.getExpiresAt(),
                 refreshTokenEntity.isExpired(),
-                refreshTokenEntity.getUserIdentification()
+                refreshTokenEntity.getUserId()
         );
     }
 
@@ -52,7 +52,7 @@ public class AuthMapper {
                 refreshToken.token(),
                 refreshToken.expiresAt(),
                 refreshToken.isExpired(),
-                refreshToken.userIdentification()
+                refreshToken.userId()
         );
     }
 

@@ -11,6 +11,7 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class JwtUtil {
@@ -29,10 +30,10 @@ public class JwtUtil {
         this.key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateToken(String identification, List<String> roles){
+    public String generateToken(UUID userId, List<String> roles){
         return Jwts.builder()
                 .claim("roles", roles)
-                .setSubject(identification)
+                .setSubject(userId.toString())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpiration))
                 .signWith(key)
@@ -47,7 +48,7 @@ public class JwtUtil {
                 .getBody();
     }
 
-    public String getIdentificationFromToken(String token){
+    public String getUserIdFromToken(String token){
         return Jwts.parserBuilder().setSigningKey(key).build()
                 .parseClaimsJws(token)
                 .getBody()

@@ -2,6 +2,7 @@ package com.terranova.api.v1.product.domain.model;
 
 import com.terranova.api.v1.product.domain.model.appointment.Appointment;
 import com.terranova.api.v1.product.domain.model.enums.ProductTypeEnum;
+import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ public abstract class Product {
     private String name;
     private BigDecimal price;
     private String description;
-    private String status;
+    private StatusEnum status;
     private LocalDate publishDate;
     private String city;
     private Double latitude;

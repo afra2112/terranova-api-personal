@@ -18,23 +18,18 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class CattleEntity extends ProductEntity {
 
-    @Column(nullable = false, length = 30)
+    @Column(length = 30)
     private String race;
 
-    @Column(nullable = false)
     private Double weightInKg;
 
-    @Column(nullable = false)
     private Double cattleAgeInYears;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private CattleGenderEnum gender;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private CattleTypeEnum cattleType;
 
-    @Column(nullable = false)
     private int quantity;
 }

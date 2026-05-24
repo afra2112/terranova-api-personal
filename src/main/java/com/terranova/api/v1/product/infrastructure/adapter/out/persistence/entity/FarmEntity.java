@@ -18,18 +18,9 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class FarmEntity extends ProductEntity{
 
-    @Column(nullable = false)
     private Double totalSpaceInM2;
-
-    @Column(nullable = false)
     private Double builtSpaceInM2;
-
-    @Column(nullable = false)
     private int stratum;
-
-    @Column(nullable = false)
     private int roomsQuantity;
-
-    @Column(nullable = false)
     private int bathroomsQuantity;
 }

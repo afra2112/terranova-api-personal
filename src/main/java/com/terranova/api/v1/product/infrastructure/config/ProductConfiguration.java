@@ -1,11 +1,9 @@
 package com.terranova.api.v1.product.infrastructure.config;
 
-import com.terranova.api.v1.product.application.usecase.CreateImageUseCase;
-import com.terranova.api.v1.product.application.usecase.CreateProductUseCase;
-import com.terranova.api.v1.product.application.usecase.DeleteImageUseCase;
-import com.terranova.api.v1.product.application.usecase.GetProductUseCase;
+import com.terranova.api.v1.product.application.usecase.*;
 import com.terranova.api.v1.product.domain.factory.ProductFactory;
 import com.terranova.api.v1.product.domain.port.out.*;
+import com.terranova.api.v1.shared.security.utils.AuthFacade;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
@@ -38,5 +36,10 @@ public class ProductConfiguration {
     @Bean
     public DeleteImageUseCase deleteImageUseCase(ImageRepositoryPort imageRepositoryPort, ImageStoragePort imageStoragePort){
         return new DeleteImageUseCase(imageRepositoryPort, imageStoragePort);
+    }
+
+    @Bean
+    public CreateDraftUseCase createDraftUseCase(ProductRepositoryPort productRepositoryPort, AuthFacade authFacade, ProductFactory productFactory){
+        return new CreateDraftUseCase(productRepositoryPort, productFactory, authFacade);
     }
 }

@@ -8,12 +8,13 @@ import com.terranova.api.v1.product.domain.model.group.LandGroup;
 import com.terranova.api.v1.product.domain.port.out.ValidatorPort;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.draft.CreateDraftRequest;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.draft.patch.DraftPatchRequest;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.image.ReorderImageRequest;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.publish.CreateProductRequest;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.delete.DeleteImageRequest;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.search.SearchProductRequest;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.draft.CreateDraftResponse;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.publish.CreateProductResponse;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.ImageResponse;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.image.ImageResponse;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.delete.DeleteImageResponse;
 import com.terranova.api.v1.product.infrastructure.adapter.mapper.ImageMapper;
 import com.terranova.api.v1.product.infrastructure.adapter.mapper.ProductMapper;
@@ -21,6 +22,7 @@ import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
 import com.terranova.api.v1.shared.exception.BusinessException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -38,6 +40,7 @@ public class ProductController {
     private final DeleteImageUseCase deleteImageUseCase;
     private final CreateImageUseCase createImageUseCase;
     private final CreateProductUseCase createProductUseCase;
+    private final ReorderImageUseCase reorderImageUseCase;
     private final CreateDraftUseCase createDraftUseCase;
     private final PatchProductUseCase patchProductUseCase;
     private final GetProductUseCase getProductUseCase;
@@ -111,6 +114,18 @@ public class ProductController {
 
         return ResponseEntity.ok(createImageUseCase.createImages(commands, id).stream()
                 .map(imageMapper::domainToResponse).toList());
+    }
+
+    @PatchMapping("/{id}/images/reorder")
+    @PreAuthorize("hasRole('SELLER')")
+    public ResponseEntity<Void> reorderImages(@PathVariable Long id, @RequestBody List<ReorderImageRequest> request){
+        reorderImageUseCase.reorderImages(
+                id,
+                request.stream()
+                        .map(imageMapper::reorderRequestToCommand)
+                        .toList()
+        );
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping(value = "/{id}/images")

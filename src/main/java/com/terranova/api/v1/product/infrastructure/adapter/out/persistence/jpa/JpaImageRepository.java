@@ -16,6 +16,8 @@ public interface JpaImageRepository extends JpaRepository<ImageEntity, Long> {
 
     List<ImageEntity> findAllByProduct_ProductIdAndIdImageIn(Long productId, List<Long> imagesIds);
 
+    List<ImageEntity> findByProduct_ProductId(Long productId);
+
     @Modifying
     @Query("DELETE FROM ImageEntity i WHERE i.product.productId = :productId AND i.idImage IN :imagesIds")
     int deleteByProductIdAndIds(Long productId, List<Long> imagesIds);

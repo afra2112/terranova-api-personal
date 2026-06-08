@@ -3,7 +3,7 @@ package com.terranova.api.v1.product.infrastructure.adapter.out.cloudinary;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.terranova.api.v1.product.domain.port.out.ImageStoragePort;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.CloudinaryResponse;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.image.CloudinaryResponse;
 import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
 import com.terranova.api.v1.shared.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Value;

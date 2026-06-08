@@ -1,7 +1,9 @@
 package com.terranova.api.v1.product.infrastructure.adapter.mapper;
 
 import com.terranova.api.v1.product.domain.model.Image;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.ImageResponse;
+import com.terranova.api.v1.product.domain.model.command.image.ReorderImageCommand;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.image.ReorderImageRequest;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.image.ImageResponse;
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.ImageEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -21,4 +23,6 @@ public interface ImageMapper {
     ImageResponse domainToResponse(Image image);
 
     List<ImageResponse> domainListToResponse(List<Image> images);
+
+    ReorderImageCommand reorderRequestToCommand(ReorderImageRequest reorderImageRequest);
 }

@@ -1,6 +1,6 @@
 package com.terranova.api.v1.product.domain.port.out;
 
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.CloudinaryResponse;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.image.CloudinaryResponse;
 
 public interface ImageStoragePort {
 

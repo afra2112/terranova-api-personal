@@ -7,7 +7,7 @@ import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
 import com.terranova.api.v1.product.domain.port.out.ImageRepositoryPort;
 import com.terranova.api.v1.product.domain.port.out.ImageStoragePort;
 import com.terranova.api.v1.product.domain.port.out.ProductRepositoryPort;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.CloudinaryResponse;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.image.CloudinaryResponse;
 import com.terranova.api.v1.shared.domain.port.ProductOwnershipValidatorPort;
 import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
 import com.terranova.api.v1.shared.exception.BusinessException;

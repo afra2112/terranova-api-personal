@@ -9,6 +9,10 @@ public interface ImageRepositoryPort {
 
     List<Image> save(List<Image> images, Long productId);
 
+    List<Image> getByProductId(Long productId);
+
+    void saveAll(List<Image> images);
+
     List<Image> getByProductIdAndIdIn(Long ProductId, List<Long> ids);
 
     Map<Long, List<Image>> getByProductId(List<Long> productsIds);

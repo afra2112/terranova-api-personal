@@ -1,4 +1,4 @@
-package com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response;
+package com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.image;
 
 import java.time.LocalDateTime;
 

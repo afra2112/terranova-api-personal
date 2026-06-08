@@ -34,6 +34,7 @@ public enum ErrorCodeEnum {
     LOCATION_NOT_FOUND("PRD-010", HttpStatus.NOT_FOUND, "Location not found"),
     INVALID_IMAGE_FORMAT("PRD-011", HttpStatus.BAD_REQUEST, "Image format not valid, valid formats: jpeg, png, webp, jpg"),
     IMAGE_LIMIT_EXCEEDED("PRD-012", HttpStatus.BAD_REQUEST, "Image limit is 18 images per product"),
+    INVALID_IMAGE_ORDER("PRD-013", HttpStatus.INTERNAL_SERVER_ERROR, "Image order invalid."),
 
     //APPOINTMENT
     INVALID_TIME("APMT-001", HttpStatus.BAD_REQUEST, "End time cannot be before start time in your appointment"),

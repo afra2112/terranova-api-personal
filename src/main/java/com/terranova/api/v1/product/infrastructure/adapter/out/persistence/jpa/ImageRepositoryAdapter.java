@@ -41,6 +41,24 @@ public class ImageRepositoryAdapter implements ImageRepositoryPort {
     }
 
     @Override
+    public List<Image> getByProductId(Long productId) {
+        return jpaImageRepository.findByProduct_ProductId(productId)
+                .stream()
+                .map(imageMapper::entityToDomain)
+                .toList();
+    }
+
+    @Override
+    @Transactional
+    public void saveAll(List<Image> images) {
+        jpaImageRepository.saveAll(
+                images.stream()
+                        .map(imageMapper::domainToEntity)
+                        .toList()
+        );
+    }
+
+    @Override
     public List<Image> getByProductIdAndIdIn(Long productId, List<Long> ids) {
         return jpaImageRepository.findAllByProduct_ProductIdAndIdImageIn(productId, ids)
                 .stream()

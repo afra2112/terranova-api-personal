@@ -9,6 +9,7 @@ public record Image(
         String contentType,
         long size,
         Integer displayOrder,
+        boolean isCoverImage,
         LocalDateTime createdAt,
         Long productId
 ) {

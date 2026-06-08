@@ -21,7 +21,6 @@ public sealed interface DraftPatchRequest permits PatchCattleRequest, PatchFarmR
     String name();
     BigDecimal price();
     String description();
-    String city();
     Double latitude();
     Double longitude();
 }

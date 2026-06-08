@@ -13,7 +13,6 @@ public record PatchFarmRequest(
         @Positive
         BigDecimal price,
         String description,
-        String city,
         Double latitude,
         Double longitude,
 

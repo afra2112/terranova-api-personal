@@ -13,6 +13,7 @@ import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
 import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
 import com.terranova.api.v1.shared.exception.BusinessException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class ProductFactory {
@@ -99,7 +100,7 @@ public class ProductFactory {
                 .price(request.price())
                 .description(request.description())
                 .status(StatusEnum.PUBLISHED)
-                .publishDate(LocalDate.now())
+                .publishDate(LocalDateTime.now())
                 .city(request.city())
                 .latitude(request.latitude())
                 .longitude(request.longitude())

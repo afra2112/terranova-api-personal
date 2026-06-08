@@ -22,8 +22,6 @@ public record CreateCattleRequest(
         BigDecimal price,
         @NotBlank
         String description,
-        @NotBlank
-        String city,
         @NotNull
         Double latitude,
         @NotNull

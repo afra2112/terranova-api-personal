@@ -15,7 +15,6 @@ public record PatchCattleRequest(
         @Positive
         BigDecimal price,
         String description,
-        String city,
         Double latitude,
         Double longitude,
 

@@ -22,6 +22,8 @@ public record CreateCattleResponse(
         StatusEnum status,
         LocalDate publishDate,
         String city,
+        String department,
+        String country,
         Double latitude,
         Double longitude,
         List<ImageResponse> images,

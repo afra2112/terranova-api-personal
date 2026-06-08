@@ -24,7 +24,6 @@ public sealed interface CreateProductRequest permits CreateCattleRequest, Create
     String name();
     BigDecimal price();
     String description();
-    String city();
     Double latitude();
     Double longitude();
     UUID idSeller();

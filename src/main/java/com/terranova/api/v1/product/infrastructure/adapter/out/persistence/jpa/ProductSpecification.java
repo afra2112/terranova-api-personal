@@ -2,6 +2,7 @@ package com.terranova.api.v1.product.infrastructure.adapter.out.persistence.jpa;
 
 import com.terranova.api.v1.product.domain.model.command.search.SearchProductCommand;
 import com.terranova.api.v1.product.domain.model.enums.ProductTypeEnum;
+import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.CattleEntity;
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.FarmEntity;
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.LandEntity;
@@ -30,6 +31,8 @@ public class ProductSpecification {
 
     public static void applyGeneralFilters(SearchProductCommand f, Root<ProductEntity> root, CriteriaBuilder cb, List<Predicate> p){
 
+        p.add(cb.equal(root.get("status"), StatusEnum.PUBLISHED));
+
         if (f.userId() != null){
             p.add(cb.notEqual(root.get("sellerId"), f.userId()));
         }
@@ -46,8 +49,22 @@ public class ProductSpecification {
             p.add(cb.lessThanOrEqualTo(root.get("price"), f.maxPrice()));
         }
 
-        if (f.city() != null) {
-            p.add(cb.equal(root.get("city"), f.city()));
+        if (f.city() != null && !f.city().isBlank()) {
+            p.add(
+                    cb.equal(
+                            cb.lower(root.get("city")),
+                            f.city().toLowerCase()
+                    )
+            );
+        }
+
+        if (f.department() != null && !f.department().isBlank()) {
+            p.add(
+                    cb.equal(
+                            cb.lower(root.get("department")),
+                            f.department().toLowerCase()
+                    )
+            );
         }
 
         if (f.productType() != null) {

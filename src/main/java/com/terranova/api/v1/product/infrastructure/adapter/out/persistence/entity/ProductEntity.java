@@ -11,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -40,9 +41,11 @@ public abstract class ProductEntity {
     private StatusEnum status;
 
     @Column(updatable = false)
-    private LocalDate publishDate;
+    private LocalDateTime publishDate;
 
     private String city;
+    private String department;
+    private String country;
     private Double latitude;
     private Double longitude;
 

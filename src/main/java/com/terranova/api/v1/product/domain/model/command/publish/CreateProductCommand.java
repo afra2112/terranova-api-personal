@@ -11,6 +11,8 @@ public sealed interface CreateProductCommand permits CreateCattleCommand, Create
     BigDecimal price();
     String description();
     String city();
+    String department();
+    String country();
     Double latitude();
     Double longitude();
     UUID idSeller();

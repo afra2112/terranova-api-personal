@@ -56,6 +56,21 @@ public class ImageRepositoryAdapter implements ImageRepositoryPort {
                 .collect(Collectors.groupingBy(Image::productId));
     }
 
+    @Override
+    public Integer getMaxDisplayOrder(Long productId) {
+        return jpaImageRepository.getMaxDisplayOrder(productId);
+    }
+
+    @Override
+    public boolean existsCoverImage(Long productId) {
+        return jpaImageRepository.existsByProduct_ProductIdAndIsCoverImageTrue(productId);
+    }
+
+    @Override
+    public int countByProductId(Long productId) {
+        return jpaImageRepository.countByProduct_ProductId(productId);
+    }
+
     @Transactional
     @Override
     public int deleteByProductIdAndIds(Long productId, List<Long> imageIds) {

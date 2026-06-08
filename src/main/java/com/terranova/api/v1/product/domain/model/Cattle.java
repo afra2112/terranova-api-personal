@@ -5,10 +5,13 @@ import com.terranova.api.v1.product.domain.model.command.draft.patch.PatchCattle
 import com.terranova.api.v1.product.domain.model.command.draft.patch.PatchProductCommand;
 import com.terranova.api.v1.product.domain.model.enums.CattleGenderEnum;
 import com.terranova.api.v1.product.domain.model.enums.CattleTypeEnum;
+import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -67,6 +70,27 @@ public class Cattle extends Product{
                                 ? cmd.quantity()
                                 : this.quantity
                 )
+                .build();
+    }
+
+    @Override
+    public Product publish(LocalDateTime publishDate) {
+        return this.toBuilder()
+                .publishDate(publishDate)
+                .status(StatusEnum.PUBLISHED)
+                .build();
+    }
+
+    @Override
+    public Product withLocation(
+            String city,
+            String department,
+            String country
+    ) {
+        return this.toBuilder()
+                .city(city)
+                .department(department)
+                .country(country)
                 .build();
     }
 

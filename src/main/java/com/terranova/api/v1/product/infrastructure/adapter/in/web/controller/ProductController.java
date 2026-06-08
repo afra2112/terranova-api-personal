@@ -41,6 +41,7 @@ public class ProductController {
     private final CreateDraftUseCase createDraftUseCase;
     private final PatchProductUseCase patchProductUseCase;
     private final GetProductUseCase getProductUseCase;
+    private final PublishProductUseCase publishProductUseCase;
     private final ProductMapper productMapper;
     private final ImageMapper imageMapper;
     private final ValidatorPort validatorPort;
@@ -58,6 +59,12 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<CreateProductResponse> getProductById(@Valid @PathVariable Long id, @RequestParam(required = false) String expand){
         return ResponseEntity.ok(productMapper.domainToResponse(getProductUseCase.getProduct(id, expand)));
+    }
+
+    @PostMapping("/{id}/publish")
+    @PreAuthorize("hasRole('SELLER')")
+    public ResponseEntity<CreateProductResponse> publishProduct(@PathVariable Long id){
+        return ResponseEntity.ok(productMapper.domainToResponse(publishProductUseCase.publish(id)));
     }
 
     @PostMapping("/drafts")
@@ -83,6 +90,8 @@ public class ProductController {
     @PostMapping(value = "/{id}/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<List<ImageResponse>> saveImagesForProduct(@Valid @PathVariable Long id, @RequestPart("files") List<MultipartFile> files){
+        Integer currentMaxOrder = createImageUseCase.getCurrentMaxOrder(id);
+
         List<CreateImageCommand> commands = IntStream.range(0, files.size())
                 .mapToObj(i -> {
                     MultipartFile file = files.get(i);
@@ -91,7 +100,7 @@ public class ProductController {
                                 file.getOriginalFilename(),
                                 file.getContentType(),
                                 file.getSize(),
-                                i+1,
+                                currentMaxOrder + i + 1,
                                 file.getBytes()
                         );
                     } catch (IOException e) {

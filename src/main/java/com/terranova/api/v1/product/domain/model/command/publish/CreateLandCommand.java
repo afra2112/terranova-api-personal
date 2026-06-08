@@ -18,6 +18,8 @@ public record CreateLandCommand(
         String status,
         LocalDate publishDate,
         String city,
+        String department,
+        String country,
         Double latitude,
         Double longitude,
         UUID idSeller,

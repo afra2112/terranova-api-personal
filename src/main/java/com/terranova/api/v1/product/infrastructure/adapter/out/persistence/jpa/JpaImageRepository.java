@@ -1,6 +1,7 @@
 package com.terranova.api.v1.product.infrastructure.adapter.out.persistence.jpa;
 
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.ImageEntity;
+import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.ProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +19,11 @@ public interface JpaImageRepository extends JpaRepository<ImageEntity, Long> {
     @Modifying
     @Query("DELETE FROM ImageEntity i WHERE i.product.productId = :productId AND i.idImage IN :imagesIds")
     int deleteByProductIdAndIds(Long productId, List<Long> imagesIds);
+
+    @Query("SELECT COALESCE(MAX(i.displayOrder), 0) FROM ImageEntity i WHERE i.product = :productId")
+    Integer getMaxDisplayOrder(Long productId);
+
+    boolean existsByProduct_ProductIdAndIsCoverImageTrue(Long productId);
+
+    int countByProduct_ProductId(Long productId);
 }

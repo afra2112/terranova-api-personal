@@ -5,11 +5,13 @@ import com.terranova.api.v1.product.domain.model.command.draft.patch.PatchLandCo
 import com.terranova.api.v1.product.domain.model.command.draft.patch.PatchProductCommand;
 import com.terranova.api.v1.product.domain.model.enums.LandAccessEnum;
 import com.terranova.api.v1.product.domain.model.enums.LandTopographyEnum;
+import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -42,6 +44,27 @@ public class Land extends Product{
                 .topography(cmd.topography() != null ? cmd.topography() : this.topography)
                 .access(cmd.access() != null ? cmd.access() : this.access)
                 .currentServices(cmd.currentServices() != null ? cmd.currentServices() : this.currentServices)
+                .build();
+    }
+
+    @Override
+    public Product publish(LocalDateTime publishDate) {
+        return this.toBuilder()
+                .publishDate(publishDate)
+                .status(StatusEnum.PUBLISHED)
+                .build();
+    }
+
+    @Override
+    public Product withLocation(
+            String city,
+            String department,
+            String country
+    ) {
+        return this.toBuilder()
+                .city(city)
+                .department(department)
+                .country(country)
                 .build();
     }
 

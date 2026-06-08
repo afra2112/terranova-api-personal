@@ -4,6 +4,7 @@ import com.terranova.api.v1.product.domain.model.Image;
 import com.terranova.api.v1.product.domain.model.Product;
 import com.terranova.api.v1.product.domain.model.appointment.Appointment;
 import com.terranova.api.v1.product.domain.model.command.search.SearchProductCommand;
+import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
 import com.terranova.api.v1.product.domain.port.out.AppointmentPort;
 import com.terranova.api.v1.product.domain.port.out.ImageRepositoryPort;
 import com.terranova.api.v1.product.domain.port.out.ProductRepositoryPort;
@@ -37,6 +38,10 @@ public class GetProductUseCase {
         );
         List<Long> ids = List.of(productId);
 
+        if (product.getStatus() != StatusEnum.PUBLISHED){
+            throw new BusinessException(ErrorCodeEnum.ENTITY_NOT_FOUND, "Product not found by id: " + productId);
+        }
+
         Product withImages = product
                 .withImages(imageRepositoryPort.getByProductId(ids).getOrDefault(productId, List.of()))
                 .withSellerSummary(userPort.getSellerSummaryBatch(List.of(product.getSellerId())).getFirst());
@@ -60,14 +65,22 @@ public class GetProductUseCase {
         List<Long> ids = products.stream().map(Product::getProductId).toList();
         Map<Long, List<Image>> images = imageRepositoryPort.getByProductId(ids);
 
-
         Map<Long, List<Appointment>> appointments = "appointments".equals(expand) ? appointmentPort.getByProductsIds(ids) : Map.of();
 
         return products.stream()
                 .map(product -> {
+                    SellerSummary sellerSummary = sellers.get(product.getSellerId());
+
+                    if(sellerSummary == null){
+                        throw new BusinessException(
+                                ErrorCodeEnum.ENTITY_NOT_FOUND,
+                                "Seller summary not found"
+                        );
+                    }
+
                     Product withImagesAndSellerSummary = product
                             .withImages(images.getOrDefault(product.getProductId(), List.of()))
-                            .withSellerSummary(sellers.getOrDefault(product.getSellerId(), null));
+                            .withSellerSummary(sellerSummary);
 
                     return "appointments".equals(expand) ?
                             withImagesAndSellerSummary.withAppointments(appointments.getOrDefault(product.getProductId(), List.of())) :

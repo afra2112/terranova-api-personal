@@ -13,5 +13,11 @@ public interface ImageRepositoryPort {
 
     Map<Long, List<Image>> getByProductId(List<Long> productsIds);
 
+    Integer getMaxDisplayOrder(Long productId);
+
+    boolean existsCoverImage(Long productId);
+
+    int countByProductId(Long productId);
+
     int deleteByProductIdAndIds(Long productId, List<Long> imageIds);
 }

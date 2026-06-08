@@ -10,6 +10,7 @@ public record ImageResponse(
         String contentType,
         long size,
         Integer displayOrder,
+        boolean isCoverImage,
         LocalDateTime createdAt
 ) {
 }

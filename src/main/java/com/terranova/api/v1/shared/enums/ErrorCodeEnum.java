@@ -29,6 +29,11 @@ public enum ErrorCodeEnum {
     IMAGE_NOT_BELONGS_TO_PRODUCT("PRD-005", HttpStatus.BAD_REQUEST, "This image don't belongs to this product"),
     PRODUCT_NOT_BELONGS_TO_USER("PRD-006", HttpStatus.BAD_REQUEST, "This product doesn't belong to you."),
     PRODUCT_TYPE_CANNOT_BE_CHANGED("PRD-007", HttpStatus.BAD_REQUEST, "The current product type cannot be changed, please delete it and create another one."),
+    WRONG_PRODUCT_STATUS("PRD-008", HttpStatus.BAD_REQUEST, "The status of the product is incorrect."),
+    PUBLISH_VALIDATION_ERROR("PRD-009", HttpStatus.BAD_REQUEST, "Error validating product data to publish."),
+    LOCATION_NOT_FOUND("PRD-010", HttpStatus.NOT_FOUND, "Location not found"),
+    INVALID_IMAGE_FORMAT("PRD-011", HttpStatus.BAD_REQUEST, "Image format not valid, valid formats: jpeg, png, webp, jpg"),
+    IMAGE_LIMIT_EXCEEDED("PRD-012", HttpStatus.BAD_REQUEST, "Image limit is 18 images per product"),
 
     //APPOINTMENT
     INVALID_TIME("APMT-001", HttpStatus.BAD_REQUEST, "End time cannot be before start time in your appointment"),

@@ -3,11 +3,13 @@ package com.terranova.api.v1.product.domain.model;
 import com.terranova.api.v1.product.domain.model.appointment.Appointment;
 import com.terranova.api.v1.product.domain.model.command.draft.patch.PatchFarmCommand;
 import com.terranova.api.v1.product.domain.model.command.draft.patch.PatchProductCommand;
+import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -44,6 +46,27 @@ public class Farm extends Product {
                 .stratum(cmd.stratum() != null ? cmd.stratum() : this.stratum)
                 .roomsQuantity(cmd.roomsQuantity() != null ? cmd.roomsQuantity() : this.roomsQuantity)
                 .bathroomsQuantity(cmd.bathroomsQuantity() != null ? cmd.bathroomsQuantity() : this.bathroomsQuantity)
+                .build();
+    }
+
+    @Override
+    public Product publish(LocalDateTime publishDate) {
+        return this.toBuilder()
+                .publishDate(publishDate)
+                .status(StatusEnum.PUBLISHED)
+                .build();
+    }
+
+    @Override
+    public Product withLocation(
+            String city,
+            String department,
+            String country
+    ) {
+        return this.toBuilder()
+                .city(city)
+                .department(department)
+                .country(country)
                 .build();
     }
 

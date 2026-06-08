@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,8 +23,10 @@ public abstract class Product {
     private BigDecimal price;
     private String description;
     private StatusEnum status;
-    private LocalDate publishDate;
+    private LocalDateTime publishDate;
     private String city;
+    private String department;
+    private String country;
     private Double latitude;
     private Double longitude;
     private UUID sellerId;
@@ -34,6 +36,8 @@ public abstract class Product {
     private SellerSummary sellerSummary;
 
     public abstract Product patch(PatchProductCommand command);
+    public abstract Product publish(LocalDateTime publishDate);
+    public abstract Product withLocation(String city, String department, String country);
     public abstract Product withImages(List<Image> images);
     public abstract Product withAppointments(List<Appointment> appointments);
     public abstract Product withSellerSummary(SellerSummary sellerSummary);

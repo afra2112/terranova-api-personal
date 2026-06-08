@@ -14,6 +14,7 @@ public record SearchProductCommand (
         BigDecimal minPrice,
         BigDecimal maxPrice,
         String city,
+        String department,
         ProductTypeEnum productType,
         LocalDate publishDateFrom,
         LocalDate publishDateTo,

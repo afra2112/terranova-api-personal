@@ -7,6 +7,7 @@ import com.terranova.api.v1.shared.domain.port.ProductOwnershipValidatorPort;
 import com.terranova.api.v1.shared.security.utils.AuthFacade;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClient;
 
 @Component
 public class ProductConfiguration {
@@ -47,5 +48,15 @@ public class ProductConfiguration {
     @Bean
     public PatchProductUseCase patchProductUseCase(ProductRepositoryPort productRepositoryPort, ProductOwnershipValidatorPort productOwnershipValidatorPort){
         return new PatchProductUseCase(productRepositoryPort, productOwnershipValidatorPort);
+    }
+
+    @Bean
+    public PublishProductUseCase publishProductUseCase(ProductRepositoryPort productRepositoryPort, ProductOwnershipValidatorPort productOwnershipValidatorPort, ValidatorPort validatorPort, LocationPort locationPort, ImageRepositoryPort imageRepositoryPort){
+        return new PublishProductUseCase(productRepositoryPort, productOwnershipValidatorPort, imageRepositoryPort, validatorPort, locationPort);
+    }
+
+    @Bean
+    public RestClient restClient(){
+        return RestClient.builder().build();
     }
 }

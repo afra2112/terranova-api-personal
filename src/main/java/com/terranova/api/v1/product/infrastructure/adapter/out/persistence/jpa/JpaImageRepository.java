@@ -22,7 +22,7 @@ public interface JpaImageRepository extends JpaRepository<ImageEntity, Long> {
     @Query("DELETE FROM ImageEntity i WHERE i.product.productId = :productId AND i.idImage IN :imagesIds")
     int deleteByProductIdAndIds(Long productId, List<Long> imagesIds);
 
-    @Query("SELECT COALESCE(MAX(i.displayOrder), 0) FROM ImageEntity i WHERE i.product = :productId")
+    @Query("SELECT COALESCE(MAX(i.displayOrder), 0) FROM ImageEntity i WHERE i.product.productId = :productId")
     Integer getMaxDisplayOrder(Long productId);
 
     boolean existsByProduct_ProductIdAndIsCoverImageTrue(Long productId);

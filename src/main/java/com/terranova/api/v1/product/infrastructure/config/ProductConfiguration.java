@@ -26,8 +26,8 @@ public class ProductConfiguration {
     }
 
     @Bean
-    public CreateImageUseCase createImageUseCase(ImageRepositoryPort imageRepositoryPort, ProductRepositoryPort productRepositoryPort, ImageStoragePort imageStoragePort){
-        return new CreateImageUseCase(imageStoragePort, imageRepositoryPort, productRepositoryPort);
+    public CreateImageUseCase createImageUseCase(ImageRepositoryPort imageRepositoryPort, ImageStoragePort imageStoragePort, ProductOwnershipValidatorPort productOwnershipValidatorPort){
+        return new CreateImageUseCase(imageStoragePort, imageRepositoryPort, productOwnershipValidatorPort);
     }
 
     @Bean
@@ -58,5 +58,15 @@ public class ProductConfiguration {
     @Bean
     public RestClient restClient(){
         return RestClient.builder().build();
+    }
+
+    @Bean
+    public ReorderImageUseCase reorderImageUseCase(ProductOwnershipValidatorPort productOwnershipValidatorPort, ImageRepositoryPort imageRepositoryPort){
+        return new ReorderImageUseCase(productOwnershipValidatorPort, imageRepositoryPort);
+    }
+
+    @Bean
+    public ChangeCoverImageUseCase changeCoverImageUseCase(ProductOwnershipValidatorPort productOwnershipValidatorPort, ImageRepositoryPort imageRepositoryPort){
+        return new ChangeCoverImageUseCase(productOwnershipValidatorPort, imageRepositoryPort);
     }
 }

@@ -30,13 +30,11 @@ public class CreateImageUseCase {
 
     private final ImageStoragePort imageStoragePort;
     private final ImageRepositoryPort imageRepositoryPort;
-    private final ProductRepositoryPort productRepositoryPort;
     private final ProductOwnershipValidatorPort productOwnershipValidatorPort;
 
-    public CreateImageUseCase(ImageStoragePort imageStoragePort, ImageRepositoryPort imageRepositoryPort, ProductRepositoryPort productRepositoryPort, ProductOwnershipValidatorPort productOwnershipValidatorPort) {
+    public CreateImageUseCase(ImageStoragePort imageStoragePort, ImageRepositoryPort imageRepositoryPort, ProductOwnershipValidatorPort productOwnershipValidatorPort) {
         this.imageStoragePort = imageStoragePort;
         this.imageRepositoryPort = imageRepositoryPort;
-        this.productRepositoryPort = productRepositoryPort;
         this.productOwnershipValidatorPort = productOwnershipValidatorPort;
     }
 

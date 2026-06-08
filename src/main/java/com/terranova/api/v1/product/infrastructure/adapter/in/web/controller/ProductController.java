@@ -22,7 +22,6 @@ import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
 import com.terranova.api.v1.shared.exception.BusinessException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -41,6 +40,7 @@ public class ProductController {
     private final CreateImageUseCase createImageUseCase;
     private final CreateProductUseCase createProductUseCase;
     private final ReorderImageUseCase reorderImageUseCase;
+    private final ChangeCoverImageUseCase changeCoverImageUseCase;
     private final CreateDraftUseCase createDraftUseCase;
     private final PatchProductUseCase patchProductUseCase;
     private final GetProductUseCase getProductUseCase;
@@ -125,6 +125,16 @@ public class ProductController {
                         .map(imageMapper::reorderRequestToCommand)
                         .toList()
         );
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("{id}/images/{imageId}/cover")
+    @PreAuthorize("hasRole('SELLER')")
+    public ResponseEntity<Void> changeCover(
+            @PathVariable Long id,
+            @PathVariable Long imageId
+    ){
+        changeCoverImageUseCase.changeCover(id, imageId);
         return ResponseEntity.noContent().build();
     }
 

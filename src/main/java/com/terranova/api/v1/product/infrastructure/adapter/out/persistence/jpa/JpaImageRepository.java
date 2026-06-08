@@ -28,4 +28,23 @@ public interface JpaImageRepository extends JpaRepository<ImageEntity, Long> {
     boolean existsByProduct_ProductIdAndIsCoverImageTrue(Long productId);
 
     int countByProduct_ProductId(Long productId);
+
+    @Modifying
+    @Query("UPDATE ImageEntity i SET i.displayOrder = :displayOrder WHERE i.idImage = :imageId")
+    void updateDisplayOrder(
+            Long imageId,
+            Integer displayOrder
+    );
+
+    @Modifying
+    @Query("UPDATE ImageEntity i SET i.isCoverImage = false WHERE i.product.productId = :productId")
+    void clearCoverImages(
+            @Param("productId") Long productId
+    );
+
+    @Modifying
+    @Query("UPDATE ImageEntity i SET i.isCoverImage = true WHERE i.idImage = :imageId")
+    void setCoverImage(
+            @Param("imageId") Long imageId
+    );
 }

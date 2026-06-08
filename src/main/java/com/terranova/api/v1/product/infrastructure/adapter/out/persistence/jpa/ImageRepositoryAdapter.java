@@ -1,7 +1,7 @@
 package com.terranova.api.v1.product.infrastructure.adapter.out.persistence.jpa;
 
 import com.terranova.api.v1.product.domain.model.Image;
-import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
+import com.terranova.api.v1.product.domain.model.command.image.ReorderImageCommand;
 import com.terranova.api.v1.product.domain.port.out.ImageRepositoryPort;
 import com.terranova.api.v1.product.infrastructure.adapter.mapper.ImageMapper;
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.ImageEntity;
@@ -50,12 +50,29 @@ public class ImageRepositoryAdapter implements ImageRepositoryPort {
 
     @Override
     @Transactional
-    public void saveAll(List<Image> images) {
-        jpaImageRepository.saveAll(
-                images.stream()
-                        .map(imageMapper::domainToEntity)
-                        .toList()
+    public void reorderImages(
+            Long productId,
+            List<ReorderImageCommand> commands
+    ) {
+
+        commands.forEach(command ->
+                jpaImageRepository.updateDisplayOrder(
+                        command.imageId(),
+                        command.displayOrder()
+                )
         );
+    }
+
+    @Override
+    @Transactional
+    public void setCoverImage(
+            Long productId,
+            Long imageId
+    ) {
+
+        jpaImageRepository.clearCoverImages(productId);
+
+        jpaImageRepository.setCoverImage(imageId);
     }
 
     @Override

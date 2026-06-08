@@ -134,7 +134,7 @@ public class ProductController {
             @PathVariable Long id,
             @PathVariable Long imageId
     ){
-        changeCoverImageUseCase.changeCover(id, imageId);
+        changeCoverImageUseCase.setCoverImage(id, imageId);
         return ResponseEntity.noContent().build();
     }
 

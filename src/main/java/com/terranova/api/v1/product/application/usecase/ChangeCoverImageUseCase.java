@@ -13,12 +13,15 @@ public class ChangeCoverImageUseCase {
     private final ProductOwnershipValidatorPort ownershipValidator;
     private final ImageRepositoryPort imageRepositoryPort;
 
-    public ChangeCoverImageUseCase(ProductOwnershipValidatorPort ownershipValidator, ImageRepositoryPort imageRepositoryPort) {
+    public ChangeCoverImageUseCase(
+            ProductOwnershipValidatorPort ownershipValidator,
+            ImageRepositoryPort imageRepositoryPort
+    ) {
         this.ownershipValidator = ownershipValidator;
         this.imageRepositoryPort = imageRepositoryPort;
     }
 
-    public void changeCover(
+    public void setCoverImage(
             Long productId,
             Long imageId
     ){
@@ -30,36 +33,20 @@ public class ChangeCoverImageUseCase {
 
         boolean exists =
                 images.stream()
-                        .anyMatch(
-                                image ->
-                                        image.idImage()
-                                                .equals(imageId)
+                        .anyMatch(i ->
+                                i.idImage().equals(imageId)
                         );
 
         if(!exists){
             throw new BusinessException(
                     ErrorCodeEnum.ENTITY_NOT_FOUND,
-                    "Image not found by id: " + imageId
+                    "Image not found: " + imageId
             );
         }
 
-        List<Image> updated =
-                images.stream()
-                        .map(image ->
-                                new Image(
-                                        image.idImage(),
-                                        image.fileName(),
-                                        image.url(),
-                                        image.contentType(),
-                                        image.size(),
-                                        image.displayOrder(),
-                                        image.idImage().equals(imageId),
-                                        image.createdAt(),
-                                        image.productId()
-                                )
-                        )
-                        .toList();
-
-        imageRepositoryPort.saveAll(updated);
+        imageRepositoryPort.setCoverImage(
+                productId,
+                imageId
+        );
     }
 }

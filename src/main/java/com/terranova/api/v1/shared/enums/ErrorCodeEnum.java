@@ -35,6 +35,7 @@ public enum ErrorCodeEnum {
     INVALID_IMAGE_FORMAT("PRD-011", HttpStatus.BAD_REQUEST, "Image format not valid, valid formats: jpeg, png, webp, jpg"),
     IMAGE_LIMIT_EXCEEDED("PRD-012", HttpStatus.BAD_REQUEST, "Image limit is 18 images per product"),
     INVALID_IMAGE_ORDER("PRD-013", HttpStatus.INTERNAL_SERVER_ERROR, "Image order invalid."),
+    CANNOT_DELETE_ALL_IMAGES("PRD-014", HttpStatus.BAD_REQUEST, "You cannot leave a product in status different to DRAFT without images"),
 
     //APPOINTMENT
     INVALID_TIME("APMT-001", HttpStatus.BAD_REQUEST, "End time cannot be before start time in your appointment"),

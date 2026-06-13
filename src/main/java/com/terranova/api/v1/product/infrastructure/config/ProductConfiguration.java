@@ -36,8 +36,8 @@ public class ProductConfiguration {
     }
 
     @Bean
-    public DeleteImageUseCase deleteImageUseCase(ImageRepositoryPort imageRepositoryPort, ImageStoragePort imageStoragePort){
-        return new DeleteImageUseCase(imageRepositoryPort, imageStoragePort);
+    public DeleteImageUseCase deleteImageUseCase(ProductOwnershipValidatorPort productOwnershipValidatorPort, ImageRepositoryPort imageRepositoryPort, ImageStoragePort imageStoragePort){
+        return new DeleteImageUseCase(productOwnershipValidatorPort, imageRepositoryPort, imageStoragePort);
     }
 
     @Bean

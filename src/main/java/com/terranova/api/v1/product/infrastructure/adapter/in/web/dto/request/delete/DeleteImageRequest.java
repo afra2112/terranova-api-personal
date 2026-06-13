@@ -6,9 +6,6 @@ import jakarta.validation.constraints.Positive;
 import java.util.List;
 
 public record DeleteImageRequest(
-        @Positive
-        Long productId,
-
         @NotEmpty
         List<Long> imagesIds
 ) {

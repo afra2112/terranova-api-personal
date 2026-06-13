@@ -140,8 +140,8 @@ public class ProductController {
 
     @DeleteMapping(value = "/{id}/images")
     @PreAuthorize("hasRole('SELLER')")
-    public ResponseEntity<DeleteImageResponse> deleteImage(@RequestBody @Valid DeleteImageRequest request){
-        return ResponseEntity.ok(new DeleteImageResponse(deleteImageUseCase.deleteImages(request.productId(), request.imagesIds())));
+    public ResponseEntity<DeleteImageResponse> deleteImage(@PathVariable Long id, @RequestBody @Valid DeleteImageRequest request){
+        return ResponseEntity.ok(new DeleteImageResponse(deleteImageUseCase.deleteImages(id, request.imagesIds())));
     }
 
     private Class<?> getGroupFromRequestProductType(String productType){

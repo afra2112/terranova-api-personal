@@ -6,6 +6,7 @@ import com.terranova.api.v1.auth.domain.ports.out.AuthenticationPort;
 import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
 import com.terranova.api.v1.shared.exception.BusinessException;
 import com.terranova.api.v1.shared.security.model.CustomUserDetails;
+import com.terranova.api.v1.user.domain.model.User;
 import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,10 +39,9 @@ public class AuthenticationPortAdapter implements AuthenticationPort {
                 throw new AuthenticationServiceException("Expected CustomUserDetails but got: " + principal.getClass());
             }
 
-            UserEntity user = userDetails.getUser();
-            List<String> roles = user.getRoles().stream().map(Enum::name).toList();
+            User user = userDetails.getUser();
 
-            return new AuthenticatedUser(user.getUserId(), roles);
+            return new AuthenticatedUser(user.userId(), user.roles());
 
         }catch (BadCredentialsException ex){
             throw new BusinessException(ErrorCodeEnum.INVALID_CREDENTIALS);

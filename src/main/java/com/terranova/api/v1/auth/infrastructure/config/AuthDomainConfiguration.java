@@ -1,13 +1,7 @@
 package com.terranova.api.v1.auth.infrastructure.config;
 
-import com.terranova.api.v1.auth.application.usecase.LoginUseCase;
-import com.terranova.api.v1.auth.application.usecase.LogoutUseCase;
-import com.terranova.api.v1.auth.application.usecase.RefreshTokenUseCase;
-import com.terranova.api.v1.auth.application.usecase.RegisterUserUseCase;
-import com.terranova.api.v1.auth.domain.ports.out.AuthenticationPort;
-import com.terranova.api.v1.auth.domain.ports.out.RefreshTokenPort;
-import com.terranova.api.v1.auth.domain.ports.out.TokenGeneratorPort;
-import com.terranova.api.v1.auth.domain.ports.out.UserPort;
+import com.terranova.api.v1.auth.application.usecase.*;
+import com.terranova.api.v1.auth.domain.ports.out.*;
 import com.terranova.api.v1.user.application.usecase.CreateUserUseCase;
 import com.terranova.api.v1.user.application.usecase.FindUserCaseUse;
 import com.terranova.api.v1.user.domain.ports.out.UserRepositoryPort;
@@ -67,5 +61,10 @@ public class AuthDomainConfiguration {
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public GoogleLoginUseCase googleLoginUseCase(GoogleAuthPort googleAuthPort, UserRepositoryPort userRepositoryPort, TokenGeneratorPort tokenGeneratorPort, RefreshTokenPort refreshTokenPort){
+        return new GoogleLoginUseCase(googleAuthPort, userRepositoryPort, tokenGeneratorPort, refreshTokenPort);
     }
 }

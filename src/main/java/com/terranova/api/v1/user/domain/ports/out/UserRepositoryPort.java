@@ -4,6 +4,7 @@ import com.terranova.api.v1.user.domain.model.SellerSummary;
 import com.terranova.api.v1.user.domain.model.User;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface UserRepositoryPort {
@@ -11,6 +12,10 @@ public interface UserRepositoryPort {
     User save(User user);
 
     User findByIdentification(UUID userId);
+
+    User findByGoogleId(String googleId);
+
+    Optional<User> findByEmail(String email);
 
     List<SellerSummary> findBatchUsers(List<UUID> ids);
 

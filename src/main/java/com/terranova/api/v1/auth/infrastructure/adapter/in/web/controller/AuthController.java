@@ -1,10 +1,8 @@
 package com.terranova.api.v1.auth.infrastructure.adapter.in.web.controller;
 
-import com.terranova.api.v1.auth.application.usecase.LoginUseCase;
-import com.terranova.api.v1.auth.application.usecase.LogoutUseCase;
-import com.terranova.api.v1.auth.application.usecase.RefreshTokenUseCase;
-import com.terranova.api.v1.auth.application.usecase.RegisterUserUseCase;
+import com.terranova.api.v1.auth.application.usecase.*;
 import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.AuthRequest;
+import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.GoogleLoginRequest;
 import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.RegisterRequest;
 import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.response.AuthResponse;
 import com.terranova.api.v1.auth.infrastructure.adapter.mapper.AuthMapper;
@@ -24,6 +22,7 @@ public class AuthController {
     private final LogoutUseCase logoutUseCase;
     private final RefreshTokenUseCase refreshTokenUseCase;
     private final RegisterUserUseCase registerUserUseCase;
+    private final GoogleLoginUseCase googleLoginUseCase;
     private final AuthMapper authMapper;
 
     @PostMapping("/login")
@@ -35,6 +34,11 @@ public class AuthController {
                         )
                 )
         );
+    }
+
+    @PostMapping("/google")
+    public ResponseEntity<AuthResponse> loginWithGoogle(@RequestBody @Valid GoogleLoginRequest request){
+        return ResponseEntity.ok(googleLoginUseCase.login(request.idToken()));
     }
 
     @PostMapping("/register")

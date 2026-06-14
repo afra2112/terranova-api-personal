@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -31,6 +32,17 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
         return userMapper.toDomain(jpaUserRepository.findByUserId(userId).orElseThrow(
                 ()-> new BusinessException(ErrorCodeEnum.ENTITY_NOT_FOUND, "User not found with identification: " + userId)
         ));
+    }
+
+    @Override
+    public User findByGoogleId(String googleId) {
+        return userMapper.toDomain(jpaUserRepository.findByGoogleId(googleId).orElseThrow(
+                ()-> new BusinessException(ErrorCodeEnum.ENTITY_NOT_FOUND, "User not found with googleId: " + googleId)));
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return Optional.ofNullable(jpaUserRepository.findByEmail(email)).map(userMapper::toDomain);
     }
 
     @Override

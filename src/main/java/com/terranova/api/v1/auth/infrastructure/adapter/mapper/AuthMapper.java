@@ -8,6 +8,7 @@ import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.AuthR
 import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.RegisterRequest;
 import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.response.AuthResponse;
 import com.terranova.api.v1.auth.infrastructure.adapter.out.persistence.entity.RefreshTokenEntity;
+import com.terranova.api.v1.user.domain.AuthProviderEnum;
 import com.terranova.api.v1.user.domain.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -70,7 +71,9 @@ public class AuthMapper {
                 null,
                 List.of("ROLE_BUYER"),
                 0,
-                new ArrayList<>()
+                new ArrayList<>(),
+                null,
+                AuthProviderEnum.LOCAL
         );
     }
 
@@ -88,7 +91,9 @@ public class AuthMapper {
                 newUserDomain.profilePicture(),
                 newUserDomain.roles(),
                 newUserDomain.userScore(),
-                newUserDomain.refreshTokenIds()
+                newUserDomain.refreshTokenIds(),
+                newUserDomain.googleId(),
+                newUserDomain.authProvider()
         );
     }
 }

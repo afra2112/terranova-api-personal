@@ -48,7 +48,9 @@ public class UserMapper {
                 entity.getProfilePicture(),
                 entity.getRoles().stream().map(Enum::name).toList(),
                 entity.getUserScore(),
-                entity.getRefreshTokenIds()
+                entity.getRefreshTokenIds(),
+                entity.getGoogleId(),
+                entity.getAuthProvider()
         );
     }
 

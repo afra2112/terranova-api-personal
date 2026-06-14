@@ -1,5 +1,8 @@
 package com.terranova.api.v1.user.domain.model;
 
+import com.terranova.api.v1.user.domain.AuthProviderEnum;
+import lombok.Builder;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,6 +21,8 @@ public record User(
         String profilePicture,
         List<String> roles,
         int userScore,
-        List<UUID> refreshTokenIds
+        List<UUID> refreshTokenIds,
+        String googleId,
+        AuthProviderEnum authProvider
 ) {
 }

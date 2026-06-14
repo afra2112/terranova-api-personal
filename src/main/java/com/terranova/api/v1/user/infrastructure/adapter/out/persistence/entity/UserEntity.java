@@ -1,5 +1,6 @@
 package com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity;
 
+import com.terranova.api.v1.user.domain.AuthProviderEnum;
 import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity.enums.RoleEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -39,13 +40,11 @@ public class UserEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
     private String password;
 
-    @Column(length = 10, nullable = false)
+    @Column(length = 10)
     private String phoneNumber;
 
-    @Column(nullable = false)
     private LocalDate birthday;
 
     private LocalDateTime registerDate;
@@ -70,6 +69,10 @@ public class UserEntity {
     private List<RoleEnum> roles;
 
     private List<UUID> refreshTokenIds;
+
+    private String googleId;
+
+    private AuthProviderEnum authProvider;
 //
 //    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<Favorito> favoritos;

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
 @AllArgsConstructor
@@ -14,7 +15,7 @@ public class TokenGenerationAdapter implements TokenGeneratorPort {
     private final JwtUtil jwtUtil;
 
     @Override
-    public String generateToken(String identification, List<String> roles) {
-        return jwtUtil.generateToken(identification, roles);
+    public String generateToken(UUID userId, List<String> roles) {
+        return jwtUtil.generateToken(userId, roles);
     }
 }

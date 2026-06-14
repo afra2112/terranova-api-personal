@@ -2,11 +2,17 @@ package com.terranova.api.v1.user.infrastructure.adapter.out.persistence.jpa;
 
 import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
 import com.terranova.api.v1.shared.exception.BusinessException;
+import com.terranova.api.v1.user.domain.model.SellerSummary;
 import com.terranova.api.v1.user.domain.model.User;
 import com.terranova.api.v1.user.domain.ports.out.UserRepositoryPort;
 import com.terranova.api.v1.user.infrastructure.adapter.mapper.UserMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
@@ -21,10 +27,15 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     }
 
     @Override
-    public User findByIdentification(String identification) {
-        return userMapper.toDomain(jpaUserRepository.findByIdentification(identification).orElseThrow(
-                ()-> new BusinessException(ErrorCodeEnum.ENTITY_NOT_FOUND, "User not found with identification: " + identification)
+    public User findByIdentification(UUID userId) {
+        return userMapper.toDomain(jpaUserRepository.findByUserId(userId).orElseThrow(
+                ()-> new BusinessException(ErrorCodeEnum.ENTITY_NOT_FOUND, "User not found with identification: " + userId)
         ));
+    }
+
+    @Override
+    public List<SellerSummary> findBatchUsers(List<UUID> ids) {
+        return jpaUserRepository.findSellerSummaryByIds(ids);
     }
 
     @Override

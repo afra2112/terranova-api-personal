@@ -26,9 +26,21 @@ public enum ErrorCodeEnum {
     PRODUCT_TYPE_NOT_SUPPORTED("PRD-002", HttpStatus.BAD_REQUEST, "Product type not supported"),
     CLOUDINARY_ERROR("PRD-003", HttpStatus.INTERNAL_SERVER_ERROR, "Cloudinary error."),
     IMAGE_READ_ERROR("PRD-004", HttpStatus.INTERNAL_SERVER_ERROR, "Error with IO reading the file from the request."),
+    IMAGE_NOT_BELONGS_TO_PRODUCT("PRD-005", HttpStatus.BAD_REQUEST, "This image don't belongs to this product"),
+    PRODUCT_NOT_BELONGS_TO_USER("PRD-006", HttpStatus.BAD_REQUEST, "This product doesn't belong to you."),
+    PRODUCT_TYPE_CANNOT_BE_CHANGED("PRD-007", HttpStatus.BAD_REQUEST, "The current product type cannot be changed, please delete it and create another one."),
+    WRONG_PRODUCT_STATUS("PRD-008", HttpStatus.BAD_REQUEST, "The status of the product is incorrect."),
+    PUBLISH_VALIDATION_ERROR("PRD-009", HttpStatus.BAD_REQUEST, "Error validating product data to publish."),
+    LOCATION_NOT_FOUND("PRD-010", HttpStatus.NOT_FOUND, "Location not found"),
+    INVALID_IMAGE_FORMAT("PRD-011", HttpStatus.BAD_REQUEST, "Image format not valid, valid formats: jpeg, png, webp, jpg"),
+    IMAGE_LIMIT_EXCEEDED("PRD-012", HttpStatus.BAD_REQUEST, "Image limit is 18 images per product"),
+    INVALID_IMAGE_ORDER("PRD-013", HttpStatus.INTERNAL_SERVER_ERROR, "Image order invalid."),
+    CANNOT_DELETE_ALL_IMAGES("PRD-014", HttpStatus.BAD_REQUEST, "You cannot leave a product in status different to DRAFT without images"),
 
     //APPOINTMENT
     INVALID_TIME("APMT-001", HttpStatus.BAD_REQUEST, "End time cannot be before start time in your appointment"),
+    APPOINTMENT_OVERLAP("APMT-002", HttpStatus.BAD_REQUEST, "Appointment overlaps with an existing appointment"),
+    APPOINTMENT_QUOTA_EXCEEDED("APTM-003", HttpStatus.BAD_REQUEST, "Maximum appointments quota reached"),
 
     //GENERIC
     VALIDATION_ERROR("GEN-001", HttpStatus.BAD_REQUEST, "Validation error"),

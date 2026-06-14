@@ -4,20 +4,24 @@ import com.terranova.api.v1.product.domain.model.Cattle;
 import com.terranova.api.v1.product.domain.model.Farm;
 import com.terranova.api.v1.product.domain.model.Land;
 import com.terranova.api.v1.product.domain.model.Product;
-import com.terranova.api.v1.product.domain.model.command.create.CreateCattleCommand;
-import com.terranova.api.v1.product.domain.model.command.create.CreateFarmCommand;
-import com.terranova.api.v1.product.domain.model.command.create.CreateLandCommand;
-import com.terranova.api.v1.product.domain.model.command.create.CreateProductCommand;
+import com.terranova.api.v1.product.domain.model.appointment.ProductInfoMetadataCommand;
+import com.terranova.api.v1.product.domain.model.command.draft.CreateDraftCommand;
+import com.terranova.api.v1.product.domain.model.command.draft.patch.PatchCattleCommand;
+import com.terranova.api.v1.product.domain.model.command.draft.patch.PatchFarmCommand;
+import com.terranova.api.v1.product.domain.model.command.draft.patch.PatchLandCommand;
+import com.terranova.api.v1.product.domain.model.command.draft.patch.PatchProductCommand;
+import com.terranova.api.v1.product.domain.model.command.publish.*;
 import com.terranova.api.v1.product.domain.model.command.search.SearchProductCommand;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.create.CreateCattleRequest;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.create.CreateFarmRequest;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.create.CreateLandRequest;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.create.CreateProductRequest;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.draft.CreateDraftRequest;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.draft.patch.DraftPatchRequest;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.draft.patch.PatchCattleRequest;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.draft.patch.PatchFarmRequest;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.draft.patch.PatchLandRequest;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.publish.*;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.search.SearchProductRequest;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.create.CreateCattleResponse;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.create.CreateFarmResponse;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.create.CreateLandResponse;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.create.CreateProductResponse;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.appointment.ProductAppointmentInfo;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.draft.CreateDraftResponse;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.publish.*;
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.CattleEntity;
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.FarmEntity;
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.LandEntity;
@@ -32,6 +36,26 @@ public interface ProductMapper {
 
         SearchProductCommand searchRequestToCommand(SearchProductRequest request);
 
+        //DRAFT ENDPOINT
+        CreateDraftCommand requestToCreateDraftCommand(CreateDraftRequest request);
+        CreateDraftResponse draftCommandToDraftResponse(CreateDraftCommand command);
+
+        //PATCH ENDPOINT
+        default PatchProductCommand patchRequestToPatchCommand(DraftPatchRequest request) {
+            if (request == null) return null;
+            return switch (request) {
+                case PatchFarmRequest f -> patchFarmRequestToFarmCommand(f);
+                case PatchLandRequest l -> patchLandRequestToLandCommand(l);
+                case PatchCattleRequest c -> patchCattleRequestToCattleCommand(c);
+                default -> throw new BusinessException(ErrorCodeEnum.PRODUCT_TYPE_NOT_SUPPORTED, "Product type: " + request);
+            };
+        }
+        PatchFarmCommand patchFarmRequestToFarmCommand(PatchFarmRequest patchFarmRequest);
+        PatchLandCommand patchLandRequestToLandCommand(PatchLandRequest patchLandRequest);
+        PatchCattleCommand patchCattleRequestToCattleCommand(PatchCattleRequest patchCattleRequest);
+
+
+        //CREATE(OLD) - PUBLISH ENDPOINT
         default CreateProductCommand requestToCommand(CreateProductRequest request) {
                 if (request == null) return null;
                 return switch (request) {
@@ -86,4 +110,6 @@ public interface ProductMapper {
         CreateLandResponse landDomainToResponse(Land land);
         @Mapping(target = "productId", source = "productId")
         CreateCattleResponse cattleDomainToResponse(Cattle cattle);
+
+        ProductAppointmentInfo domainToProductAppointmentInfoMetadata(ProductInfoMetadataCommand product);
 }

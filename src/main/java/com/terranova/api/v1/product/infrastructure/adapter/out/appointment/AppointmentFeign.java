@@ -1,6 +1,6 @@
 package com.terranova.api.v1.product.infrastructure.adapter.out.appointment;
 
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.AppointmentResponse;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.appointment.AppointmentResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

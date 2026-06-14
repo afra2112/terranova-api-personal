@@ -1,7 +1,9 @@
 package com.terranova.api.v1.product.infrastructure.adapter.out.persistence.jpa;
 
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.ImageEntity;
+import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.ProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -11,4 +13,38 @@ import java.util.List;
 public interface JpaImageRepository extends JpaRepository<ImageEntity, Long> {
     @Query("SELECT i FROM ImageEntity i WHERE i.product.productId IN :ids")
     List<ImageEntity> findByProductsIds(@Param("ids") List<Long> ids);
+
+    List<ImageEntity> findAllByProduct_ProductIdAndIdImageIn(Long productId, List<Long> imagesIds);
+
+    List<ImageEntity> findByProduct_ProductId(Long productId);
+
+    @Modifying
+    @Query("DELETE FROM ImageEntity i WHERE i.product.productId = :productId AND i.idImage IN :imagesIds")
+    int deleteByProductIdAndIds(Long productId, List<Long> imagesIds);
+
+    @Query("SELECT COALESCE(MAX(i.displayOrder), 0) FROM ImageEntity i WHERE i.product.productId = :productId")
+    Integer getMaxDisplayOrder(Long productId);
+
+    boolean existsByProduct_ProductIdAndIsCoverImageTrue(Long productId);
+
+    int countByProduct_ProductId(Long productId);
+
+    @Modifying
+    @Query("UPDATE ImageEntity i SET i.displayOrder = :displayOrder WHERE i.idImage = :imageId")
+    void updateDisplayOrder(
+            Long imageId,
+            Integer displayOrder
+    );
+
+    @Modifying
+    @Query("UPDATE ImageEntity i SET i.isCoverImage = false WHERE i.product.productId = :productId")
+    void clearCoverImages(
+            @Param("productId") Long productId
+    );
+
+    @Modifying
+    @Query("UPDATE ImageEntity i SET i.isCoverImage = true WHERE i.idImage = :imageId")
+    void setCoverImage(
+            @Param("imageId") Long imageId
+    );
 }

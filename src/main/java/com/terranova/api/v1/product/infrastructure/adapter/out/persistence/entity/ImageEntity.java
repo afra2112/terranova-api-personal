@@ -34,6 +34,9 @@ public class ImageEntity {
     private Integer displayOrder;
 
     @Column(nullable = false)
+    private boolean isCoverImage;
+
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     private boolean isExternallySaved = false;

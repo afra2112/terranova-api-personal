@@ -22,10 +22,10 @@ public class RefreshTokenAdapter implements RefreshTokenPort {
     private final AuthMapper authMapper;
 
     @Override
-    public String createRefreshToken(String userIdentification){
+    public String createRefreshToken(UUID userId){
         RefreshTokenEntity token = new RefreshTokenEntity();
         token.setToken(UUID.randomUUID().toString());
-        token.setUserIdentification(userIdentification);
+        token.setUserId(userId);
         token.setExpiresAt(LocalDateTime.now().plusDays(30));
 
         jpaRefreshTokenRepository.save(token);
@@ -54,6 +54,6 @@ public class RefreshTokenAdapter implements RefreshTokenPort {
     @Override
     public String rotate(RefreshToken refreshToken) {
         jpaRefreshTokenRepository.delete(authMapper.fromRefreshTokenToRefreshTokenEntity(refreshToken));
-        return createRefreshToken(refreshToken.userIdentification());
+        return createRefreshToken(refreshToken.userId());
     }
 }

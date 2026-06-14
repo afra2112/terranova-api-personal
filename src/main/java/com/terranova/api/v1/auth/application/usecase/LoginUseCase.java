@@ -26,8 +26,8 @@ public class LoginUseCase {
 
         AuthenticatedUser authenticatedUser = authenticationPort.authenticate(userCredential);
 
-        String accessToken = tokenGeneratorPort.generateToken(authenticatedUser.identification(), authenticatedUser.roles());
-        String refreshToken = refreshTokenPort.createRefreshToken(authenticatedUser.identification());
+        String accessToken = tokenGeneratorPort.generateToken(authenticatedUser.userId(), authenticatedUser.roles());
+        String refreshToken = refreshTokenPort.createRefreshToken(authenticatedUser.userId());
 
         return new AuthenticatedCredentials(accessToken, refreshToken);
     }

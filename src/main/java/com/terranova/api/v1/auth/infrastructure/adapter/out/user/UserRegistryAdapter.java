@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 @AllArgsConstructor
@@ -34,14 +35,14 @@ public class UserRegistryAdapter implements UserPort {
     public AuthenticatedCredentials createUser(NewUserDomain newUserDomain) {
         User userDomain = createUserUseCase.createUser(authMapper.fromUserAuthDomainToUserDomain(newUserDomain));
 
-        String accessToken = tokenGeneratorPort.generateToken(userDomain.identification(), List.of("ROLE_BUYER"));
-        String refreshToken = refreshTokenPort.createRefreshToken(userDomain.identification());
+        String accessToken = tokenGeneratorPort.generateToken(userDomain.userId(), List.of("ROLE_BUYER"));
+        String refreshToken = refreshTokenPort.createRefreshToken(userDomain.userId());
 
         return new AuthenticatedCredentials(accessToken, refreshToken);
     }
 
     @Override
-    public List<String> getRolesByIdentification(String identification) {
-        return findUserCaseUse.findUserByIdentification(identification).roles();
+    public List<String> getRolesByIdentification(UUID userId) {
+        return findUserCaseUse.findUserByIdentification(userId).roles();
     }
 }

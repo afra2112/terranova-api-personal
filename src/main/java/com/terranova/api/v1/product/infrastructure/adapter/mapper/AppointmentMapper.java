@@ -1,7 +1,7 @@
 package com.terranova.api.v1.product.infrastructure.adapter.mapper;
 
 import com.terranova.api.v1.product.domain.model.appointment.Appointment;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.AppointmentResponse;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.appointment.AppointmentResponse;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 

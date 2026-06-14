@@ -6,6 +6,7 @@ import com.terranova.api.v1.appointment.infrastructure.adapter.out.persistente.M
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,5 +29,27 @@ public class AppointmentRepositoryAdapter implements AppointmentRepositoryPort {
                 .stream()
                 .map(mapperPersistence::entityToDomain)
                 .collect(Collectors.groupingBy(Appointment::productId));
+    }
+
+    @Override
+    public boolean existsOverlappingAppointment(
+            Long productId,
+            LocalTime startTime,
+            LocalTime endTime
+    ){
+        return appointmentJpaRepository
+                .existsOverlappingAppointment(
+                        productId,
+                        startTime,
+                        endTime
+                );
+    }
+
+    @Override
+    public int countFutureAppointments(
+            Long productId
+    ){
+        return appointmentJpaRepository
+                .countFutureAppointments(productId);
     }
 }

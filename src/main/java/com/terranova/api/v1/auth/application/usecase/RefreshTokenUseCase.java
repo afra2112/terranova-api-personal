@@ -21,7 +21,7 @@ public class RefreshTokenUseCase {
     public AuthenticatedCredentials refreshToken(String token) {
         RefreshToken refreshToken = refreshTokenPort.validateToken(token);
 
-        String newAccessToken = tokenGeneratorPort.generateToken(refreshToken.userIdentification(), userPort.getRolesByIdentification(refreshToken.userIdentification()));
+        String newAccessToken = tokenGeneratorPort.generateToken(refreshToken.userId(), userPort.getRolesByIdentification(refreshToken.userId()));
         String newRefreshToken = refreshTokenPort.rotate(refreshToken);
 
         return new AuthenticatedCredentials(newAccessToken, newRefreshToken);

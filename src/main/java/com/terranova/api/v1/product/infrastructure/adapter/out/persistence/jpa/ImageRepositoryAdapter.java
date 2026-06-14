@@ -1,13 +1,14 @@
 package com.terranova.api.v1.product.infrastructure.adapter.out.persistence.jpa;
 
 import com.terranova.api.v1.product.domain.model.Image;
-import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
+import com.terranova.api.v1.product.domain.model.command.image.ReorderImageCommand;
 import com.terranova.api.v1.product.domain.port.out.ImageRepositoryPort;
 import com.terranova.api.v1.product.infrastructure.adapter.mapper.ImageMapper;
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.ImageEntity;
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.ProductEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import java.util.List;
@@ -31,10 +32,52 @@ public class ImageRepositoryAdapter implements ImageRepositoryPort {
             ProductEntity product = entityManager.getReference(ProductEntity.class, productId);
             entity.setProduct(product);
             entity.setExternallySaved(true);
-            entity.getProduct().setStatus(StatusEnum.IMAGES_UPLOADED);
         });
 
         return jpaImageRepository.saveAll(entities)
+                .stream()
+                .map(imageMapper::entityToDomain)
+                .toList();
+    }
+
+    @Override
+    public List<Image> getByProductId(Long productId) {
+        return jpaImageRepository.findByProduct_ProductId(productId)
+                .stream()
+                .map(imageMapper::entityToDomain)
+                .toList();
+    }
+
+    @Override
+    @Transactional
+    public void reorderImages(
+            Long productId,
+            List<ReorderImageCommand> commands
+    ) {
+
+        commands.forEach(command ->
+                jpaImageRepository.updateDisplayOrder(
+                        command.imageId(),
+                        command.displayOrder()
+                )
+        );
+    }
+
+    @Override
+    @Transactional
+    public void setCoverImage(
+            Long productId,
+            Long imageId
+    ) {
+
+        jpaImageRepository.clearCoverImages(productId);
+
+        jpaImageRepository.setCoverImage(imageId);
+    }
+
+    @Override
+    public List<Image> getByProductIdAndIdIn(Long productId, List<Long> ids) {
+        return jpaImageRepository.findAllByProduct_ProductIdAndIdImageIn(productId, ids)
                 .stream()
                 .map(imageMapper::entityToDomain)
                 .toList();
@@ -46,5 +89,26 @@ public class ImageRepositoryAdapter implements ImageRepositoryPort {
                 .stream()
                 .map(imageMapper::entityToDomain)
                 .collect(Collectors.groupingBy(Image::productId));
+    }
+
+    @Override
+    public Integer getMaxDisplayOrder(Long productId) {
+        return jpaImageRepository.getMaxDisplayOrder(productId);
+    }
+
+    @Override
+    public boolean existsCoverImage(Long productId) {
+        return jpaImageRepository.existsByProduct_ProductIdAndIsCoverImageTrue(productId);
+    }
+
+    @Override
+    public int countByProductId(Long productId) {
+        return jpaImageRepository.countByProduct_ProductId(productId);
+    }
+
+    @Transactional
+    @Override
+    public int deleteByProductIdAndIds(Long productId, List<Long> imageIds) {
+        return jpaImageRepository.deleteByProductIdAndIds(productId, imageIds);
     }
 }

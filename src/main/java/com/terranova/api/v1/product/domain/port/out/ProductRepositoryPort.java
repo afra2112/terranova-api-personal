@@ -15,4 +15,6 @@ public interface ProductRepositoryPort {
     List<Product> searchProducts(SearchProductCommand filter);
 
     boolean existsById(Long id);
+
+    void deleteById(Long id);
 }

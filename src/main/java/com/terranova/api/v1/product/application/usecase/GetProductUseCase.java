@@ -3,25 +3,46 @@ package com.terranova.api.v1.product.application.usecase;
 import com.terranova.api.v1.product.domain.model.Image;
 import com.terranova.api.v1.product.domain.model.Product;
 import com.terranova.api.v1.product.domain.model.appointment.Appointment;
+import com.terranova.api.v1.product.domain.model.appointment.ProductInfoMetadataCommand;
 import com.terranova.api.v1.product.domain.model.command.search.SearchProductCommand;
+import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
 import com.terranova.api.v1.product.domain.port.out.AppointmentPort;
 import com.terranova.api.v1.product.domain.port.out.ImageRepositoryPort;
 import com.terranova.api.v1.product.domain.port.out.ProductRepositoryPort;
+import com.terranova.api.v1.product.domain.model.SellerSummary;
+import com.terranova.api.v1.product.domain.port.out.UserPort;
 import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
 import com.terranova.api.v1.shared.exception.BusinessException;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class GetProductUseCase {
 
     private final ProductRepositoryPort productRepositoryPort;
     private final ImageRepositoryPort imageRepositoryPort;
     private final AppointmentPort appointmentPort;
+    private final UserPort userPort;
 
-    public GetProductUseCase(ProductRepositoryPort productRepositoryPort, ImageRepositoryPort imageRepositoryPort, AppointmentPort appointmentPort) {
+    public GetProductUseCase(ProductRepositoryPort productRepositoryPort, ImageRepositoryPort imageRepositoryPort, AppointmentPort appointmentPort, UserPort userPort) {
         this.productRepositoryPort = productRepositoryPort;
         this.imageRepositoryPort = imageRepositoryPort;
         this.appointmentPort = appointmentPort;
+        this.userPort = userPort;
+    }
+
+    public ProductInfoMetadataCommand getProductMetadata(Long productId){
+        Product product = productRepositoryPort.getById(productId).orElseThrow(
+                () -> new BusinessException(ErrorCodeEnum.ENTITY_NOT_FOUND, "Product not found by id: " + productId)
+        );
+
+        return new ProductInfoMetadataCommand(
+                product.getProductId(),
+                product.getSellerId(),
+                product.getStatus()
+        );
     }
 
     public Product getProduct(Long productId, String expand){
@@ -30,7 +51,13 @@ public class GetProductUseCase {
         );
         List<Long> ids = List.of(productId);
 
-        Product withImages = product.withImages(imageRepositoryPort.getByProductId(ids).getOrDefault(productId, List.of()));
+        if (product.getStatus() != StatusEnum.PUBLISHED){
+            throw new BusinessException(ErrorCodeEnum.ENTITY_NOT_FOUND, "Product not found by id: " + productId);
+        }
+
+        Product withImages = product
+                .withImages(imageRepositoryPort.getByProductId(ids).getOrDefault(productId, List.of()))
+                .withSellerSummary(userPort.getSellerSummaryBatch(List.of(product.getSellerId())).getFirst());
 
         return "appointments".equals(expand) ?
                 withImages.withAppointments(appointmentPort.getByProductsIds(ids).getOrDefault(productId, List.of())) :
@@ -39,6 +66,15 @@ public class GetProductUseCase {
 
     public List<Product> searchProducts(SearchProductCommand command, String expand){
         List<Product> products = productRepositoryPort.searchProducts(command);
+
+        List<SellerSummary> feignResponse = userPort.getSellerSummaryBatch(products.stream().map(Product::getSellerId).toList());
+
+        Map<UUID, SellerSummary> sellers = feignResponse.stream()
+                        .collect(Collectors.toMap(
+                                SellerSummary::userId,
+                                Function.identity()
+                        ));
+
         List<Long> ids = products.stream().map(Product::getProductId).toList();
         Map<Long, List<Image>> images = imageRepositoryPort.getByProductId(ids);
 
@@ -46,10 +82,22 @@ public class GetProductUseCase {
 
         return products.stream()
                 .map(product -> {
-                    Product withImages = product.withImages(images.getOrDefault(product.getProductId(), List.of()));
+                    SellerSummary sellerSummary = sellers.get(product.getSellerId());
+
+                    if(sellerSummary == null){
+                        throw new BusinessException(
+                                ErrorCodeEnum.ENTITY_NOT_FOUND,
+                                "Seller summary not found"
+                        );
+                    }
+
+                    Product withImagesAndSellerSummary = product
+                            .withImages(images.getOrDefault(product.getProductId(), List.of()))
+                            .withSellerSummary(sellerSummary);
+
                     return "appointments".equals(expand) ?
-                            withImages.withAppointments(appointments.getOrDefault(product.getProductId(), List.of())) :
-                            withImages;
+                            withImagesAndSellerSummary.withAppointments(appointments.getOrDefault(product.getProductId(), List.of())) :
+                            withImagesAndSellerSummary;
                 })
                 .toList();
     }

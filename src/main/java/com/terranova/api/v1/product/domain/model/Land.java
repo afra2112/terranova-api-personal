@@ -1,17 +1,21 @@
 package com.terranova.api.v1.product.domain.model;
 
 import com.terranova.api.v1.product.domain.model.appointment.Appointment;
+import com.terranova.api.v1.product.domain.model.command.draft.patch.PatchLandCommand;
+import com.terranova.api.v1.product.domain.model.command.draft.patch.PatchProductCommand;
 import com.terranova.api.v1.product.domain.model.enums.LandAccessEnum;
 import com.terranova.api.v1.product.domain.model.enums.LandTopographyEnum;
+import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Land extends Product{
@@ -22,49 +26,66 @@ public class Land extends Product{
     private String currentServices;
 
     @Override
-    public Product withImages(List<Image> images) {
+    public Product patch(PatchProductCommand command) {
+        PatchLandCommand cmd = (PatchLandCommand) command;
         return Land.builder()
-                .productId(this.getProductId())
-                .name(this.getName())
-                .price(this.getPrice())
-                .description(this.getDescription())
                 .status(this.getStatus())
-                .publishDate(this.getPublishDate())
-                .city(this.getCity())
-                .latitude(this.getLatitude())
-                .longitude(this.getLongitude())
-                .sellerId(this.getSellerId())
                 .productType(this.getProductType())
-                .landSizeInM2(this.landSizeInM2)
-                .currentServices(this.currentUse)
-                .topography(this.topography)
-                .access(this.access)
-                .currentServices(this.currentServices)
+                .sellerId(this.getSellerId())
+                .productId(this.getProductId())
+                .name(cmd.name() != null ? cmd.name() : this.getName())
+                .price(cmd.price() != null ? cmd.price() : this.getPrice())
+                .description(cmd.description() != null ? cmd.description() : this.getDescription())
+                .city(cmd.city() != null ? cmd.city() : this.getCity())
+                .latitude(cmd.latitude() != null ? cmd.latitude() : this.getLatitude())
+                .longitude(cmd.longitude() != null ? cmd.longitude() : this.getLongitude())
+                .landSizeInM2(cmd.landSizeInM2() != null ? cmd.landSizeInM2() : this.landSizeInM2)
+                .currentUse(cmd.currentUse() != null ? cmd.currentUse() : this.currentUse)
+                .topography(cmd.topography() != null ? cmd.topography() : this.topography)
+                .access(cmd.access() != null ? cmd.access() : this.access)
+                .currentServices(cmd.currentServices() != null ? cmd.currentServices() : this.currentServices)
+                .build();
+    }
+
+    @Override
+    public Product publish(LocalDateTime publishDate) {
+        return this.toBuilder()
+                .publishDate(publishDate)
+                .status(StatusEnum.PUBLISHED)
+                .build();
+    }
+
+    @Override
+    public Product withLocation(
+            String city,
+            String department,
+            String country
+    ) {
+        return this.toBuilder()
+                .city(city)
+                .department(department)
+                .country(country)
+                .build();
+    }
+
+    @Override
+    public Product withImages(List<Image> images) {
+        return this.toBuilder()
                 .images(List.copyOf(images))
                 .build();
     }
 
     @Override
     public Product withAppointments(List<Appointment> appointments) {
-        return Land.builder()
-                .productId(this.getProductId())
-                .name(this.getName())
-                .price(this.getPrice())
-                .description(this.getDescription())
-                .status(this.getStatus())
-                .publishDate(this.getPublishDate())
-                .city(this.getCity())
-                .latitude(this.getLatitude())
-                .longitude(this.getLongitude())
-                .sellerId(this.getSellerId())
-                .productType(this.getProductType())
-                .landSizeInM2(this.landSizeInM2)
-                .currentServices(this.currentUse)
-                .topography(this.topography)
-                .access(this.access)
-                .currentServices(this.currentServices)
+        return this.toBuilder()
                 .appointments(List.copyOf(appointments))
-                .images(this.getImages())
+                .build();
+    }
+
+    @Override
+    public Product withSellerSummary(SellerSummary sellerSummary) {
+        return this.toBuilder()
+                .sellerSummary(sellerSummary)
                 .build();
     }
 }

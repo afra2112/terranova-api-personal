@@ -41,7 +41,7 @@ public class AuthenticationPortAdapter implements AuthenticationPort {
             UserEntity user = userDetails.getUser();
             List<String> roles = user.getRoles().stream().map(Enum::name).toList();
 
-            return new AuthenticatedUser(user.getIdentification(), roles);
+            return new AuthenticatedUser(user.getUserId(), roles);
 
         }catch (BadCredentialsException ex){
             throw new BusinessException(ErrorCodeEnum.INVALID_CREDENTIALS);

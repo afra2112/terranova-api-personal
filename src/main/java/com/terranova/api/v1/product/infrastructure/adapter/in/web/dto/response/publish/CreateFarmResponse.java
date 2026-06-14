@@ -2,7 +2,7 @@ package com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.
 
 import com.terranova.api.v1.product.domain.model.enums.ProductTypeEnum;
 import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.AppointmentResponse;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.appointment.AppointmentResponse;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.image.ImageResponse;
 import com.terranova.api.v1.product.domain.model.SellerSummary;
 import lombok.Builder;

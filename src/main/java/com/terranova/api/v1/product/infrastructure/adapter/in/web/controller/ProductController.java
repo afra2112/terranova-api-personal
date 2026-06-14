@@ -12,6 +12,7 @@ import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.im
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.publish.CreateProductRequest;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.delete.DeleteImageRequest;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.search.SearchProductRequest;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.appointment.ProductAppointmentInfo;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.draft.CreateDraftResponse;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.publish.CreateProductResponse;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.image.ImageResponse;
@@ -62,6 +63,11 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<CreateProductResponse> getProductById(@Valid @PathVariable Long id, @RequestParam(required = false) String expand){
         return ResponseEntity.ok(productMapper.domainToResponse(getProductUseCase.getProduct(id, expand)));
+    }
+
+    @GetMapping("/{id}/metadata")
+    public ResponseEntity<ProductAppointmentInfo> getProductMetadata(@PathVariable Long id){
+        return ResponseEntity.ok(productMapper.domainToProductAppointmentInfoMetadata(getProductUseCase.getProductMetadata(id)));
     }
 
     @PostMapping("/{id}/publish")

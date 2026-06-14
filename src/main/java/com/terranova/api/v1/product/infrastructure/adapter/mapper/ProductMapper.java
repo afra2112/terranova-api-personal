@@ -4,6 +4,7 @@ import com.terranova.api.v1.product.domain.model.Cattle;
 import com.terranova.api.v1.product.domain.model.Farm;
 import com.terranova.api.v1.product.domain.model.Land;
 import com.terranova.api.v1.product.domain.model.Product;
+import com.terranova.api.v1.product.domain.model.appointment.ProductInfoMetadataCommand;
 import com.terranova.api.v1.product.domain.model.command.draft.CreateDraftCommand;
 import com.terranova.api.v1.product.domain.model.command.draft.patch.PatchCattleCommand;
 import com.terranova.api.v1.product.domain.model.command.draft.patch.PatchFarmCommand;
@@ -18,6 +19,7 @@ import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.dr
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.draft.patch.PatchLandRequest;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.publish.*;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.search.SearchProductRequest;
+import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.appointment.ProductAppointmentInfo;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.draft.CreateDraftResponse;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.publish.*;
 import com.terranova.api.v1.product.infrastructure.adapter.out.persistence.entity.CattleEntity;
@@ -108,4 +110,6 @@ public interface ProductMapper {
         CreateLandResponse landDomainToResponse(Land land);
         @Mapping(target = "productId", source = "productId")
         CreateCattleResponse cattleDomainToResponse(Cattle cattle);
+
+        ProductAppointmentInfo domainToProductAppointmentInfoMetadata(ProductInfoMetadataCommand product);
 }

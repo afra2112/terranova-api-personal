@@ -3,6 +3,7 @@ package com.terranova.api.v1.product.application.usecase;
 import com.terranova.api.v1.product.domain.model.Image;
 import com.terranova.api.v1.product.domain.model.Product;
 import com.terranova.api.v1.product.domain.model.appointment.Appointment;
+import com.terranova.api.v1.product.domain.model.appointment.ProductInfoMetadataCommand;
 import com.terranova.api.v1.product.domain.model.command.search.SearchProductCommand;
 import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
 import com.terranova.api.v1.product.domain.port.out.AppointmentPort;
@@ -30,6 +31,18 @@ public class GetProductUseCase {
         this.imageRepositoryPort = imageRepositoryPort;
         this.appointmentPort = appointmentPort;
         this.userPort = userPort;
+    }
+
+    public ProductInfoMetadataCommand getProductMetadata(Long productId){
+        Product product = productRepositoryPort.getById(productId).orElseThrow(
+                () -> new BusinessException(ErrorCodeEnum.ENTITY_NOT_FOUND, "Product not found by id: " + productId)
+        );
+
+        return new ProductInfoMetadataCommand(
+                product.getProductId(),
+                product.getSellerId(),
+                product.getStatus()
+        );
     }
 
     public Product getProduct(Long productId, String expand){

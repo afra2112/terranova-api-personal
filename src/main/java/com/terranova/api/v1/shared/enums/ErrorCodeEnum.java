@@ -39,6 +39,8 @@ public enum ErrorCodeEnum {
 
     //APPOINTMENT
     INVALID_TIME("APMT-001", HttpStatus.BAD_REQUEST, "End time cannot be before start time in your appointment"),
+    APPOINTMENT_OVERLAP("APMT-002", HttpStatus.BAD_REQUEST, "Appointment overlaps with an existing appointment"),
+    APPOINTMENT_QUOTA_EXCEEDED("APTM-003", HttpStatus.BAD_REQUEST, "Maximum appointments quota reached"),
 
     //GENERIC
     VALIDATION_ERROR("GEN-001", HttpStatus.BAD_REQUEST, "Validation error"),

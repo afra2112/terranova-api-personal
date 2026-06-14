@@ -1,4 +1,4 @@
-package com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response;
+package com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.appointment;
 
 import com.terranova.api.v1.appointment.domain.model.enums.AppointmentStatusEnum;
 import com.terranova.api.v1.appointment.infrastructure.adapter.in.web.dto.response.AttendanceResponse;

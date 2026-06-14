@@ -20,6 +20,9 @@ public enum ErrorCodeEnum {
     NULL_REFRESH_TOKEN("AUTH-004", HttpStatus.BAD_REQUEST, "Refresh token is required"),
     UNAUTHORIZED("AUTH-005", HttpStatus.UNAUTHORIZED, "Password or Email invalid."),
     FORBIDDEN("AUTH-006", HttpStatus.FORBIDDEN, "You don't have permissions to access this resource"),
+    INVALID_GOOGLE_ACCOUNT("AUTH-OO7", HttpStatus.BAD_REQUEST, "Google account email does not match authenticated user"),
+    GOOGLE_ALREADY_LINKED("AUTH-008", HttpStatus.BAD_REQUEST, "Google account already linked"),
+    GOOGLE_ACCOUNT_ALREADY_USED("AUTH-009", HttpStatus.BAD_REQUEST, "Google account already linked to another user"),
 
     //PRODUCT
     ENTITY_NOT_FOUND("PRD-001", HttpStatus.NOT_FOUND, "Entity not found"),

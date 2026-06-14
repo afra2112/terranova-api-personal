@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,7 @@ public class AuthController {
     private final RefreshTokenUseCase refreshTokenUseCase;
     private final RegisterUserUseCase registerUserUseCase;
     private final GoogleLoginUseCase googleLoginUseCase;
+    private final LinkGoogleAccountUseCase linkGoogleAccountUseCase;
     private final AuthMapper authMapper;
 
     @PostMapping("/login")
@@ -39,6 +41,13 @@ public class AuthController {
     @PostMapping("/google")
     public ResponseEntity<AuthResponse> loginWithGoogle(@RequestBody @Valid GoogleLoginRequest request){
         return ResponseEntity.ok(googleLoginUseCase.login(request.idToken()));
+    }
+
+    @PostMapping("/google/link")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Void> linkGoogle(@RequestBody @Valid GoogleLoginRequest request){
+        linkGoogleAccountUseCase.link(request.idToken());
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/register")

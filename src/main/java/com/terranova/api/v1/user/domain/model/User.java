@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@Builder(toBuilder = true)
 public record User(
         UUID userId,
         String identification,

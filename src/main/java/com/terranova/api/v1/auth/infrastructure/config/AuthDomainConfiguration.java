@@ -2,6 +2,7 @@ package com.terranova.api.v1.auth.infrastructure.config;
 
 import com.terranova.api.v1.auth.application.usecase.*;
 import com.terranova.api.v1.auth.domain.ports.out.*;
+import com.terranova.api.v1.shared.security.utils.AuthFacade;
 import com.terranova.api.v1.user.application.usecase.CreateUserUseCase;
 import com.terranova.api.v1.user.application.usecase.FindUserCaseUse;
 import com.terranova.api.v1.user.domain.ports.out.UserRepositoryPort;
@@ -66,5 +67,9 @@ public class AuthDomainConfiguration {
     @Bean
     public GoogleLoginUseCase googleLoginUseCase(GoogleAuthPort googleAuthPort, UserRepositoryPort userRepositoryPort, TokenGeneratorPort tokenGeneratorPort, RefreshTokenPort refreshTokenPort){
         return new GoogleLoginUseCase(googleAuthPort, userRepositoryPort, tokenGeneratorPort, refreshTokenPort);
+    }
+
+    @Bean LinkGoogleAccountUseCase linkGoogleAccountUseCase(GoogleAuthPort googleAuthPort, AuthFacade authFacade, UserRepositoryPort userRepositoryPort){
+        return new LinkGoogleAccountUseCase(googleAuthPort, userRepositoryPort, authFacade);
     }
 }

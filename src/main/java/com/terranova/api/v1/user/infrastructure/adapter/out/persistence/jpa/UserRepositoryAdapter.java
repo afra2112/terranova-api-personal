@@ -28,16 +28,15 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     }
 
     @Override
-    public User findByIdentification(UUID userId) {
+    public User findById(UUID userId) {
         return userMapper.toDomain(jpaUserRepository.findByUserId(userId).orElseThrow(
                 ()-> new BusinessException(ErrorCodeEnum.ENTITY_NOT_FOUND, "User not found with identification: " + userId)
         ));
     }
 
     @Override
-    public User findByGoogleId(String googleId) {
-        return userMapper.toDomain(jpaUserRepository.findByGoogleId(googleId).orElseThrow(
-                ()-> new BusinessException(ErrorCodeEnum.ENTITY_NOT_FOUND, "User not found with googleId: " + googleId)));
+    public Optional<User> findByGoogleId(String googleId) {
+        return Optional.ofNullable(jpaUserRepository.findByGoogleId(googleId)).map(userMapper::toDomain);
     }
 
     @Override

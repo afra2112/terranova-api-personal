@@ -11,9 +11,9 @@ public interface UserRepositoryPort {
 
     User save(User user);
 
-    User findByIdentification(UUID userId);
+    User findById(UUID userId);
 
-    User findByGoogleId(String googleId);
+    Optional<User> findByGoogleId(String googleId);
 
     Optional<User> findByEmail(String email);
 

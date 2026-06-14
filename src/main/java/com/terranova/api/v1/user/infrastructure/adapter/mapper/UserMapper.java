@@ -31,6 +31,8 @@ public class UserMapper {
                 )
                 .userScore(user.userScore())
                 .refreshTokenIds(user.refreshTokenIds())
+                .googleId(user.googleId())
+                .authProvider(user.authProvider())
                 .build();
     }
 

@@ -73,6 +73,7 @@ public class AuthMapper {
                 0,
                 new ArrayList<>(),
                 null,
+                null,
                 AuthProviderEnum.LOCAL
         );
     }
@@ -93,6 +94,7 @@ public class AuthMapper {
                 newUserDomain.userScore(),
                 newUserDomain.refreshTokenIds(),
                 newUserDomain.googleId(),
+                newUserDomain.facebookId(),
                 newUserDomain.authProvider()
         );
     }

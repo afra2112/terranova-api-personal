@@ -72,6 +72,8 @@ public class UserEntity {
 
     private String googleId;
 
+    private String facebookId;
+
     private AuthProviderEnum authProvider;
 //
 //    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)

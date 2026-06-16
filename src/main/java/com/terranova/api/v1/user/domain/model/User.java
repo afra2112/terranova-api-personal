@@ -24,6 +24,7 @@ public record User(
         int userScore,
         List<UUID> refreshTokenIds,
         String googleId,
+        String facebookId,
         AuthProviderEnum authProvider
 ) {
 }

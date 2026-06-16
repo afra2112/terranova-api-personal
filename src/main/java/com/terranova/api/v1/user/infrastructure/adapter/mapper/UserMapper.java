@@ -52,6 +52,7 @@ public class UserMapper {
                 entity.getUserScore(),
                 entity.getRefreshTokenIds(),
                 entity.getGoogleId(),
+                entity.getFacebookId(),
                 entity.getAuthProvider()
         );
     }

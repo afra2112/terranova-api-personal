@@ -2,6 +2,7 @@ package com.terranova.api.v1.auth.infrastructure.adapter.in.web.controller;
 
 import com.terranova.api.v1.auth.application.usecase.*;
 import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.AuthRequest;
+import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.FacebookLoginRequest;
 import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.GoogleLoginRequest;
 import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.RegisterRequest;
 import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.response.AuthResponse;
@@ -24,6 +25,7 @@ public class AuthController {
     private final RefreshTokenUseCase refreshTokenUseCase;
     private final RegisterUserUseCase registerUserUseCase;
     private final GoogleLoginUseCase googleLoginUseCase;
+    private final FacebookLoginUseCase facebookLoginUseCase;
     private final LinkGoogleAccountUseCase linkGoogleAccountUseCase;
     private final AuthMapper authMapper;
 
@@ -36,6 +38,11 @@ public class AuthController {
                         )
                 )
         );
+    }
+
+    @PostMapping("/facebook")
+    public ResponseEntity<AuthResponse> loginWithFacebook(@RequestBody @Valid FacebookLoginRequest facebookLoginRequest){
+        return ResponseEntity.ok(facebookLoginUseCase.login(facebookLoginRequest.accessToken()));
     }
 
     @PostMapping("/google")

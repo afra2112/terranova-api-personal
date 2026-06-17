@@ -35,6 +35,11 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     }
 
     @Override
+    public Optional<User> findByVerificationToken(String verificationToken) {
+        return Optional.of(userMapper.toDomain(jpaUserRepository.findByVerificationToken(verificationToken)));
+    }
+
+    @Override
     public Optional<User> findByGoogleId(String googleId) {
         return Optional.ofNullable(jpaUserRepository.findByGoogleId(googleId)).map(userMapper::toDomain);
     }

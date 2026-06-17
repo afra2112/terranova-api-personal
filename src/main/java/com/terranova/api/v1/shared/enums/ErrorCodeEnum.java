@@ -28,6 +28,8 @@ public enum ErrorCodeEnum {
     INVALID_FACEBOOK_ACCOUNT("AUTH-012", HttpStatus.BAD_REQUEST, "Facebook account email does not match authenticated user"),
     FACEBOOK_ALREADY_LINKED("AUTH-013", HttpStatus.BAD_REQUEST, "Facebook account already linked"),
     FACEBOOK_ACCOUNT_ALREADY_USED("AUTH-014", HttpStatus.BAD_REQUEST, "Facebook account already linked to another user"),
+    INVALID_VERIFICATION_CODE("AUTH-015", HttpStatus.BAD_REQUEST, "Verification code provided is invalid."),
+    VERIFICATION_CODE_EXPIRED("AUTH-016", HttpStatus.BAD_REQUEST, "Expired verification email code"),
 
     //PRODUCT
     ENTITY_NOT_FOUND("PRD-001", HttpStatus.NOT_FOUND, "Entity not found"),

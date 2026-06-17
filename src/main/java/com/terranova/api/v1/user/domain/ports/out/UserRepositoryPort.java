@@ -13,6 +13,8 @@ public interface UserRepositoryPort {
 
     User findById(UUID userId);
 
+    Optional<User> findByVerificationToken(String verificationToken);
+
     Optional<User> findByGoogleId(String googleId);
 
     Optional<User> findByFacebookId(String facebookId);

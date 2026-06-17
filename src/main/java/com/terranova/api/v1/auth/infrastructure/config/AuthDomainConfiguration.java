@@ -6,14 +6,19 @@ import com.terranova.api.v1.shared.security.utils.AuthFacade;
 import com.terranova.api.v1.user.application.usecase.CreateUserUseCase;
 import com.terranova.api.v1.user.application.usecase.FindUserCaseUse;
 import com.terranova.api.v1.user.domain.ports.out.UserRepositoryPort;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Properties;
 
 @Component
 public class AuthDomainConfiguration {
@@ -52,8 +57,8 @@ public class AuthDomainConfiguration {
     }
 
     @Bean
-    public RegisterUserUseCase registerUserUseCase(UserPort userPort){
-        return new RegisterUserUseCase(userPort);
+    public RegisterUserUseCase registerUserUseCase(EmailPort emailPort, UserPort userPort, TokenGeneratorPort tokenGeneratorPort, RefreshTokenPort refreshTokenPort){
+        return new RegisterUserUseCase(userPort, emailPort, tokenGeneratorPort, refreshTokenPort);
     }
 
     @Bean
@@ -81,6 +86,30 @@ public class AuthDomainConfiguration {
 
     @Bean LinkFacebookAccountUseCase linkFacebookAccountUseCase(FacebookAuthPort facebookAuthPort, UserRepositoryPort userRepositoryPort, AuthFacade authFacade){
         return new LinkFacebookAccountUseCase(facebookAuthPort, userRepositoryPort, authFacade);
+    }
+
+    @Bean VerifyEmailUseCase verifyEmailUseCase(UserRepositoryPort userRepositoryPort){
+        return new VerifyEmailUseCase(userRepositoryPort);
+    }
+
+    @Value("${MAIL_USERNAME}")
+    String username;
+    @Value("${MAIL_PASSWORD}")
+    String password;
+
+    @Bean
+    public JavaMailSender javaMailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+        mailSender.setUsername(username);
+        mailSender.setPassword(password);
+
+        Properties properties = mailSender.getJavaMailProperties();
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+
+        return mailSender;
     }
 
     @Bean RestTemplate restTemplate(RestTemplateBuilder builder){

@@ -1,9 +1,6 @@
 package com.terranova.api.v1.auth.infrastructure.adapter.out.user;
 
-import com.terranova.api.v1.auth.domain.model.AuthenticatedCredentials;
 import com.terranova.api.v1.auth.domain.model.NewUserDomain;
-import com.terranova.api.v1.auth.domain.ports.out.RefreshTokenPort;
-import com.terranova.api.v1.auth.domain.ports.out.TokenGeneratorPort;
 import com.terranova.api.v1.auth.domain.ports.out.UserPort;
 import com.terranova.api.v1.auth.infrastructure.adapter.mapper.AuthMapper;
 import com.terranova.api.v1.user.application.usecase.CreateUserUseCase;
@@ -21,8 +18,6 @@ public class UserRegistryAdapter implements UserPort {
 
     private final CreateUserUseCase createUserUseCase;
     private final FindUserCaseUse findUserCaseUse;
-    private final TokenGeneratorPort tokenGeneratorPort;
-    private final RefreshTokenPort refreshTokenPort;
     private final AuthMapper authMapper;
 
     @Override
@@ -32,13 +27,8 @@ public class UserRegistryAdapter implements UserPort {
 
     @Override
     @Transactional
-    public AuthenticatedCredentials createUser(NewUserDomain newUserDomain) {
-        User userDomain = createUserUseCase.createUser(authMapper.fromUserAuthDomainToUserDomain(newUserDomain));
-
-        String accessToken = tokenGeneratorPort.generateToken(userDomain.userId(), List.of("ROLE_BUYER"));
-        String refreshToken = refreshTokenPort.createRefreshToken(userDomain.userId());
-
-        return new AuthenticatedCredentials(accessToken, refreshToken);
+    public User createUser(NewUserDomain newUserDomain) {
+        return  createUserUseCase.createUser(authMapper.fromUserAuthDomainToUserDomain(newUserDomain));
     }
 
     @Override

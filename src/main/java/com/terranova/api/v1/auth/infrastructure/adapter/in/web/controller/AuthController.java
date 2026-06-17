@@ -1,10 +1,7 @@
 package com.terranova.api.v1.auth.infrastructure.adapter.in.web.controller;
 
 import com.terranova.api.v1.auth.application.usecase.*;
-import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.AuthRequest;
-import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.FacebookLoginRequest;
-import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.GoogleLoginRequest;
-import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.RegisterRequest;
+import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.*;
 import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.response.AuthResponse;
 import com.terranova.api.v1.auth.infrastructure.adapter.mapper.AuthMapper;
 import jakarta.validation.Valid;
@@ -22,6 +19,7 @@ public class AuthController {
 
     private final LoginUseCase loginUseCase;
     private final LogoutUseCase logoutUseCase;
+    private final VerifyEmailUseCase verifyEmailUseCase;
     private final RefreshTokenUseCase refreshTokenUseCase;
     private final RegisterUserUseCase registerUserUseCase;
     private final GoogleLoginUseCase googleLoginUseCase;
@@ -69,6 +67,12 @@ public class AuthController {
         return ResponseEntity.ok(
                 authMapper.toAuthResponse(registerUserUseCase.createUser(authMapper.fromRequestToNewUserDomain(request)))
         );
+    }
+
+    @PostMapping("/email/verify")
+    public ResponseEntity<Void> verifyEmail(@RequestBody VerifyEmailRequest request){
+        verifyEmailUseCase.verify(request.email(), request.code());
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/logout/{token}")

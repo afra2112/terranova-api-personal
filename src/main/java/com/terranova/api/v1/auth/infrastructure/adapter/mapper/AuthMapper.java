@@ -16,6 +16,8 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Component
 @RequiredArgsConstructor
@@ -74,7 +76,10 @@ public class AuthMapper {
                 new ArrayList<>(),
                 null,
                 null,
-                AuthProviderEnum.LOCAL
+                AuthProviderEnum.LOCAL,
+                false,
+                String.format("%06d", ThreadLocalRandom.current().nextInt(0, 1000000)),
+                LocalDateTime.now().plusMinutes(15)
         );
     }
 
@@ -95,7 +100,10 @@ public class AuthMapper {
                 newUserDomain.refreshTokenIds(),
                 newUserDomain.googleId(),
                 newUserDomain.facebookId(),
-                newUserDomain.authProvider()
+                newUserDomain.authProvider(),
+                newUserDomain.emailVerified(),
+                newUserDomain.emailVerificationCode(),
+                newUserDomain.emailVerificationExpiresAt()
         );
     }
 }

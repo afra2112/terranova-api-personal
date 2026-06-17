@@ -75,6 +75,12 @@ public class UserEntity {
     private String facebookId;
 
     private AuthProviderEnum authProvider;
+
+    private boolean emailVerified;
+
+    private String emailVerificationCode;
+
+    private LocalDateTime emailVerificationExpiresAt;
 //
 //    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<Favorito> favoritos;

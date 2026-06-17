@@ -51,7 +51,8 @@ public class GoogleLoginUseCase {
                         new ArrayList<>(),
                         googleUser.googleId(),
                         null,
-                        AuthProviderEnum.GOOGLE
+                        AuthProviderEnum.GOOGLE,
+                        true
                 ))
         );
 

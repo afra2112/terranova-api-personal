@@ -25,6 +25,9 @@ public record User(
         List<UUID> refreshTokenIds,
         String googleId,
         String facebookId,
-        AuthProviderEnum authProvider
+        AuthProviderEnum authProvider,
+        boolean emailVerified,
+        String emailVerificationCode,
+        LocalDateTime emailVerificationExpiresAt
 ) {
 }

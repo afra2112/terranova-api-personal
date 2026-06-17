@@ -25,6 +25,9 @@ public enum ErrorCodeEnum {
     GOOGLE_ACCOUNT_ALREADY_USED("AUTH-009", HttpStatus.BAD_REQUEST, "Google account already linked to another user"),
     INVALID_FACEBOOK_TOKEN("AUTH-O10", HttpStatus.BAD_REQUEST, "Invalid facebook access token."),
     FACEBOOK_EMAIL_REQUIRED("AUTH-011", HttpStatus.INTERNAL_SERVER_ERROR, "Facebook oauth2 has responded with a null email, please try creating your account with google provider or with email and password."),
+    INVALID_FACEBOOK_ACCOUNT("AUTH-012", HttpStatus.BAD_REQUEST, "Facebook account email does not match authenticated user"),
+    FACEBOOK_ALREADY_LINKED("AUTH-013", HttpStatus.BAD_REQUEST, "Facebook account already linked"),
+    FACEBOOK_ACCOUNT_ALREADY_USED("AUTH-014", HttpStatus.BAD_REQUEST, "Facebook account already linked to another user"),
 
     //PRODUCT
     ENTITY_NOT_FOUND("PRD-001", HttpStatus.NOT_FOUND, "Entity not found"),

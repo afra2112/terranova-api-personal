@@ -40,6 +40,11 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     }
 
     @Override
+    public Optional<User> findByFacebookId(String facebookId) {
+        return Optional.ofNullable(jpaUserRepository.findByFacebookId(facebookId)).map(userMapper::toDomain);
+    }
+
+    @Override
     public Optional<User> findByEmail(String email) {
         return Optional.ofNullable(jpaUserRepository.findByEmail(email)).map(userMapper::toDomain);
     }

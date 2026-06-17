@@ -79,6 +79,10 @@ public class AuthDomainConfiguration {
         return new FacebookLoginUseCase(facebookAuthPort, userRepositoryPort, tokenGeneratorPort, refreshTokenPort);
     }
 
+    @Bean LinkFacebookAccountUseCase linkFacebookAccountUseCase(FacebookAuthPort facebookAuthPort, UserRepositoryPort userRepositoryPort, AuthFacade authFacade){
+        return new LinkFacebookAccountUseCase(facebookAuthPort, userRepositoryPort, authFacade);
+    }
+
     @Bean RestTemplate restTemplate(RestTemplateBuilder builder){
         return builder.build();
     }

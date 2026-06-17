@@ -27,6 +27,7 @@ public class AuthController {
     private final GoogleLoginUseCase googleLoginUseCase;
     private final FacebookLoginUseCase facebookLoginUseCase;
     private final LinkGoogleAccountUseCase linkGoogleAccountUseCase;
+    private final LinkFacebookAccountUseCase linkFacebookAccountUseCase;
     private final AuthMapper authMapper;
 
     @PostMapping("/login")
@@ -43,6 +44,12 @@ public class AuthController {
     @PostMapping("/facebook")
     public ResponseEntity<AuthResponse> loginWithFacebook(@RequestBody @Valid FacebookLoginRequest facebookLoginRequest){
         return ResponseEntity.ok(facebookLoginUseCase.login(facebookLoginRequest.accessToken()));
+    }
+
+    @PostMapping("/facebook/link")
+    public ResponseEntity<Void> linkFacebook(@RequestBody @Valid FacebookLoginRequest request){
+        linkFacebookAccountUseCase.link(request.accessToken());
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/google")

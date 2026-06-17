@@ -15,6 +15,8 @@ public interface UserRepositoryPort {
 
     Optional<User> findByGoogleId(String googleId);
 
+    Optional<User> findByFacebookId(String facebookId);
+
     Optional<User> findByEmail(String email);
 
     List<SellerSummary> findBatchUsers(List<UUID> ids);

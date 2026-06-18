@@ -6,6 +6,8 @@ import com.terranova.api.v1.auth.domain.model.UserCredential;
 import com.terranova.api.v1.auth.domain.ports.out.AuthenticationPort;
 import com.terranova.api.v1.auth.domain.ports.out.RefreshTokenPort;
 import com.terranova.api.v1.auth.domain.ports.out.TokenGeneratorPort;
+import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
+import com.terranova.api.v1.shared.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -25,6 +27,10 @@ public class LoginUseCase {
     public AuthenticatedCredentials login(UserCredential userCredential) throws Exception {
 
         AuthenticatedUser authenticatedUser = authenticationPort.authenticate(userCredential);
+
+        if (!authenticatedUser.isEmailVerified()){
+            throw new BusinessException(ErrorCodeEnum.EMAIL_NOT_VERIFIED, "Please verify your email before logging in");
+        }
 
         String accessToken = tokenGeneratorPort.generateToken(authenticatedUser.userId(), authenticatedUser.roles());
         String refreshToken = refreshTokenPort.createRefreshToken(authenticatedUser.userId());

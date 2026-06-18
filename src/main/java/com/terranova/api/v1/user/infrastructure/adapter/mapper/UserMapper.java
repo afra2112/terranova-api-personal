@@ -31,6 +31,11 @@ public class UserMapper {
                 )
                 .userScore(user.userScore())
                 .refreshTokenIds(user.refreshTokenIds())
+                .googleId(user.googleId())
+                .authProvider(user.authProvider())
+                .emailVerified(user.emailVerified())
+                .emailVerificationCode(user.emailVerificationCode())
+                .emailVerificationExpiresAt(user.emailVerificationExpiresAt())
                 .build();
     }
 
@@ -48,7 +53,13 @@ public class UserMapper {
                 entity.getProfilePicture(),
                 entity.getRoles().stream().map(Enum::name).toList(),
                 entity.getUserScore(),
-                entity.getRefreshTokenIds()
+                entity.getRefreshTokenIds(),
+                entity.getGoogleId(),
+                entity.getFacebookId(),
+                entity.getAuthProvider(),
+                entity.isEmailVerified(),
+                entity.getEmailVerificationCode(),
+                entity.getEmailVerificationExpiresAt()
         );
     }
 

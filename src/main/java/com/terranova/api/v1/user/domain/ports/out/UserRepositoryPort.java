@@ -4,13 +4,22 @@ import com.terranova.api.v1.user.domain.model.SellerSummary;
 import com.terranova.api.v1.user.domain.model.User;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface UserRepositoryPort {
 
     User save(User user);
 
-    User findByIdentification(UUID userId);
+    User findById(UUID userId);
+
+    Optional<User> findByVerificationToken(String verificationToken);
+
+    Optional<User> findByGoogleId(String googleId);
+
+    Optional<User> findByFacebookId(String facebookId);
+
+    Optional<User> findByEmail(String email);
 
     List<SellerSummary> findBatchUsers(List<UUID> ids);
 

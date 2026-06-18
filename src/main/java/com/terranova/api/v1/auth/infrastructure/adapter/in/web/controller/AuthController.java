@@ -1,17 +1,14 @@
 package com.terranova.api.v1.auth.infrastructure.adapter.in.web.controller;
 
-import com.terranova.api.v1.auth.application.usecase.LoginUseCase;
-import com.terranova.api.v1.auth.application.usecase.LogoutUseCase;
-import com.terranova.api.v1.auth.application.usecase.RefreshTokenUseCase;
-import com.terranova.api.v1.auth.application.usecase.RegisterUserUseCase;
-import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.AuthRequest;
-import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.RegisterRequest;
+import com.terranova.api.v1.auth.application.usecase.*;
+import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.*;
 import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.response.AuthResponse;
 import com.terranova.api.v1.auth.infrastructure.adapter.mapper.AuthMapper;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +19,14 @@ public class AuthController {
 
     private final LoginUseCase loginUseCase;
     private final LogoutUseCase logoutUseCase;
+    private final VerifyEmailUseCase verifyEmailUseCase;
     private final RefreshTokenUseCase refreshTokenUseCase;
     private final RegisterUserUseCase registerUserUseCase;
+    private final GoogleLoginUseCase googleLoginUseCase;
+    private final FacebookLoginUseCase facebookLoginUseCase;
+    private final LinkGoogleAccountUseCase linkGoogleAccountUseCase;
+    private final LinkFacebookAccountUseCase linkFacebookAccountUseCase;
+    private final ResendVerificationUseCase resendVerificationUseCase;
     private final AuthMapper authMapper;
 
     @PostMapping("/login")
@@ -37,11 +40,45 @@ public class AuthController {
         );
     }
 
+    @PostMapping("/facebook")
+    public ResponseEntity<AuthResponse> loginWithFacebook(@RequestBody @Valid FacebookLoginRequest facebookLoginRequest){
+        return ResponseEntity.ok(facebookLoginUseCase.login(facebookLoginRequest.accessToken()));
+    }
+
+    @PostMapping("/facebook/link")
+    public ResponseEntity<Void> linkFacebook(@RequestBody @Valid FacebookLoginRequest request){
+        linkFacebookAccountUseCase.link(request.accessToken());
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/google")
+    public ResponseEntity<AuthResponse> loginWithGoogle(@RequestBody @Valid GoogleLoginRequest request){
+        return ResponseEntity.ok(googleLoginUseCase.login(request.idToken()));
+    }
+
+    @PostMapping("/google/link")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Void> linkGoogle(@RequestBody @Valid GoogleLoginRequest request){
+        linkGoogleAccountUseCase.link(request.idToken());
+        return ResponseEntity.noContent().build();
+    }
+
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request){
-        return ResponseEntity.ok(
-                authMapper.toAuthResponse(registerUserUseCase.createUser(authMapper.fromRequestToNewUserDomain(request)))
-        );
+    public ResponseEntity<Void> register(@Valid @RequestBody RegisterRequest request){
+        registerUserUseCase.createUser(authMapper.fromRequestToNewUserDomain(request));
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/email/resend")
+    public ResponseEntity<Void> resendEmailVerificationCode(@RequestBody @Valid ResendVerificationRequest request){
+        resendVerificationUseCase.resend(request.email());
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/email/verify")
+    public ResponseEntity<Void> verifyEmail(@RequestBody VerifyEmailRequest request){
+        verifyEmailUseCase.verify(request.email(), request.code());
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/logout/{token}")

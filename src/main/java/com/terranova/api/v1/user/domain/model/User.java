@@ -1,10 +1,14 @@
 package com.terranova.api.v1.user.domain.model;
 
+import com.terranova.api.v1.user.domain.AuthProviderEnum;
+import lombok.Builder;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@Builder(toBuilder = true)
 public record User(
         UUID userId,
         String identification,
@@ -18,6 +22,12 @@ public record User(
         String profilePicture,
         List<String> roles,
         int userScore,
-        List<UUID> refreshTokenIds
+        List<UUID> refreshTokenIds,
+        String googleId,
+        String facebookId,
+        AuthProviderEnum authProvider,
+        boolean emailVerified,
+        String emailVerificationCode,
+        LocalDateTime emailVerificationExpiresAt
 ) {
 }

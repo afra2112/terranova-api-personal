@@ -16,7 +16,7 @@ public class FindUserCaseUse {
     }
 
     public User findUserByIdentification(UUID userId){
-        return userRepositoryPort.findByIdentification(userId);
+        return userRepositoryPort.findById(userId);
     }
 
     public List<SellerSummary> findSellerSummary(List<UUID> ids){

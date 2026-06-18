@@ -8,6 +8,7 @@ import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.AuthR
 import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.request.RegisterRequest;
 import com.terranova.api.v1.auth.infrastructure.adapter.in.web.dto.response.AuthResponse;
 import com.terranova.api.v1.auth.infrastructure.adapter.out.persistence.entity.RefreshTokenEntity;
+import com.terranova.api.v1.user.domain.AuthProviderEnum;
 import com.terranova.api.v1.user.domain.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Component
 @RequiredArgsConstructor
@@ -70,7 +73,13 @@ public class AuthMapper {
                 null,
                 List.of("ROLE_BUYER"),
                 0,
-                new ArrayList<>()
+                new ArrayList<>(),
+                null,
+                null,
+                AuthProviderEnum.LOCAL,
+                false,
+                String.format("%06d", ThreadLocalRandom.current().nextInt(0, 1000000)),
+                LocalDateTime.now().plusMinutes(15)
         );
     }
 
@@ -88,7 +97,13 @@ public class AuthMapper {
                 newUserDomain.profilePicture(),
                 newUserDomain.roles(),
                 newUserDomain.userScore(),
-                newUserDomain.refreshTokenIds()
+                newUserDomain.refreshTokenIds(),
+                newUserDomain.googleId(),
+                newUserDomain.facebookId(),
+                newUserDomain.authProvider(),
+                newUserDomain.emailVerified(),
+                newUserDomain.emailVerificationCode(),
+                newUserDomain.emailVerificationExpiresAt()
         );
     }
 }

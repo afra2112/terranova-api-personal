@@ -1,5 +1,6 @@
 package com.terranova.api.v1.shared.security.model;
 
+import com.terranova.api.v1.user.domain.model.User;
 import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity.UserEntity;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,23 +11,23 @@ import java.util.Collection;
 @Getter
 public class CustomUserDetails implements UserDetails {
 
-    private final UserEntity user;
+    private final User user;
 
-    public CustomUserDetails(UserEntity user) {
+    public CustomUserDetails(User user) {
         this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.name())).toList();
+        return user.roles().stream()
+                .map(role -> new SimpleGrantedAuthority(String.valueOf(role))).toList();
     }
 
     @Override
-    public String getPassword() {return user.getPassword();}
+    public String getPassword() {return user.password();}
 
     @Override
-    public String getUsername() {return user.getEmail();}
+    public String getUsername() {return user.email();}
 
     @Override public boolean isAccountNonExpired() { return true; }
     @Override public boolean isAccountNonLocked() { return true; }

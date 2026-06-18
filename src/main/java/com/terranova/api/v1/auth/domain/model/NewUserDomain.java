@@ -1,5 +1,7 @@
 package com.terranova.api.v1.auth.domain.model;
 
+import com.terranova.api.v1.user.domain.AuthProviderEnum;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,6 +20,12 @@ public record NewUserDomain(
         String profilePicture,
         List<String> roles,
         int userScore,
-        List<UUID> refreshTokenIds
+        List<UUID> refreshTokenIds,
+        String googleId,
+        String facebookId,
+        AuthProviderEnum authProvider,
+        boolean emailVerified,
+        String emailVerificationCode,
+        LocalDateTime emailVerificationExpiresAt
 ) {
 }

@@ -18,17 +18,13 @@ public class RegisterUserUseCase {
 
     private final UserPort userPort;
     private final EmailPort emailPort;
-    private final TokenGeneratorPort tokenGeneratorPort;
-    private final RefreshTokenPort refreshTokenPort;
 
-    public RegisterUserUseCase(UserPort userPort, EmailPort emailPort, TokenGeneratorPort tokenGeneratorPort, RefreshTokenPort refreshTokenPort) {
+    public RegisterUserUseCase(UserPort userPort, EmailPort emailPort) {
         this.userPort = userPort;
         this.emailPort = emailPort;
-        this.tokenGeneratorPort = tokenGeneratorPort;
-        this.refreshTokenPort = refreshTokenPort;
     }
 
-    public AuthenticatedCredentials createUser(NewUserDomain newUserDomain){
+    public void createUser(NewUserDomain newUserDomain){
         if (userPort.existByEmailOrIdentification(newUserDomain.email(), newUserDomain.identification())){
             throw new BusinessException(ErrorCodeEnum.USER_ALREADY_EXISTS, "User with email: " + newUserDomain.email() + ". Or Identification: " + newUserDomain.identification() + ". Already exists, please sign in.");
         }
@@ -38,11 +34,6 @@ public class RegisterUserUseCase {
         User saved = userPort.createUser(newUserDomain);
 
         emailPort.sendVerificationCode(saved.email(), saved.emailVerificationCode());
-
-        String accessToken = tokenGeneratorPort.generateToken(saved.userId(), List.of("ROLE_BUYER"));
-        String refreshToken = refreshTokenPort.createRefreshToken(saved.userId());
-
-        return new AuthenticatedCredentials(accessToken, refreshToken);
     }
 
     private void validateBirthDate(LocalDate date){

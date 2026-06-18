@@ -9,8 +9,6 @@ import com.terranova.api.v1.user.domain.ports.out.UserRepositoryPort;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -57,8 +55,8 @@ public class AuthDomainConfiguration {
     }
 
     @Bean
-    public RegisterUserUseCase registerUserUseCase(EmailPort emailPort, UserPort userPort, TokenGeneratorPort tokenGeneratorPort, RefreshTokenPort refreshTokenPort){
-        return new RegisterUserUseCase(userPort, emailPort, tokenGeneratorPort, refreshTokenPort);
+    public RegisterUserUseCase registerUserUseCase(EmailPort emailPort, UserPort userPort){
+        return new RegisterUserUseCase(userPort, emailPort);
     }
 
     @Bean
@@ -92,24 +90,8 @@ public class AuthDomainConfiguration {
         return new VerifyEmailUseCase(userRepositoryPort);
     }
 
-    @Value("${MAIL_USERNAME}")
-    String username;
-    @Value("${MAIL_PASSWORD}")
-    String password;
-
-    @Bean
-    public JavaMailSender javaMailSender() {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(587);
-        mailSender.setUsername(username);
-        mailSender.setPassword(password);
-
-        Properties properties = mailSender.getJavaMailProperties();
-        properties.put("mail.smtp.auth", "true");
-        properties.put("mail.smtp.starttls.enable", "true");
-
-        return mailSender;
+    @Bean ResendVerificationUseCase resendVerificationUseCase(UserRepositoryPort userRepositoryPort, EmailPort emailPort){
+        return new ResendVerificationUseCase(userRepositoryPort, emailPort);
     }
 
     @Bean RestTemplate restTemplate(RestTemplateBuilder builder){

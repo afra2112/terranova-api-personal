@@ -33,6 +33,9 @@ public class UserMapper {
                 .refreshTokenIds(user.refreshTokenIds())
                 .googleId(user.googleId())
                 .authProvider(user.authProvider())
+                .emailVerified(user.emailVerified())
+                .emailVerificationCode(user.emailVerificationCode())
+                .emailVerificationExpiresAt(user.emailVerificationExpiresAt())
                 .build();
     }
 
@@ -53,7 +56,10 @@ public class UserMapper {
                 entity.getRefreshTokenIds(),
                 entity.getGoogleId(),
                 entity.getFacebookId(),
-                entity.getAuthProvider()
+                entity.getAuthProvider(),
+                entity.isEmailVerified(),
+                entity.getEmailVerificationCode(),
+                entity.getEmailVerificationExpiresAt()
         );
     }
 

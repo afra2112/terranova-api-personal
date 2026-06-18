@@ -26,6 +26,7 @@ public class AuthController {
     private final FacebookLoginUseCase facebookLoginUseCase;
     private final LinkGoogleAccountUseCase linkGoogleAccountUseCase;
     private final LinkFacebookAccountUseCase linkFacebookAccountUseCase;
+    private final ResendVerificationUseCase resendVerificationUseCase;
     private final AuthMapper authMapper;
 
     @PostMapping("/login")
@@ -63,10 +64,15 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request){
-        return ResponseEntity.ok(
-                authMapper.toAuthResponse(registerUserUseCase.createUser(authMapper.fromRequestToNewUserDomain(request)))
-        );
+    public ResponseEntity<Void> register(@Valid @RequestBody RegisterRequest request){
+        registerUserUseCase.createUser(authMapper.fromRequestToNewUserDomain(request));
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/email/resend")
+    public ResponseEntity<Void> resendEmailVerificationCode(@RequestBody @Valid ResendVerificationRequest request){
+        resendVerificationUseCase.resend(request.email());
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/email/verify")

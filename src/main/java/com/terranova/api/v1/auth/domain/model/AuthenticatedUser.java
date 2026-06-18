@@ -5,5 +5,6 @@ import java.util.UUID;
 
 public record AuthenticatedUser(
         UUID userId,
-        List<String> roles
+        List<String> roles,
+        boolean isEmailVerified
 ){ }

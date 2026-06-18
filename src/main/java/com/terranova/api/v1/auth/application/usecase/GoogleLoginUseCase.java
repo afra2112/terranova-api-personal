@@ -52,7 +52,9 @@ public class GoogleLoginUseCase {
                         googleUser.googleId(),
                         null,
                         AuthProviderEnum.GOOGLE,
-                        true
+                        true,
+                        null,
+                        null
                 ))
         );
 

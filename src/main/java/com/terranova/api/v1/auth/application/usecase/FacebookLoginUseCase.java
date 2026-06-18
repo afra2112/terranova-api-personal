@@ -59,7 +59,9 @@ public class FacebookLoginUseCase {
                                         null,
                                         facebookUser.facebookId(),
                                         AuthProviderEnum.FACEBOOK,
-                                        true
+                                        true,
+                                        null,
+                        null
                                 ))
                 );
 

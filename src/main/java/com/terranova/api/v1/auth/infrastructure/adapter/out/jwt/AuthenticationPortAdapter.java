@@ -41,7 +41,7 @@ public class AuthenticationPortAdapter implements AuthenticationPort {
 
             User user = userDetails.getUser();
 
-            return new AuthenticatedUser(user.userId(), user.roles());
+            return new AuthenticatedUser(user.userId(), user.roles(), user.emailVerified());
 
         }catch (BadCredentialsException ex){
             throw new BusinessException(ErrorCodeEnum.INVALID_CREDENTIALS);

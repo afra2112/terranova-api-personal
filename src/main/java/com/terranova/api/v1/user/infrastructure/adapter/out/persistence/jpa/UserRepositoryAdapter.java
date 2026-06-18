@@ -36,7 +36,7 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
 
     @Override
     public Optional<User> findByVerificationToken(String verificationToken) {
-        return Optional.of(userMapper.toDomain(jpaUserRepository.findByVerificationToken(verificationToken)));
+        return Optional.of(userMapper.toDomain(jpaUserRepository.findByEmailVerificationCode(verificationToken)));
     }
 
     @Override

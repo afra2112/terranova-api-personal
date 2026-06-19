@@ -4,8 +4,10 @@ import com.terranova.api.v1.appointment.application.usecase.CreateAppointmentUse
 import com.terranova.api.v1.appointment.application.usecase.GetAppointmentsByProductUseCase;
 import com.terranova.api.v1.appointment.infrastructure.adapter.in.web.dto.request.CreateAppointmentRequest;
 import com.terranova.api.v1.appointment.infrastructure.adapter.in.web.dto.response.AppointmentResponse;
+import com.terranova.api.v1.appointment.infrastructure.adapter.in.web.dto.response.AttendanceResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +24,15 @@ public class AppointmentController {
     public final MapperIn mapperIn;
 
     @PostMapping
+    @PreAuthorize("hasRole('SELLER')")
     public AppointmentResponse createAppointment(@RequestBody @Valid CreateAppointmentRequest request){
         return mapperOut.domainToResponse(createAppointmentUseCase.createAppointment(mapperIn.requestToCommand(request)));
+    }
+
+    @PostMapping("{id}/reserve")
+    @PreAuthorize("hasRole('BUYER')")
+    public AttendanceResponse reserveAnAppointment(@PathVariable Long id){
+
     }
 
     @GetMapping("/products/{ids}")

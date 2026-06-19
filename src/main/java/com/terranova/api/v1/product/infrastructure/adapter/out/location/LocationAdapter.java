@@ -15,10 +15,7 @@ public class LocationAdapter implements LocationPort {
     private final RestClient restClient;
 
     @Override
-    public LocationInfo getLocation(
-            Double latitude,
-            Double longitude
-    ) {
+    public LocationInfo getLocation(Double latitude, Double longitude) {
 
         NominatiResponse response = restClient.get()
                 .uri(uriBuilder -> uriBuilder

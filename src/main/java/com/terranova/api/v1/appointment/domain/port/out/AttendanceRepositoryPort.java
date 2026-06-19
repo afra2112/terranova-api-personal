@@ -1,0 +1,15 @@
+package com.terranova.api.v1.appointment.domain.port.out;
+
+import com.terranova.api.v1.appointment.domain.model.Attendance;
+
+import java.util.UUID;
+
+public interface AttendanceRepositoryPort {
+
+    Attendance save(Attendance reservation);
+
+    long countEnrolledReservations(Long appointmentId);
+
+    boolean existsByAppointmentAndBuyer(Long appointmentId, UUID buyerId);
+
+}

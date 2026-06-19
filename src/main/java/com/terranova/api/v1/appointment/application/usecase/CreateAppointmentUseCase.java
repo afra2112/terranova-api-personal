@@ -10,6 +10,7 @@ import com.terranova.api.v1.appointment.infrastructure.adapter.out.product.dto.P
 import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
 import com.terranova.api.v1.shared.exception.BusinessException;
 import com.terranova.api.v1.shared.security.utils.AuthFacade;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
 
@@ -55,7 +56,7 @@ public class CreateAppointmentUseCase {
             );
         }
 
-        if(command.startTime().isBefore(LocalTime.now())){
+        if((command.date().isEqual(LocalDate.now()) || command.date().isBefore(LocalDate.now())) && command.startTime().isBefore(LocalTime.now())){
             throw new BusinessException(
                     ErrorCodeEnum.INVALID_TIME,
                     "Appointment must be scheduled in the future"
@@ -65,8 +66,7 @@ public class CreateAppointmentUseCase {
 
     private void validateOwnership(ProductMetadataResponse product){
 
-        UUID authenticatedUser =
-                authFacade.getAuthenticatedId();
+        UUID authenticatedUser = authFacade.getAuthenticatedId();
 
         if(!product.sellerId().equals(authenticatedUser)){
             throw new BusinessException(

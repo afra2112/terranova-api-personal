@@ -1,5 +1,6 @@
 package com.terranova.api.v1.shared.config;
 
+import com.terranova.api.v1.user.domain.AuthProviderEnum;
 import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity.UserEntity;
 import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.entity.enums.RoleEnum;
 import com.terranova.api.v1.user.infrastructure.adapter.out.persistence.jpa.JpaUserRepository;
@@ -34,6 +35,12 @@ public class DevDataSeeder implements CommandLineRunner {
             admin.setPhoneNumber("3102162732");
             admin.setBirthday(LocalDate.of(2007, 6, 5));
             admin.setRegisterDate(LocalDateTime.now());
+            admin.setGoogleId(null);
+            admin.setFacebookId(null);
+            admin.setAuthProvider(AuthProviderEnum.LOCAL);
+            admin.setEmailVerificationCode(null);
+            admin.setEmailVerificationExpiresAt(null);
+            admin.setEmailVerified(true);
             jpaUserRepository.save(admin);
         }
     }

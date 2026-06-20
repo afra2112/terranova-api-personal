@@ -6,6 +6,9 @@ import com.terranova.api.v1.appointment.domain.port.out.AttendanceRepositoryPort
 import com.terranova.api.v1.appointment.infrastructure.adapter.out.persistente.AttendanceMapperPersistence;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -14,6 +17,18 @@ public class AttendancePortAdapter implements AttendanceRepositoryPort {
 
     private final AttendanceJpaRepository attendanceJpaRepository;
     private final AttendanceMapperPersistence attendanceMapperPersistence;
+
+    @Override
+    public Optional<Attendance> findById(Long id) {
+        return Optional.ofNullable(attendanceMapperPersistence.entityToDomain(attendanceJpaRepository.findByAttendanceId(id)));
+    }
+
+    @Override
+    public List<Attendance> findByUserId(UUID id) {
+        return attendanceJpaRepository.findByUserId(id).stream()
+                .map(attendanceMapperPersistence::entityToDomain)
+                .toList();
+    }
 
     @Override
     public Attendance save(Attendance attendance) {

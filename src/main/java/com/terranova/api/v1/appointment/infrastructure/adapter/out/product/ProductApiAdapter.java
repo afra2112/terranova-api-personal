@@ -6,6 +6,7 @@ import com.terranova.api.v1.appointment.infrastructure.adapter.out.product.dto.P
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -20,7 +21,7 @@ public class ProductApiAdapter implements ProductServicePort {
     }
 
     @Override
-    public ProductMetadataResponse getProductMetadataById(Long productId) {
-        return productFeignClient.getProductMetadata(productId);
+    public List<ProductMetadataResponse> getProductMetadataById(List<Long> productIds) {
+        return productFeignClient.getProductMetadata(productIds);
     }
 }

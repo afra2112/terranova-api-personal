@@ -5,7 +5,6 @@ import com.terranova.api.v1.appointment.domain.port.out.AppointmentRepositoryPor
 import com.terranova.api.v1.appointment.infrastructure.adapter.out.persistente.MapperPersistence;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +34,13 @@ public class AppointmentRepositoryAdapter implements AppointmentRepositoryPort {
                 .stream()
                 .map(mapperPersistence::entityToDomain)
                 .collect(Collectors.groupingBy(Appointment::productId));
+    }
+
+    @Override
+    public List<Appointment> getAppointmentsByIds(List<Long> ids) {
+        return appointmentJpaRepository.getAllByIds(ids).stream()
+                .map(mapperPersistence::entityToDomain)
+                .toList();
     }
 
     @Override

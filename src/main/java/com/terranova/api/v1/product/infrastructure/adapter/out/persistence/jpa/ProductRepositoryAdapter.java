@@ -27,6 +27,13 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
     }
 
     @Override
+    public List<Product> fetchProductsByIds(List<Long> ids) {
+        return jpaProductRepository.findAllById(ids).stream()
+                .map(productMapper::entityToDomain)
+                .toList();
+    }
+
+    @Override
     public List<Product> searchProducts(SearchProductCommand filter) {
         return jpaProductRepository.findAll(ProductSpecification.byFilter(filter))
                 .stream()

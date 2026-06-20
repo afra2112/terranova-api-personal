@@ -33,16 +33,23 @@ public class GetProductUseCase {
         this.userPort = userPort;
     }
 
-    public ProductInfoMetadataCommand getProductMetadata(Long productId){
-        Product product = productRepositoryPort.getById(productId).orElseThrow(
-                () -> new BusinessException(ErrorCodeEnum.ENTITY_NOT_FOUND, "Product not found by id: " + productId)
-        );
+    public List<ProductInfoMetadataCommand> getProductsMetadata(List<Long> productIds){
+        List<Product> products = productRepositoryPort.fetchProductsByIds(productIds);
 
-        return new ProductInfoMetadataCommand(
-                product.getProductId(),
-                product.getSellerId(),
-                product.getStatus()
-        );
+        return products.stream()
+                .map(product -> {
+                    return new ProductInfoMetadataCommand(
+                            product.getProductId(),
+                            product.getSellerId(),
+                            product.getName(),
+                            product.getDescription(),
+                            product.getPrice(),
+                            product.getLatitude(),
+                            product.getLongitude(),
+                            product.getStatus()
+                    );
+                })
+                .toList();
     }
 
     public Product getProduct(Long productId, String expand){

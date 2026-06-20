@@ -55,6 +55,8 @@ public enum ErrorCodeEnum {
     APPOINTMENT_EXPIRED("APTM-004", HttpStatus.BAD_REQUEST, "You're trying to assist to an appointment before the present"),
     APPOINTMENT_ALREADY_RESERVED("APTM-005", HttpStatus.BAD_REQUEST, "You've already enrolled to this appointment"),
     APPOINTMENT_FULL("APTM-006", HttpStatus.BAD_REQUEST, "This appointment party has reached it's party size and it's already full"),
+    ATTENDANCE_ALREADY_CANCELLED("APTM-007", HttpStatus.BAD_REQUEST, "This attendances was previously cancelled."),
+    SELLER_CANNOT_RESERVE_OWN_APPOINTMENT("APTM-008", HttpStatus.BAD_REQUEST, "The seller for this appointment has tried to reserve its own appointment and it is not possible"),
 
     //GENERIC
     VALIDATION_ERROR("GEN-001", HttpStatus.BAD_REQUEST, "Validation error"),

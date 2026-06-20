@@ -12,6 +12,7 @@ import com.terranova.api.v1.shared.exception.BusinessException;
 import com.terranova.api.v1.shared.security.utils.AuthFacade;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.UUID;
 
 public class CreateAppointmentUseCase {
@@ -32,7 +33,7 @@ public class CreateAppointmentUseCase {
 
         validateDates(command);
 
-        ProductMetadataResponse product = productServicePort.getProductMetadataById(command.productId());
+        ProductMetadataResponse product = productServicePort.getProductMetadataById(List.of(command.productId())).getFirst();
 
         validateOwnership(product);
 

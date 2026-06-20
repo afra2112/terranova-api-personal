@@ -12,6 +12,8 @@ public interface ProductRepositoryPort {
 
     Optional<Product> getById(Long productId);
 
+    List<Product> fetchProductsByIds(List<Long> ids);
+
     List<Product> searchProducts(SearchProductCommand filter);
 
     boolean existsById(Long id);

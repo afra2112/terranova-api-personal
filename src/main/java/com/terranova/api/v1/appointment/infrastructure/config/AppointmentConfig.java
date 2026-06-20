@@ -1,8 +1,6 @@
 package com.terranova.api.v1.appointment.infrastructure.config;
 
-import com.terranova.api.v1.appointment.application.usecase.CreateAppointmentUseCase;
-import com.terranova.api.v1.appointment.application.usecase.GetAppointmentsByProductUseCase;
-import com.terranova.api.v1.appointment.application.usecase.ReserveAttendanceUseCase;
+import com.terranova.api.v1.appointment.application.usecase.*;
 import com.terranova.api.v1.appointment.domain.port.out.AppointmentRepositoryPort;
 import com.terranova.api.v1.appointment.domain.port.out.AttendanceRepositoryPort;
 import com.terranova.api.v1.appointment.domain.port.out.ProductServicePort;
@@ -27,5 +25,15 @@ public class AppointmentConfig {
     @Bean
     public ReserveAttendanceUseCase reserveAttendanceUseCase(AppointmentRepositoryPort appointmentRepositoryPort, AttendanceRepositoryPort attendanceRepositoryPort, ProductServicePort productServicePort, AuthFacade authFacade){
         return new ReserveAttendanceUseCase(appointmentRepositoryPort, attendanceRepositoryPort, productServicePort, authFacade);
+    }
+
+    @Bean
+    public CancelAppointmentUseCase cancelAppointmentUseCase(AppointmentRepositoryPort appointmentRepositoryPort, AttendanceRepositoryPort attendanceRepositoryPort, AuthFacade authFacade){
+        return new CancelAppointmentUseCase(attendanceRepositoryPort, appointmentRepositoryPort, authFacade);
+    }
+
+    @Bean
+    public FetchBuyerAppointmentsUseCase fetchBuyerAppointmentsUseCase(ProductServicePort productServicePort, AppointmentRepositoryPort appointmentRepositoryPort, AttendanceRepositoryPort attendanceRepositoryPort, AuthFacade authFacade){
+        return new FetchBuyerAppointmentsUseCase(authFacade, productServicePort, attendanceRepositoryPort, appointmentRepositoryPort);
     }
 }

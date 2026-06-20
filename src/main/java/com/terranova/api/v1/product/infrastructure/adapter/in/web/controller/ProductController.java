@@ -65,9 +65,12 @@ public class ProductController {
         return ResponseEntity.ok(productMapper.domainToResponse(getProductUseCase.getProduct(id, expand)));
     }
 
-    @GetMapping("/{id}/metadata")
-    public ResponseEntity<ProductAppointmentInfo> getProductMetadata(@PathVariable Long id){
-        return ResponseEntity.ok(productMapper.domainToProductAppointmentInfoMetadata(getProductUseCase.getProductMetadata(id)));
+    @PostMapping("/metadata")
+    public ResponseEntity<List<ProductAppointmentInfo>> getProductsMetadata(@RequestBody @Valid List<Long> productIds){
+        return ResponseEntity.ok(getProductUseCase.getProductsMetadata(productIds).stream()
+                .map(productMapper::domainToProductAppointmentInfoMetadata)
+                .toList()
+        );
     }
 
     @PostMapping("/{id}/publish")

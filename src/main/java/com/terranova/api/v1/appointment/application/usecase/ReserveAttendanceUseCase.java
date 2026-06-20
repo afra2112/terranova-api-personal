@@ -3,15 +3,16 @@ package com.terranova.api.v1.appointment.application.usecase;
 import com.terranova.api.v1.appointment.domain.model.Appointment;
 import com.terranova.api.v1.appointment.domain.model.Attendance;
 import com.terranova.api.v1.appointment.domain.model.enums.AttendanceStatusEnum;
-import com.terranova.api.v1.appointment.domain.model.product.ProductResponse;
 import com.terranova.api.v1.appointment.domain.model.product.enums.StatusEnum;
 import com.terranova.api.v1.appointment.domain.port.out.AppointmentRepositoryPort;
 import com.terranova.api.v1.appointment.domain.port.out.AttendanceRepositoryPort;
 import com.terranova.api.v1.appointment.domain.port.out.ProductServicePort;
+import com.terranova.api.v1.appointment.infrastructure.adapter.out.product.dto.ProductMetadataResponse;
 import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
 import com.terranova.api.v1.shared.exception.BusinessException;
 import com.terranova.api.v1.shared.security.utils.AuthFacade;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public class ReserveAttendanceUseCase {
@@ -36,17 +37,24 @@ public class ReserveAttendanceUseCase {
 
         validateFutureAppointment(appointment);
 
-        ProductResponse product = productServicePort.getProductById(appointment.productId()).orElseThrow(
-                () -> new BusinessException(ErrorCodeEnum.ENTITY_NOT_FOUND)
-        );
+        ProductMetadataResponse product = productServicePort.getProductMetadataById(List.of(appointment.productId())).getFirst();
 
         validatePublishedProduct(product);
 
         UUID buyerId = authFacade.getAuthenticatedId();
 
+        validateBuyerIsNotSeller(product.sellerId(), buyerId);
+
         validateDuplicateReservation(appointmentId, buyerId);
 
         validateQuota(appointment);
+
+        Appointment updated = appointment.toBuilder()
+                .takenSlots(appointment.takenSlots() + 1)
+                .availableSlots(appointment.availableSlots() - 1)
+                .build();
+
+        appointmentRepositoryPort.save(updated);
 
         return reservationRepositoryPort.save(
                 new Attendance(
@@ -61,7 +69,6 @@ public class ReserveAttendanceUseCase {
     }
 
     private void validateFutureAppointment(Appointment appointment){
-
         LocalDateTime appointmentDateTime = LocalDateTime.of(appointment.date(), appointment.startTime());
 
         if(appointmentDateTime.isBefore(LocalDateTime.now())){
@@ -71,7 +78,7 @@ public class ReserveAttendanceUseCase {
         }
     }
 
-    private void validatePublishedProduct(ProductResponse product){
+    private void validatePublishedProduct(ProductMetadataResponse product){
         if(product.status() != StatusEnum.PUBLISHED){
             throw new BusinessException(
                     ErrorCodeEnum.WRONG_PRODUCT_STATUS,
@@ -88,11 +95,14 @@ public class ReserveAttendanceUseCase {
         }
     }
 
+    private void validateBuyerIsNotSeller(UUID sellerId, UUID buyerId){
+        if (sellerId.equals(buyerId)){
+            throw new BusinessException(ErrorCodeEnum.SELLER_CANNOT_RESERVE_OWN_APPOINTMENT);
+        }
+    }
+
     private void validateQuota(Appointment appointment){
-
-        long reservations = reservationRepositoryPort.countEnrolledReservations(appointment.appointmentId());
-
-        if(reservations >= appointment.maximumQuorum()){
+        if(appointment.availableSlots() <= 0){
             throw new BusinessException(
                     ErrorCodeEnum.APPOINTMENT_FULL,
                     "This appointment party has reached it's party size and it's already full. Maximum quorum: " + appointment.maximumQuorum()

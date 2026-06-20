@@ -1,11 +1,10 @@
 package com.terranova.api.v1.appointment.infrastructure.adapter.in.web;
 
-import com.terranova.api.v1.appointment.application.usecase.CreateAppointmentUseCase;
-import com.terranova.api.v1.appointment.application.usecase.GetAppointmentsByProductUseCase;
-import com.terranova.api.v1.appointment.application.usecase.ReserveAttendanceUseCase;
+import com.terranova.api.v1.appointment.application.usecase.*;
 import com.terranova.api.v1.appointment.infrastructure.adapter.in.web.dto.request.CreateAppointmentRequest;
 import com.terranova.api.v1.appointment.infrastructure.adapter.in.web.dto.response.AppointmentResponse;
 import com.terranova.api.v1.appointment.infrastructure.adapter.in.web.dto.response.AttendanceResponse;
+import com.terranova.api.v1.appointment.infrastructure.adapter.in.web.dto.response.MyAppointmentsResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +21,8 @@ public class AppointmentController {
 
     private final CreateAppointmentUseCase createAppointmentUseCase;
     private final GetAppointmentsByProductUseCase getAppointmentsByProductUseCase;
+    private final FetchBuyerAppointmentsUseCase fetchBuyerAppointmentsUseCase;
+    private final CancelAppointmentUseCase cancelAppointmentUseCase;
     private final ReserveAttendanceUseCase reserveAttendanceUseCase;
     private final AttendanceMapperOut attendanceMapperOut;
     private final MapperOut mapperOut;
@@ -33,10 +34,23 @@ public class AppointmentController {
         return ResponseEntity.ok(mapperOut.domainToResponse(createAppointmentUseCase.createAppointment(mapperIn.requestToCommand(request))));
     }
 
-    @PostMapping("{id}/reserve")
+    @GetMapping("/me")
+    @PreAuthorize("hasRole('BUYER')")
+    public ResponseEntity<List<MyAppointmentsResponse>> getBuyerAppointments(){
+        return ResponseEntity.ok(fetchBuyerAppointmentsUseCase.getMyAppointments());
+    }
+
+    @PostMapping("/{id}/attendances")
     @PreAuthorize("hasRole('BUYER')")
     public ResponseEntity<AttendanceResponse> reserveAnAppointment(@PathVariable Long id){
         return ResponseEntity.ok(attendanceMapperOut.domainToResponse(reserveAttendanceUseCase.reserve(id)));
+    }
+
+    @DeleteMapping("/attendances/{id}")
+    @PreAuthorize("hasRole('BUYER')")
+    public ResponseEntity<Void> cancelAttendance(@PathVariable Long id){
+        cancelAppointmentUseCase.cancel(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/products/{ids}")

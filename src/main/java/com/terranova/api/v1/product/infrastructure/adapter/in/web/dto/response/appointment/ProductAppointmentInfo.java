@@ -1,11 +1,17 @@
 package com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.appointment;
 
-import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
 
+import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public record ProductAppointmentInfo(
         Long productId,
         UUID sellerId,
+        String productName,
+        String productDescription,
+        BigDecimal price,
+        Double latitude,
+        Double longitude,
         StatusEnum status
 ) {}

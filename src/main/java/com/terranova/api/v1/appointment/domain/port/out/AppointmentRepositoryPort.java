@@ -15,6 +15,8 @@ public interface AppointmentRepositoryPort {
 
     Map<Long, List<Appointment>> getByProductsIds(List<Long> productsIds);
 
+    List<Appointment> getAppointmentsByIds(List<Long> ids);
+
     boolean existsOverlappingAppointment(
             Long productId,
             LocalTime startTime,

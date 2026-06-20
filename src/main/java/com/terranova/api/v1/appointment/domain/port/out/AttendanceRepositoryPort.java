@@ -18,4 +18,5 @@ public interface AttendanceRepositoryPort {
 
     boolean existsByAppointmentAndBuyer(Long appointmentId, UUID buyerId);
 
+    boolean existsActiveAttendanceByUserAndProduct(UUID userId, Long productId);
 }

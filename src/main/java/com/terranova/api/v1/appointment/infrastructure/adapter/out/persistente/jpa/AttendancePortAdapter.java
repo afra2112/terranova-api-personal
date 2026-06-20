@@ -6,7 +6,6 @@ import com.terranova.api.v1.appointment.domain.port.out.AttendanceRepositoryPort
 import com.terranova.api.v1.appointment.infrastructure.adapter.out.persistente.AttendanceMapperPersistence;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -43,5 +42,10 @@ public class AttendancePortAdapter implements AttendanceRepositoryPort {
     @Override
     public boolean existsByAppointmentAndBuyer(Long appointmentId, UUID buyerId) {
         return attendanceJpaRepository.existsByUserIdAndAppointment_AppointmentId(buyerId, appointmentId);
+    }
+
+    @Override
+    public boolean existsActiveAttendanceByUserAndProduct(UUID userId, Long productId) {
+        return attendanceJpaRepository.existsActiveAttendanceByUserAndProduct(userId, productId);
     }
 }

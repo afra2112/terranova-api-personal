@@ -43,6 +43,8 @@ public class ReserveAttendanceUseCase {
 
         UUID buyerId = authFacade.getAuthenticatedId();
 
+        validateReservationPerProduct(reservationRepositoryPort.existsActiveAttendanceByUserAndProduct(buyerId, product.productId()));
+
         validateBuyerIsNotSeller(product.sellerId(), buyerId);
 
         validateDuplicateReservation(appointmentId, buyerId);
@@ -83,6 +85,15 @@ public class ReserveAttendanceUseCase {
             throw new BusinessException(
                     ErrorCodeEnum.WRONG_PRODUCT_STATUS,
                     "Product is not published"
+            );
+        }
+    }
+
+    private void validateReservationPerProduct(boolean alreadyReserved){
+        if(alreadyReserved){
+            throw new BusinessException(
+                    ErrorCodeEnum.PRODUCT_ALREADY_RESERVED,
+                    "You already have an active reservation for this product"
             );
         }
     }

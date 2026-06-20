@@ -25,7 +25,5 @@ public interface AppointmentJpaRepository extends JpaRepository<AppointmentEntit
     );
 
     @Query("SELECT COUNT(a) FROM AppointmentEntity a WHERE a.productId = :productId AND a.endTime >= CURRENT_TIMESTAMP")
-    int countFutureAppointments(
-            @Param("productId") Long productId
-    );
+    int countFutureAppointments(@Param("productId") Long productId);
 }

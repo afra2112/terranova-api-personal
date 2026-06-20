@@ -57,13 +57,14 @@ public class AppointmentRepositoryAdapter implements AppointmentRepositoryPort {
     public boolean existsOverlappingAppointment(
             Long productId,
             LocalTime startTime,
-            LocalTime endTime
+            LocalTime endTime,
+            LocalDate date
     ){
-        return appointmentJpaRepository
-                .existsOverlappingAppointment(
+        return appointmentJpaRepository.existsOverlappingAppointment(
                         productId,
                         startTime,
-                        endTime
+                        endTime,
+                        date
                 );
     }
 

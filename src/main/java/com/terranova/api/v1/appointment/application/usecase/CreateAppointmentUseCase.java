@@ -87,15 +87,13 @@ public class CreateAppointmentUseCase {
         }
     }
 
-    private void validateOverlappingAppointments(
-            CreateAppointmentCommand command
-    ){
+    private void validateOverlappingAppointments(CreateAppointmentCommand command){
 
-        boolean overlap =
-                appointmentRepositoryPort.existsOverlappingAppointment(
+        boolean overlap = appointmentRepositoryPort.existsOverlappingAppointment(
                         command.productId(),
                         command.startTime(),
-                        command.endTime()
+                        command.endTime(),
+                        command.date()
                 );
 
         if(overlap){

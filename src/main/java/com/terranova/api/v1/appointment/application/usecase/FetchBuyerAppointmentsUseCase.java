@@ -82,7 +82,9 @@ public class FetchBuyerAppointmentsUseCase {
                             appointment.date(),
                             appointment.startTime(),
                             appointment.endTime(),
-                            reservation.status()
+                            reservation.status(),
+                            appointment.cancellationReason(),
+                            appointment.cancellationReasonMessage()
                     );
                 })
                 .sorted(Comparator.comparing(MyAppointmentsResponse::date)

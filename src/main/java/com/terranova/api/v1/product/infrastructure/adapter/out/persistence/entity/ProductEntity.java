@@ -41,9 +41,7 @@ public abstract class ProductEntity {
     @Column(nullable = false)
     private StatusEnum status;
 
-    @Column(updatable = false)
     private LocalDateTime publishDate;
-
     private LocalDateTime soldDate;
     private UUID soldToUserId;
     private Long soldFromAppointmentId;

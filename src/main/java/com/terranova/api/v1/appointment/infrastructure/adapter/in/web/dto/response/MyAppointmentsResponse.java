@@ -1,5 +1,6 @@
 package com.terranova.api.v1.appointment.infrastructure.adapter.in.web.dto.response;
 
+import com.terranova.api.v1.appointment.domain.model.enums.AppointmentCancellationReasonEnum;
 import com.terranova.api.v1.appointment.domain.model.enums.AttendanceStatusEnum;
 
 import java.math.BigDecimal;
@@ -17,6 +18,8 @@ public record MyAppointmentsResponse(
         LocalDate date,
         LocalTime startTime,
         LocalTime endTime,
-        AttendanceStatusEnum status
+        AttendanceStatusEnum status,
+        AppointmentCancellationReasonEnum cancellationReason,
+        String cancellationMessage
 ) {
 }

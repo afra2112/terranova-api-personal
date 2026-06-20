@@ -19,11 +19,12 @@ public interface AppointmentJpaRepository extends JpaRepository<AppointmentEntit
     @Query("SELECT a FROM AppointmentEntity a WHERE a.productId IN :ids")
     List<AppointmentEntity> getByProductsIds(@Param("ids") List<Long> ids);
 
-    @Query("SELECT COUNT(a) > 0 FROM AppointmentEntity a WHERE a.productId = :productId AND a.startTime < :endTime AND a.endTime > :startTime")
+    @Query("SELECT COUNT(a) > 0 FROM AppointmentEntity a WHERE a.productId = :productId AND a.date = :date AND a.startTime < :endTime AND a.endTime > :startTime")
     boolean existsOverlappingAppointment(
             @Param("productId") Long productId,
             @Param("startTime") LocalTime startTime,
-            @Param("endTime") LocalTime endTime
+            @Param("endTime") LocalTime endTime,
+            @Param("date") LocalDate date
     );
 
     @Query("SELECT COUNT(a) FROM AppointmentEntity a WHERE a.productId = :productId AND a.endTime >= CURRENT_TIMESTAMP")

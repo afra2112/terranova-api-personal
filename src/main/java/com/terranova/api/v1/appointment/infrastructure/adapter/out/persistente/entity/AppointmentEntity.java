@@ -1,5 +1,6 @@
 package com.terranova.api.v1.appointment.infrastructure.adapter.out.persistente.entity;
 
+import com.terranova.api.v1.appointment.domain.model.enums.AppointmentCancellationReasonEnum;
 import com.terranova.api.v1.appointment.domain.model.enums.AppointmentStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
@@ -52,13 +53,13 @@ public class AppointmentEntity {
     @Column(nullable = false)
     private Long productId;
 
-    @Column(nullable = true)
+    @Enumerated(EnumType.STRING)
+    AppointmentCancellationReasonEnum cancellationReason;
+
+    String cancellationReasonMessage;
+
     private LocalDateTime latestReprogramming;
-
-    @Column(nullable = true)
     private LocalDateTime latestBlockedReprogramming;
-
-    @Column(nullable = true)
     private LocalDateTime newAvailableReprogrammingDate;
 
     @Column(nullable = false)

@@ -69,4 +69,9 @@ public class ProductConfiguration {
     public ChangeCoverImageUseCase changeCoverImageUseCase(ProductOwnershipValidatorPort productOwnershipValidatorPort, ImageRepositoryPort imageRepositoryPort){
         return new ChangeCoverImageUseCase(productOwnershipValidatorPort, imageRepositoryPort);
     }
+
+    @Bean
+    public SoldProductUseCase soldProductUseCase(ProductRepositoryPort productRepositoryPort, ProductOwnershipValidatorPort productOwnershipValidatorPort, AttendancePort attendancePort){
+        return new SoldProductUseCase(productRepositoryPort, productOwnershipValidatorPort, attendancePort);
+    }
 }

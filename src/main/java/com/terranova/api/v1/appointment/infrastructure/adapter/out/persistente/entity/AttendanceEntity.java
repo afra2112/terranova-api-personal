@@ -1,5 +1,6 @@
 package com.terranova.api.v1.appointment.infrastructure.adapter.out.persistente.entity;
 
+import com.terranova.api.v1.appointment.domain.model.enums.AttendanceCancellationReasonEnum;
 import com.terranova.api.v1.appointment.domain.model.enums.AttendanceStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,11 +29,11 @@ public class AttendanceEntity {
     @Column(nullable = false)
     AttendanceStatusEnum status;
 
-    @Column(nullable = false)
-    LocalDateTime inscriptionDate;
+    @Enumerated(EnumType.STRING)
+    AttendanceCancellationReasonEnum cancellationReason;
 
     @Column(nullable = false)
-    boolean attended;
+    LocalDateTime inscriptionDate;
 
     @ManyToOne
     @JoinColumn(name = "appointmentId")

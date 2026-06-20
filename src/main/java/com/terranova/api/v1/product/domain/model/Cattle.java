@@ -13,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @SuperBuilder(toBuilder = true)
@@ -78,6 +79,16 @@ public class Cattle extends Product{
         return this.toBuilder()
                 .publishDate(publishDate)
                 .status(StatusEnum.PUBLISHED)
+                .build();
+    }
+
+    @Override
+    public Product sold(LocalDateTime soldDate, UUID soldToUserId, Long soldFromAppointmentId) {
+        return this.toBuilder()
+                .soldDate(soldDate)
+                .status(StatusEnum.SOLD)
+                .soldToUserId(soldToUserId)
+                .soldFromAppointmentId(soldFromAppointmentId)
                 .build();
     }
 

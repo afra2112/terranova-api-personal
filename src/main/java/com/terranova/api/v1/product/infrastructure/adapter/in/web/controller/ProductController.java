@@ -9,7 +9,6 @@ import com.terranova.api.v1.product.domain.port.out.ValidatorPort;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.draft.CreateDraftRequest;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.draft.patch.DraftPatchRequest;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.image.ReorderImageRequest;
-import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.publish.CreateProductRequest;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.delete.DeleteImageRequest;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.request.search.SearchProductRequest;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.appointment.ProductAppointmentInfo;
@@ -46,6 +45,7 @@ public class ProductController {
     private final PatchProductUseCase patchProductUseCase;
     private final GetProductUseCase getProductUseCase;
     private final PublishProductUseCase publishProductUseCase;
+    private final SoldProductUseCase soldProductUseCase;
     private final ProductMapper productMapper;
     private final ImageMapper imageMapper;
     private final ValidatorPort validatorPort;
@@ -73,12 +73,6 @@ public class ProductController {
         );
     }
 
-    @PostMapping("/{id}/publish")
-    @PreAuthorize("hasRole('SELLER')")
-    public ResponseEntity<CreateProductResponse> publishProduct(@PathVariable Long id){
-        return ResponseEntity.ok(productMapper.domainToResponse(publishProductUseCase.publish(id)));
-    }
-
     @PostMapping("/drafts")
     @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<CreateDraftResponse> createDraft(@RequestBody CreateDraftRequest request){
@@ -92,11 +86,16 @@ public class ProductController {
         return ResponseEntity.ok(productMapper.domainToResponse(patchProductUseCase.patch(productMapper.patchRequestToPatchCommand(request), id)));
     }
 
-    @PostMapping
+    @PostMapping("/{id}/publish")
     @PreAuthorize("hasRole('SELLER')")
-    public ResponseEntity<CreateProductResponse> createProduct(@RequestBody CreateProductRequest request){
-        validatorPort.validate(request, getGroupFromRequestProductType(request.productType().name()));
-        return ResponseEntity.ok().body(productMapper.domainToResponse(createProductUseCase.createProduct(productMapper.requestToCommand(request))));
+    public ResponseEntity<CreateProductResponse> publishProduct(@PathVariable Long id){
+        return ResponseEntity.ok(productMapper.domainToResponse(publishProductUseCase.publish(id)));
+    }
+
+    @PatchMapping("/{id}/sold")
+    @PreAuthorize("hasRole('SELLER')")
+    public ResponseEntity<CreateProductResponse> markProductAsSold(@PathVariable Long id, @RequestBody Long attendanceId){
+        return ResponseEntity.ok(productMapper.domainToResponse(soldProductUseCase.soldProduct(id, attendanceId)));
     }
 
     @PostMapping(value = "/{id}/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

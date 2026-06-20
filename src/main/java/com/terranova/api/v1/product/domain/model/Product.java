@@ -24,6 +24,9 @@ public abstract class Product {
     private String description;
     private StatusEnum status;
     private LocalDateTime publishDate;
+    private LocalDateTime soldDate;
+    private UUID soldToUserId;
+    private Long soldFromAppointmentId;
     private String city;
     private String department;
     private String country;
@@ -37,6 +40,7 @@ public abstract class Product {
 
     public abstract Product patch(PatchProductCommand command);
     public abstract Product publish(LocalDateTime publishDate);
+    public abstract Product sold(LocalDateTime soldDate, UUID soldToUserId, Long soldFromAppointmentId);
     public abstract Product withLocation(String city, String department, String country);
     public abstract Product withImages(List<Image> images);
     public abstract Product withAppointments(List<Appointment> appointments);

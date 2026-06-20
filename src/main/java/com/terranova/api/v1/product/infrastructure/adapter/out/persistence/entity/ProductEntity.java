@@ -28,6 +28,7 @@ public abstract class ProductEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
 
+    //PRODUCT INFO
     private String name;
 
     @Column(precision = 12, scale = 2)
@@ -43,6 +44,11 @@ public abstract class ProductEntity {
     @Column(updatable = false)
     private LocalDateTime publishDate;
 
+    private LocalDateTime soldDate;
+    private UUID soldToUserId;
+    private Long soldFromAppointmentId;
+
+    //GEO
     private String city;
     private String department;
     private String country;

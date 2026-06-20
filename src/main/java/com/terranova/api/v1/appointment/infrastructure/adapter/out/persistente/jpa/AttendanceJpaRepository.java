@@ -21,6 +21,9 @@ public interface AttendanceJpaRepository extends JpaRepository<AttendanceEntity,
     @Query("SELECT a FROM AttendanceEntity a WHERE a.attendanceId IN :ids")
     List<AttendanceEntity> batchAttendancesByIds(List<Long> ids);
 
+    @Query("SELECT a FROM AttendanceEntity a WHERE a.appointment.appointmentId IN :ids")
+    List<AttendanceEntity> batchAppointmentsByIds(List<Long> ids);
+
     @Query("SELECT count(a) > 0 FROM AttendanceEntity a JOIN a.appointment ap WHERE a.userId = :userId AND ap.productId = :productId AND a.status = 'ENROLLED'")
     boolean existsActiveAttendanceByUserAndProduct(UUID userId, Long productId);
 }

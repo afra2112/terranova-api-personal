@@ -65,7 +65,7 @@ public class ReserveAttendanceUseCase {
                         buyerId,
                         AttendanceStatusEnum.ENROLLED,
                         LocalDateTime.now(),
-                        false
+                        null
                 )
         );
     }

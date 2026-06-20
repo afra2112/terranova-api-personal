@@ -37,6 +37,13 @@ public class AttendancePortAdapter implements AttendanceRepositoryPort {
     }
 
     @Override
+    public List<Attendance> batchByAppointmentsIds(List<Long> appointmentsIds) {
+        return attendanceJpaRepository.batchAppointmentsByIds(appointmentsIds).stream()
+                .map(attendanceMapperPersistence::entityToDomain)
+                .toList();
+    }
+
+    @Override
     public Attendance save(Attendance attendance) {
         return attendanceMapperPersistence.entityToDomain(attendanceJpaRepository.save(attendanceMapperPersistence.domainToEntity(attendance)));
     }
@@ -54,5 +61,12 @@ public class AttendancePortAdapter implements AttendanceRepositoryPort {
     @Override
     public boolean existsActiveAttendanceByUserAndProduct(UUID userId, Long productId) {
         return attendanceJpaRepository.existsActiveAttendanceByUserAndProduct(userId, productId);
+    }
+
+    @Override
+    public void saveAll(List<Attendance> attendances) {
+        attendanceJpaRepository.saveAll(attendances.stream()
+                .map(attendanceMapperPersistence::domainToEntity).toList())
+        ;
     }
 }

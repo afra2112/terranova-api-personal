@@ -31,7 +31,7 @@ public class AppointmentAdapter implements AppointmentPort {
     }
 
     @Override
-    public void cancelFutureAppointmentsByProductId(Long productId) {
-
+    public List<Appointment> cancelFutureAppointmentsByProductId(Long productId) {
+        return appointmentFeign.cancelFutureAppointments(productId);
     }
 }

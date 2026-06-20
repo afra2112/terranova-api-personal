@@ -4,6 +4,7 @@ import com.terranova.api.v1.appointment.domain.model.Appointment;
 import com.terranova.api.v1.appointment.domain.model.Attendance;
 import com.terranova.api.v1.appointment.domain.model.enums.AppointmentCancellationReasonEnum;
 import com.terranova.api.v1.appointment.domain.model.enums.AppointmentStatusEnum;
+import com.terranova.api.v1.appointment.domain.model.enums.AttendanceCancellationReasonEnum;
 import com.terranova.api.v1.appointment.domain.model.enums.AttendanceStatusEnum;
 import com.terranova.api.v1.appointment.domain.port.out.AppointmentRepositoryPort;
 import com.terranova.api.v1.appointment.domain.port.out.AttendanceRepositoryPort;
@@ -78,7 +79,7 @@ public class CancelAppointmentUseCase {
         }
     }
 
-    public void cancelFutureAppointmentsByProduct(Long productId){
+    public List<Appointment> cancelFutureAppointmentsByProduct(Long productId){
 
         List<Appointment> appointments = appointmentRepositoryPort.getFutureAppointmentsByProduct(productId);
 
@@ -91,5 +92,31 @@ public class CancelAppointmentUseCase {
                         .toList();
 
         appointmentRepositoryPort.saveAll(cancelled);
+
+        return cancelled;
+    }
+
+    public void cancelAttendancesByAppointments(List<Long> appointmentIds, AttendanceCancellationReasonEnum reason){
+
+        List<Attendance> attendances = attendanceRepositoryPort.batchByAppointmentsIds(appointmentIds);
+
+        if(attendances.isEmpty()){
+            return;
+        }
+
+        List<Attendance> cancelled = attendances.stream().filter(a -> a.status() != AttendanceStatusEnum.CANCELLED)
+                        .map(a ->
+                                new Attendance(
+                                        a.attendanceId(),
+                                        a.appointmentId(),
+                                        a.userId(),
+                                        AttendanceStatusEnum.CANCELLED,
+                                        a.inscriptionDate(),
+                                        reason
+                                )
+                        )
+                        .toList();
+
+        attendanceRepositoryPort.saveAll(cancelled);
     }
 }

@@ -40,7 +40,9 @@ public class MapperIn {
                 null,
                 null,
                 LocalDateTime.now(),
-                0
+                0,
+                null,
+                null
         );
     }
 }

@@ -92,9 +92,9 @@ public class ProductController {
         return ResponseEntity.ok(productMapper.domainToResponse(publishProductUseCase.publish(id)));
     }
 
-    @PatchMapping("/{id}/sold")
+    @PatchMapping("/{id}/sold/{attendanceId}")
     @PreAuthorize("hasRole('SELLER')")
-    public ResponseEntity<CreateProductResponse> markProductAsSold(@PathVariable Long id, @RequestBody Long attendanceId){
+    public ResponseEntity<CreateProductResponse> markProductAsSold(@PathVariable Long id, @PathVariable Long attendanceId){
         return ResponseEntity.ok(productMapper.domainToResponse(soldProductUseCase.soldProduct(id, attendanceId)));
     }
 

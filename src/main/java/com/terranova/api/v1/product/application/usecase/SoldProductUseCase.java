@@ -1,6 +1,7 @@
 package com.terranova.api.v1.product.application.usecase;
 
 import com.terranova.api.v1.product.domain.model.Product;
+import com.terranova.api.v1.product.domain.model.appointment.Appointment;
 import com.terranova.api.v1.product.domain.model.appointment.Attendance;
 import com.terranova.api.v1.product.domain.model.enums.StatusEnum;
 import com.terranova.api.v1.product.domain.port.out.AppointmentPort;
@@ -11,6 +12,7 @@ import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
 import com.terranova.api.v1.shared.exception.BusinessException;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class SoldProductUseCase {
 
@@ -34,11 +36,17 @@ public class SoldProductUseCase {
             throw new BusinessException(ErrorCodeEnum.WRONG_PRODUCT_STATUS, "You can only mark a product as SOLD when the product currently is in PUBLISHED status.");
         }
 
-        Attendance attendance = attendancePort.getAttendanceById(attendanceId);
+        Attendance attendance = attendancePort.getAttendancesByIds(List.of(attendanceId)).getFirst();
 
         Product sold = ownershipValidated.sold(LocalDateTime.now(), attendance.userId(), attendance.appointmentId());
 
-        appointmentPort.
+        List<Appointment> cancelledAppointments = appointmentPort.cancelFutureAppointmentsByProductId(sold.getProductId());
+
+        attendancePort.cancelAttendancesByAppointments(
+                cancelledAppointments.stream()
+                        .map(Appointment::appointmentId)
+                        .toList()
+        );
 
         return productRepositoryPort.save(sold);
     }

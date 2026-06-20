@@ -9,5 +9,5 @@ public interface AppointmentPort {
 
     Map<Long, List<Appointment>> getByProductsIds(List<Long> productId);
 
-    void cancelFutureAppointmentsByProductId(Long productId);
+    List<Appointment> cancelFutureAppointmentsByProductId(Long productId);
 }

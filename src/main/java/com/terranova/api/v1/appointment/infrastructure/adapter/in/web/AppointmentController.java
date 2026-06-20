@@ -1,6 +1,7 @@
 package com.terranova.api.v1.appointment.infrastructure.adapter.in.web;
 
 import com.terranova.api.v1.appointment.application.usecase.*;
+import com.terranova.api.v1.appointment.domain.model.enums.AttendanceCancellationReasonEnum;
 import com.terranova.api.v1.appointment.infrastructure.adapter.in.web.dto.request.CreateAppointmentRequest;
 import com.terranova.api.v1.appointment.infrastructure.adapter.in.web.dto.response.AppointmentResponse;
 import com.terranova.api.v1.appointment.infrastructure.adapter.in.web.dto.response.AttendanceResponse;
@@ -47,7 +48,7 @@ public class AppointmentController {
         return ResponseEntity.ok(attendanceMapperOut.domainToResponse(reserveAttendanceUseCase.reserve(id)));
     }
 
-    @GetMapping("/attendances")
+    @PostMapping("/attendances/batch")
     public ResponseEntity<List<AttendanceResponse>> getAttendancesByIds(@RequestBody List<Long> ids){
         return ResponseEntity.ok(batchAttendancesByIdsUseCase.batchAttendancesByIds(ids).stream()
                 .map(attendanceMapperOut::domainToResponse)
@@ -58,6 +59,12 @@ public class AppointmentController {
     @PreAuthorize("hasRole('BUYER')")
     public ResponseEntity<Void> cancelAttendance(@PathVariable Long id){
         cancelAppointmentUseCase.cancel(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/attendances/internal/cancel")
+    public ResponseEntity<Void> cancelAttendancesByAppointmentsIds(@RequestBody List<Long> appointmentsIds){
+        cancelAppointmentUseCase.cancelAttendancesByAppointments(appointmentsIds, AttendanceCancellationReasonEnum.APPOINTMENT_CANCELLED);
         return ResponseEntity.noContent().build();
     }
 
@@ -75,9 +82,10 @@ public class AppointmentController {
                 ));
     }
 
-    @PatchMapping("/internal/products/{productId}/cancel-future")
-    public ResponseEntity<Void> cancelFutureAppointments(@PathVariable Long productId){
-        cancelAppointmentUseCase.cancelFutureAppointmentsByProduct(productId);
-        return ResponseEntity.noContent().build();
+    @PostMapping("/internal/products/{productId}/cancel-future")
+    public ResponseEntity<List<AppointmentResponse>> cancelFutureAppointments(@PathVariable Long productId){
+        return ResponseEntity.ok(cancelAppointmentUseCase.cancelFutureAppointmentsByProduct(productId).stream()
+                .map(mapperOut::domainToResponse)
+                .toList());
     }
 }

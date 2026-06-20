@@ -23,7 +23,7 @@ public class MapperPersistence {
                                         attendanceEntity.getUserId(),
                                         attendanceEntity.getStatus(),
                                         attendanceEntity.getInscriptionDate(),
-                                        attendanceEntity.isAttended()
+                                        attendanceEntity.getCancellationReason()
                                 )
                         ).toList(),
                 entity.isDeleted(),
@@ -37,7 +37,9 @@ public class MapperPersistence {
                 entity.getLatestReprogramming(),
                 entity.getLatestBlockedReprogramming(),
                 entity.getNewAvailableReprogrammingDate(),
-                entity.getReprogrammingAttempts()
+                entity.getReprogrammingAttempts(),
+                entity.getCancellationReason(),
+                entity.getCancellationReasonMessage()
         );
     }
 
@@ -58,6 +60,8 @@ public class MapperPersistence {
                 .latestBlockedReprogramming(appointment.latestBlockedReprogramming())
                 .newAvailableReprogrammingDate(appointment.newAvailableReprogrammingDate())
                 .reprogrammingAttempts(appointment.reprogrammingAttempts())
+                .cancellationReason(appointment.cancellationReason())
+                .cancellationReasonMessage(appointment.cancellationReasonMessage())
                 .build();
 
         appointmentEntity.setAttendances(
@@ -67,8 +71,8 @@ public class MapperPersistence {
                                 domain.attendanceId(),
                                 domain.userId(),
                                 domain.status(),
+                                domain.cancellationReason(),
                                 domain.inscriptionDate(),
-                                domain.attended(),
                                 appointmentEntity
                         )).toList()
         );

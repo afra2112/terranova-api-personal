@@ -3,6 +3,7 @@ package com.terranova.api.v1.product.infrastructure.adapter.out.appointment;
 import com.terranova.api.v1.product.infrastructure.adapter.in.web.dto.response.appointment.AppointmentResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 import java.util.Map;
@@ -12,4 +13,7 @@ public interface AppointmentFeign {
 
     @GetMapping("/products/{ids}")
     Map<Long, List<AppointmentResponse>> getAppointmentsByProductId(@PathVariable List<Long> ids);
+
+    @PatchMapping("/internal/products/{productId}/cancel-future")
+    void cancelFutureAppointments(@PathVariable Long productId);
 }

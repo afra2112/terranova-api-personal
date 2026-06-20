@@ -10,7 +10,6 @@ public record AttendanceResponse(
         Long appointmentId,
         UUID userId,
         AttendanceStatusEnum status,
-        LocalDateTime inscriptionDate,
-        boolean attended
+        LocalDateTime inscriptionDate
 ) {
 }

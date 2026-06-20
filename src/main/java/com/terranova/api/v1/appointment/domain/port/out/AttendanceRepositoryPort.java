@@ -12,6 +12,8 @@ public interface AttendanceRepositoryPort {
 
     List<Attendance> findByUserId(UUID id);
 
+    List<Attendance> batchByIds(List<Long> ids);
+
     Attendance save(Attendance reservation);
 
     long countEnrolledReservations(Long appointmentId);

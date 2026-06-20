@@ -30,6 +30,13 @@ public class AttendancePortAdapter implements AttendanceRepositoryPort {
     }
 
     @Override
+    public List<Attendance> batchByIds(List<Long> ids) {
+        return attendanceJpaRepository.batchAttendancesByIds(ids).stream()
+                .map(attendanceMapperPersistence::entityToDomain)
+                .toList();
+    }
+
+    @Override
     public Attendance save(Attendance attendance) {
         return attendanceMapperPersistence.entityToDomain(attendanceJpaRepository.save(attendanceMapperPersistence.domainToEntity(attendance)));
     }

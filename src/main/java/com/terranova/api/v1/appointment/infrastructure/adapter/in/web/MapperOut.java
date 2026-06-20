@@ -22,8 +22,7 @@ public class MapperOut {
                                         attendance.appointmentId(),
                                         attendance.userId(),
                                         attendance.status(),
-                                        attendance.inscriptionDate(),
-                                        attendance.attended()
+                                        attendance.inscriptionDate()
                                 )
                         ).toList(),
                 appointment.takenSlots(),

@@ -36,4 +36,9 @@ public class AppointmentConfig {
     public FetchBuyerAppointmentsUseCase fetchBuyerAppointmentsUseCase(ProductServicePort productServicePort, AppointmentRepositoryPort appointmentRepositoryPort, AttendanceRepositoryPort attendanceRepositoryPort, AuthFacade authFacade){
         return new FetchBuyerAppointmentsUseCase(authFacade, productServicePort, attendanceRepositoryPort, appointmentRepositoryPort);
     }
+
+    @Bean
+    public BatchAttendancesByIdsUseCase batchAttendancesByIdsUseCase(AttendanceRepositoryPort attendanceRepositoryPort){
+        return new BatchAttendancesByIdsUseCase(attendanceRepositoryPort);
+    }
 }

@@ -29,4 +29,9 @@ public class AppointmentAdapter implements AppointmentPort {
                                 .toList()
                 ));
     }
+
+    @Override
+    public void cancelFutureAppointmentsByProductId(Long productId) {
+
+    }
 }

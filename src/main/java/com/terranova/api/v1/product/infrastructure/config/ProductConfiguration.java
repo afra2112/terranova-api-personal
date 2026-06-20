@@ -71,7 +71,7 @@ public class ProductConfiguration {
     }
 
     @Bean
-    public SoldProductUseCase soldProductUseCase(ProductRepositoryPort productRepositoryPort, ProductOwnershipValidatorPort productOwnershipValidatorPort, AttendancePort attendancePort){
-        return new SoldProductUseCase(productRepositoryPort, productOwnershipValidatorPort, attendancePort);
+    public SoldProductUseCase soldProductUseCase(ProductRepositoryPort productRepositoryPort, ProductOwnershipValidatorPort productOwnershipValidatorPort, AttendancePort attendancePort, AppointmentPort appointmentPort){
+        return new SoldProductUseCase(productRepositoryPort, productOwnershipValidatorPort, attendancePort, appointmentPort);
     }
 }

@@ -22,6 +22,7 @@ public class AppointmentController {
     private final CreateAppointmentUseCase createAppointmentUseCase;
     private final GetAppointmentsByProductUseCase getAppointmentsByProductUseCase;
     private final FetchBuyerAppointmentsUseCase fetchBuyerAppointmentsUseCase;
+    private final BatchAttendancesByIdsUseCase batchAttendancesByIdsUseCase;
     private final CancelAppointmentUseCase cancelAppointmentUseCase;
     private final ReserveAttendanceUseCase reserveAttendanceUseCase;
     private final AttendanceMapperOut attendanceMapperOut;
@@ -44,6 +45,13 @@ public class AppointmentController {
     @PreAuthorize("hasRole('BUYER')")
     public ResponseEntity<AttendanceResponse> reserveAnAppointment(@PathVariable Long id){
         return ResponseEntity.ok(attendanceMapperOut.domainToResponse(reserveAttendanceUseCase.reserve(id)));
+    }
+
+    @GetMapping("/attendances")
+    public ResponseEntity<List<AttendanceResponse>> getAttendancesByIds(@RequestBody List<Long> ids){
+        return ResponseEntity.ok(batchAttendancesByIdsUseCase.batchAttendancesByIds(ids).stream()
+                .map(attendanceMapperOut::domainToResponse)
+                .toList());
     }
 
     @DeleteMapping("/attendances/{id}")

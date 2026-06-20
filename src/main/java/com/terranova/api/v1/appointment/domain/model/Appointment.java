@@ -1,5 +1,6 @@
 package com.terranova.api.v1.appointment.domain.model;
 
+import com.terranova.api.v1.appointment.domain.model.enums.AppointmentCancellationReasonEnum;
 import com.terranova.api.v1.appointment.domain.model.enums.AppointmentStatusEnum;
 import lombok.Builder;
 
@@ -25,7 +26,9 @@ public record Appointment(
         LocalDateTime latestReprogramming,
         LocalDateTime latestBlockedReprogramming,
         LocalDateTime newAvailableReprogrammingDate,
-        Integer reprogrammingAttempts
+        Integer reprogrammingAttempts,
+        AppointmentCancellationReasonEnum cancellationReason,
+        String cancellationReasonMessage
 ) {
 
 }

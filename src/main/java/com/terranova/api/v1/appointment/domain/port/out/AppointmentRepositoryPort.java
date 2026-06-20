@@ -18,6 +18,8 @@ public interface AppointmentRepositoryPort {
 
     List<Appointment> getAppointmentsByIds(List<Long> ids);
 
+    List<Appointment> getFutureAppointmentsByProduct(Long productId);
+
     boolean existsOverlappingAppointment(
             Long productId,
             LocalTime startTime,
@@ -25,4 +27,6 @@ public interface AppointmentRepositoryPort {
     );
 
     int countFutureAppointments(Long productId);
+
+    void saveAll(List<Appointment> appointments);
 }

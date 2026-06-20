@@ -4,6 +4,8 @@ import com.terranova.api.v1.appointment.infrastructure.adapter.out.persistente.e
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -26,4 +28,7 @@ public interface AppointmentJpaRepository extends JpaRepository<AppointmentEntit
 
     @Query("SELECT COUNT(a) FROM AppointmentEntity a WHERE a.productId = :productId AND a.endTime >= CURRENT_TIMESTAMP")
     int countFutureAppointments(@Param("productId") Long productId);
+
+    @Query("SELECT a FROM AppointmentEntity a WHERE a.productId = :productId AND a.date >= :currentDate OR (a.date = :currentDate AND a.startTime >= :currentTime)")
+    List<AppointmentEntity> findByProductIdAndDateAfter(Long productId, LocalDate currentDate, LocalTime currentTime);
 }

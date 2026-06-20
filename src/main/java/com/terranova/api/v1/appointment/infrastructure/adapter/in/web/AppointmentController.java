@@ -74,4 +74,10 @@ public class AppointmentController {
                                 .toList()
                 ));
     }
+
+    @PatchMapping("/internal/products/{productId}/cancel-future")
+    public ResponseEntity<Void> cancelFutureAppointments(@PathVariable Long productId){
+        cancelAppointmentUseCase.cancelFutureAppointmentsByProduct(productId);
+        return ResponseEntity.noContent().build();
+    }
 }

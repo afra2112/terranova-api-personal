@@ -2,12 +2,16 @@ package com.terranova.api.v1.appointment.application.usecase;
 
 import com.terranova.api.v1.appointment.domain.model.Appointment;
 import com.terranova.api.v1.appointment.domain.model.Attendance;
+import com.terranova.api.v1.appointment.domain.model.enums.AppointmentCancellationReasonEnum;
+import com.terranova.api.v1.appointment.domain.model.enums.AppointmentStatusEnum;
 import com.terranova.api.v1.appointment.domain.model.enums.AttendanceStatusEnum;
 import com.terranova.api.v1.appointment.domain.port.out.AppointmentRepositoryPort;
 import com.terranova.api.v1.appointment.domain.port.out.AttendanceRepositoryPort;
 import com.terranova.api.v1.shared.enums.ErrorCodeEnum;
 import com.terranova.api.v1.shared.exception.BusinessException;
 import com.terranova.api.v1.shared.security.utils.AuthFacade;
+
+import java.util.List;
 import java.util.UUID;
 
 public class CancelAppointmentUseCase {
@@ -42,7 +46,7 @@ public class CancelAppointmentUseCase {
                         attendance.userId(),
                         AttendanceStatusEnum.CANCELLED,
                         attendance.inscriptionDate(),
-                        attendance.attended()
+                null
         );
 
         attendanceRepositoryPort.save(cancelled);
@@ -72,5 +76,20 @@ public class CancelAppointmentUseCase {
                     ErrorCodeEnum.ATTENDANCE_ALREADY_CANCELLED
             );
         }
+    }
+
+    public void cancelFutureAppointmentsByProduct(Long productId){
+
+        List<Appointment> appointments = appointmentRepositoryPort.getFutureAppointmentsByProduct(productId);
+
+        List<Appointment> cancelled = appointments.stream()
+                        .map(a -> a.toBuilder()
+                                .status(AppointmentStatusEnum.CANCELLED)
+                                .cancellationReason(AppointmentCancellationReasonEnum.PRODUCT_SOLD)
+                                .cancellationReasonMessage("This product is currently sold, appointments no longer available.")
+                                .build())
+                        .toList();
+
+        appointmentRepositoryPort.saveAll(cancelled);
     }
 }
